@@ -1,13 +1,24 @@
 package com.hordiienko.onlinestore.controller;
 
-import com.hordiienko.onlinestore.repository.OrderRepository;
+import com.hordiienko.onlinestore.entity.User;
+import com.hordiienko.onlinestore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
+
+    @GetMapping("/orders")
+    public ResponseEntity getOrders (@RequestBody User user){
+        try {
+            var orders = orderService.getOrders(user);
+            return ResponseEntity.ok().body(orders);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
