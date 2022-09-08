@@ -1,10 +1,13 @@
 package com.hordiienko.onlinestore.service;
 
+import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.UserAlreadyExistException;
 import com.hordiienko.onlinestore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -18,5 +21,4 @@ public class UserService {
         return userRepository.save(user);
     }
 
-//    public List<Order>
 }
