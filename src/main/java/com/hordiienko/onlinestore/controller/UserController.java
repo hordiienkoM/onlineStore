@@ -29,7 +29,7 @@ public class UserController {
         try {
             return ResponseEntity.ok("Server works");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("No exist orders");
+            return ResponseEntity.badRequest().body("Server error");
         }
     }
 }
