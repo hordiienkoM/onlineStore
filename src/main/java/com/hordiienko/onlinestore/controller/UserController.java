@@ -3,6 +3,7 @@ package com.hordiienko.onlinestore.controller;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.UserAlreadyExistException;
 import com.hordiienko.onlinestore.repository.UserRepository;
+import com.hordiienko.onlinestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
 //    @PostMapping("/add")
 //    public ResponseEntity registration (@RequestBody User user){
