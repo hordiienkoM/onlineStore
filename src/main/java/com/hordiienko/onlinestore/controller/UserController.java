@@ -14,17 +14,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @PostMapping("/add")
-//    public ResponseEntity registration (@RequestBody User user){
-//        try {
-//            userService.registration(user);
-//            return ResponseEntity.ok("User saved successfully");
-//        } catch (UserAlreadyExistException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
+    @PostMapping("/add")
+    public ResponseEntity registration (@RequestBody User user){
+        try {
+            userService.registration(user);
+            return ResponseEntity.ok("User saved successfully");
+        } catch (UserAlreadyExistException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
-    @GetMapping("/orders")
+    @GetMapping("/testConnect")
     public ResponseEntity getOrders() {
         try {
             return ResponseEntity.ok("Server works");
