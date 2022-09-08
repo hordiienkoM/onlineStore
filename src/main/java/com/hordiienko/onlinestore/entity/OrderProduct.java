@@ -1,9 +1,13 @@
 package com.hordiienko.onlinestore.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ORDER_PRODUCT")
+@Getter @Setter
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

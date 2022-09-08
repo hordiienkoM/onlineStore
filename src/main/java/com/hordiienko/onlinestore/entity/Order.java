@@ -1,18 +1,20 @@
 package com.hordiienko.onlinestore.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="ORDERS")
+@Getter @Setter
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
-    private String dateCreation;
+    private GregorianCalendar dateCreation;
     private String address;
     @ManyToOne()
     @JoinColumn(name="user_id")
@@ -57,11 +59,11 @@ public class Order {
         this.status = status;
     }
 
-    public String getDateCreation() {
+    public GregorianCalendar getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(String date) {
+    public void setDateCreation(GregorianCalendar dateCreation) {
         this.dateCreation = dateCreation;
     }
 
