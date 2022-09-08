@@ -21,4 +21,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public List<Order> getAllOrders(Long userId){
+        return userRepository.findAllById(userId);
+    }
 }
