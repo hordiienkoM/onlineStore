@@ -1,6 +1,8 @@
 package com.hordiienko.onlinestore.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,6 +17,21 @@ public class Order {
     @ManyToOne()
     @JoinColumn(name="user_id")
     private User user;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "order"
+    )
+    private List<OrderProduct> OrderProduct = new ArrayList<>();
+
+    public List<com.hordiienko.onlinestore.entity.OrderProduct> getOrderProduct() {
+        return OrderProduct;
+    }
+
+    public void setOrderProduct(List<com.hordiienko.onlinestore.entity.OrderProduct> orderProduct) {
+        OrderProduct = orderProduct;
+    }
 
     public User getUser() {
         return user;
