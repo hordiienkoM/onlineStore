@@ -24,7 +24,4 @@ public class Product {
     )
     private List<OrderProduct> orderProduct = new ArrayList<>();
 
-    public List<OrderProduct> getOrderProduct() {
-        return orderProduct;
-    }
 }
