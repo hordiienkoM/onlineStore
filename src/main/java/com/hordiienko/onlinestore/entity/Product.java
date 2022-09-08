@@ -23,5 +23,4 @@ public class Product {
             mappedBy = "product"
     )
     private List<OrderProduct> orderProduct = new ArrayList<>();
-
 }

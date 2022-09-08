@@ -9,7 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/orders")
 public class OrderProductController {
-    @Autowired
-    private OrderProductRepository orderProductRepository;
 
 }
