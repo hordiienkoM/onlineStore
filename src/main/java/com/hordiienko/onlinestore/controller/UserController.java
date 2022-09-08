@@ -18,6 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+//    to delete ****************************
     @PostMapping("/add")
     public ResponseEntity registration (@RequestBody User user){
         try {
@@ -27,19 +28,9 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+//    ***************************************
 
-//    @GetMapping("/orders")
-//    @ResponseBody
-//    public  ResponseEntity getOrders (@RequestBody Long id){
-//    public  ResponseEntity getOrders (@RequestParam Long id){
-//        try {
-//            return ResponseEntity.ok().body(id);
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Find orders error");
-//        }
-//    }
-
-    @PostMapping("/testConnect")
+    @GetMapping("/test")
     public ResponseEntity getOrders() {
         try {
             return ResponseEntity.ok("Server works");

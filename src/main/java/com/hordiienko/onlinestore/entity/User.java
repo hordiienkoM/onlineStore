@@ -1,5 +1,6 @@
 package com.hordiienko.onlinestore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class User {
     private Long id;
 
     private String name;
+    @JsonIgnore
     private String password;
     @OneToMany(
             cascade = CascadeType.ALL,

@@ -13,9 +13,9 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/orders")
-    public ResponseEntity getOrders (@RequestBody User user){
+    public ResponseEntity getOrders (@RequestParam Long id){
         try {
-            var orders = orderService.getOrders(user);
+            var orders = orderService.getOrders(id);
             return ResponseEntity.ok().body(orders);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
