@@ -1,6 +1,8 @@
 package com.hordiienko.onlinestore.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -12,6 +14,11 @@ public class User {
 
     private String name;
     private String password;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Order> orders = new ArrayList<>();
 
     public Long getId() {
         return id;
