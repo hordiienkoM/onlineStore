@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -43,10 +43,19 @@ public class OrderController {
     }
 
     @GetMapping("/address")
-    public ResponseEntity getAddress(@RequestParam Long orderId){
+    public ResponseEntity getAddress(@RequestParam Long orderId) {
         try {
             return ResponseEntity.ok().body(orderService.getAddress(orderId));
-        } catch (OrderNotFoundException e){
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity getProducts(@RequestParam Long orderId) {
+        try {
+            return ResponseEntity.ok().body(orderService.getProducts(orderId));
+        } catch (OrderNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

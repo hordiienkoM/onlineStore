@@ -11,6 +11,4 @@ import java.util.Set;
 
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    Set<Order> findAllByUserId(Long userId);
-
 }
