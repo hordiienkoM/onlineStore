@@ -28,7 +28,7 @@ public class OrderController {
     public ResponseEntity getStatus (@RequestParam Long orderId){
         try {
             return ResponseEntity.ok().body(orderService.getStatus(orderId));
-        } catch (Exception e) {
+        } catch (OrderNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -37,7 +37,16 @@ public class OrderController {
     public ResponseEntity getUser (@RequestParam Long orderId){
         try {
             return ResponseEntity.ok().body(orderService.getUser(orderId));
-        } catch (Exception e) {
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/address")
+    public ResponseEntity getAddress(@RequestParam Long orderId){
+        try {
+            return ResponseEntity.ok().body(orderService.getAddress(orderId));
+        } catch (OrderNotFoundException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
