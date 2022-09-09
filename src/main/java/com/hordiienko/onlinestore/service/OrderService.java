@@ -51,4 +51,12 @@ public class OrderService {
         }
         throw new OrderNotFoundException();
     }
+
+    public String getAddress(Long orderId) throws OrderNotFoundException {
+        Optional<Order> order = orderRepository.findById(orderId);
+        if(order.isPresent()){
+            return order.get().getAddress();
+        }
+        throw new OrderNotFoundException();
+    }
 }
