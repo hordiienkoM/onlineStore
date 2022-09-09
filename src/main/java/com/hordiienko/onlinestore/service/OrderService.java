@@ -1,9 +1,10 @@
 package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.entity.Order;
+import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
-import com.hordiienko.onlinestore.exception.UserNotFoundException;
+import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import com.hordiienko.onlinestore.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderProductRepository orderProductRepository;
 
     public Set<Order> getOrders(Long userId)throws OrderNotFoundException {
         try {
@@ -58,5 +61,12 @@ public class OrderService {
             return order.get().getAddress();
         }
         throw new OrderNotFoundException();
+    }
+
+    public Set<Product> getProducts(Long orderId) throws OrderNotFoundException {
+        if(!orderRepository.findById(orderId).isPresent()){
+            throw new OrderNotFoundException();
+        }
+        return orderProductRepository.findProductsByOrderId(orderId);
     }
 }
