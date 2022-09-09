@@ -3,25 +3,31 @@ package com.hordiienko.onlinestore.service;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.UserAlreadyExistException;
+import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User registration (User user) throws UserAlreadyExistException {
+    public User registration(User user) throws UserAlreadyExistException {
         if (userRepository.findUserByName(user.getName()) != null) {
             throw  new UserAlreadyExistException();
         }
         return userRepository.save(user);
     }
 
-    public List<Order> getAllOrders(Long userId){
-        return userRepository.findAllById(userId);
+    public User getUser(Long userId) throws UserNotFoundException {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()){
+            return user.get();
+        }
+        throw new UserNotFoundException();
     }
 }
