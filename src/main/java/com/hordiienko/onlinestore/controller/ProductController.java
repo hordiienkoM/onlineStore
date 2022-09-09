@@ -1,7 +1,6 @@
 package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.exception.ProductNotFoundException;
-import com.hordiienko.onlinestore.repository.ProductRepository;
 import com.hordiienko.onlinestore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
