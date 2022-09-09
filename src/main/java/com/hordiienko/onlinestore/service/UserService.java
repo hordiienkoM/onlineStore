@@ -16,13 +16,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User registration(User user) throws UserAlreadyExistException {
-        if (userRepository.findUserByName(user.getName()) != null) {
-            throw  new UserAlreadyExistException();
-        }
-        return userRepository.save(user);
-    }
-
     public User getUser(Long userId) throws UserNotFoundException {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()){

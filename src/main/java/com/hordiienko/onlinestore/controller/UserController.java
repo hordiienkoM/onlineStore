@@ -15,33 +15,21 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
     @Autowired
     private OrderService orderService;
 
 //    to delete ****************************
-    @PostMapping("/add")
-    public ResponseEntity registration (@RequestBody User user){
-        try {
-            userService.registration(user);
-            return ResponseEntity.ok("User saved successfully");
-        } catch (UserAlreadyExistException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-//    ***************************************
-
     @GetMapping("/test")
-    public ResponseEntity getOrders() {
+    public ResponseEntity getStatus() {
         try {
             return ResponseEntity.ok("Server works");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Server error");
         }
     }
+//    ***************************************
 
     @GetMapping("/orders")
     public ResponseEntity getOrders (@RequestParam Long userId){
