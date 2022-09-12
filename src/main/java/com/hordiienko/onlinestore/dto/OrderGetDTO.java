@@ -15,6 +15,5 @@ public class OrderGetDTO {
     private String status;
     private GregorianCalendar createDate;
     private String address;
-    private UserGetDTO user;
     private Set<OrderProductGetDTO> orderProduct;
 }
