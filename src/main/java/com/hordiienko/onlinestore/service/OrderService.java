@@ -22,14 +22,14 @@ public class OrderService {
     @Autowired
     private OrderProductRepository orderProductRepository;
 
-    public Set<Order> getOrders(Long userId)throws OrderNotFoundException {
-        try {
-            User user = userService.getUser(userId);
-            return user.getOrders();
-        } catch (Exception e) {
-            throw  new OrderNotFoundException();
-        }
-    }
+//    public Set<Order> getOrders(Long userId)throws OrderNotFoundException {
+//        try {
+//            User user = userService.getUser(userId);
+//            return user.getOrders();
+//        } catch (Exception e) {
+//            throw  new OrderNotFoundException();
+//        }
+//    }
 
     public GregorianCalendar getDate(Long id) throws OrderNotFoundException {
         try {
