@@ -9,13 +9,14 @@ import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Set;
 
-@Mapper (
-        componentModel = "spring"
-)
+@Mapper (componentModel = "spring")
 public interface MapstructMapper {
+    MapstructMapper INSTANCE = Mappers.getMapper(MapstructMapper.class);
     OrderGetDTO orderToOrderGetDTO(Order order);
     UserGetDTO userToUserGetDTO(User user);
     OrderProductGetDTO toOrderProductGetDTO(OrderProduct orderProduct);
