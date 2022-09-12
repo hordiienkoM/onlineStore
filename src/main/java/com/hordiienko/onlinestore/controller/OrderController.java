@@ -3,7 +3,7 @@ package com.hordiienko.onlinestore.controller;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
-import com.hordiienko.onlinestore.mapper.MapstructMapper;
+import com.hordiienko.onlinestore.mapper.UserMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private MapstructMapper mapstructMapper;
+    private UserMapper userMapper;
 
     @GetMapping("/date")
     public ResponseEntity getDate (@RequestParam Long orderId){
@@ -60,7 +60,7 @@ public class OrderController {
     public ResponseEntity getUser (@RequestParam Long orderId){
         try {
             User user = orderService.getUser(orderId);
-            return ResponseEntity.ok().body(mapstructMapper.userToUserGetDTO(user));
+            return ResponseEntity.ok().body(userMapper.toDTO(user));
         } catch (OrderNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
