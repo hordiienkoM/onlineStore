@@ -1,8 +1,7 @@
 package com.hordiienko.onlinestore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,6 +9,9 @@ import javax.persistence.*;
 @Table(name = "ORDER_PRODUCT")
 @Getter @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

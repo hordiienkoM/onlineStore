@@ -1,21 +1,15 @@
 package com.hordiienko.onlinestore.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductGetDTO {
-
-    @JsonProperty("id")
     private Long id;
-
-    @JsonProperty("description")
     private String description;
-
-    @JsonProperty("orderProduct")
-    private Set<OrderProductGetDTO> orderProducts;
+    private Set<OrderProductGetDTO> orderProduct;
 }
