@@ -30,5 +30,5 @@ public class Order {
             orphanRemoval = true,
             mappedBy = "order"
     )
-    private List<OrderProduct> OrderProduct = new ArrayList<>();
+    private Set<OrderProduct> OrderProduct = new HashSet<>();
 }

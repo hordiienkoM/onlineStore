@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -24,5 +24,5 @@ public class Product {
             orphanRemoval = true,
             mappedBy = "product"
     )
-    private List<OrderProduct> orderProduct = new ArrayList<>();
+    private Set<OrderProduct> orderProduct = new HashSet<>();
 }
