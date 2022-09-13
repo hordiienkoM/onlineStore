@@ -11,5 +11,4 @@ import java.util.Set;
 public class ProductGetDTO {
     private Long id;
     private String description;
-    private Set<OrderProductGetDTO> orderProduct;
 }
