@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface OrderProductMapper {
     OrderProductGetDTO toOrderProductGetDTO(OrderProduct orderProduct);
+
+    OrderProduct toOrderProduct(OrderProductGetDTO orderProductGetDTO);
 }

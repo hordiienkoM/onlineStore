@@ -29,15 +29,4 @@ public class UserController {
         }
     }
 //    ***************************************
-
-    @GetMapping("/orders")
-    public ResponseEntity getOrders (@RequestParam Long userId) throws UserNotFoundException {
-        try {
-            User user = userService.getUser(userId);
-            var l = user.getOrders();
-            return ResponseEntity.ok().body(l);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
 }
