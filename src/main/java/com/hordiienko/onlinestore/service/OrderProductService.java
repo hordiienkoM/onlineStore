@@ -7,6 +7,7 @@ import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -21,13 +22,22 @@ public class OrderProductService {
     }
 
     public void saveOrderProducts(Set<OrderProductPostDTO> orderProductDTOs, Order order) {
+        Set<OrderProduct> orderProducts = converter(orderProductDTOs, order);
+        for (OrderProduct orderProduct : orderProducts) {
+            saveOrderProduct(orderProduct);
+        }
+    }
+
+    public Set<OrderProduct> converter(Set<OrderProductPostDTO> orderProductDTOs, Order order) {
+        Set<OrderProduct> orderProducts = new HashSet<>();
         for (OrderProductPostDTO orderProductDTO : orderProductDTOs) {
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setProduct(productService
                     .getProduct(orderProductDTO.getProduct().getId()));
             orderProduct.setAmount(orderProductDTO.getAmount());
             orderProduct.setOrder(order);
-            saveOrderProduct(orderProduct);
+            orderProducts.add(orderProduct);
         }
+        return orderProducts;
     }
 }

@@ -1,9 +1,11 @@
 package com.hordiienko.onlinestore.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -19,7 +21,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
-    private GregorianCalendar createDate;
+    private LocalDateTime createDate;
     private String address;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

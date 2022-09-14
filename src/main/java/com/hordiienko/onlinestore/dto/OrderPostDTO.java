@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.util.GregorianCalendar;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -14,7 +14,7 @@ import java.util.Set;
 public class OrderPostDTO {
     private UserPostDTO user;
     private String status;
-    private GregorianCalendar createDate;
+    private LocalDateTime createDate;
     private String address;
     private Set<OrderProductPostDTO> orderProduct;
 }
