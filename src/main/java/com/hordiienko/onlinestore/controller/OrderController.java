@@ -4,6 +4,7 @@ import com.hordiienko.onlinestore.dto.*;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
+import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderProductService;
@@ -52,7 +53,7 @@ public class OrderController {
             Set<OrderProductPostDTO> orderProductDTOs = orderPostDTO.getOrderProduct();
             orderProductService.saveOrderProducts(orderProductDTOs, order);
             return ResponseEntity.ok().body("Order has been saved");
-        } catch (Exception e){
+        } catch (UserNotFoundException|OrderSaveException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -63,7 +64,7 @@ public class OrderController {
             orderService.deleteOrder(orderId);
             return ResponseEntity.ok().body("Order has been deleted");
         } catch (OrderNotFoundException e) {
-            return ResponseEntity.badRequest().body("Something wrong during deleting");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -73,10 +74,10 @@ public class OrderController {
             @RequestParam Long userId,
             @RequestBody OrderPostDTO orderPostDTO){
         try {
-            deleteOrder(orderId);
+            orderService.deleteOrder(orderId);
             createOrder(userId, orderPostDTO);
             return ResponseEntity.ok().body("Order has been updated");
-        } catch (Exception e){
+        } catch (OrderNotFoundException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

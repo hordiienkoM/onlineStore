@@ -20,10 +20,6 @@ public class OrderProductService {
         orderProductRepository.save(orderProduct);
     }
 
-    public void deleteAllByOrderId(Long orderId){
-        orderProductRepository.deleteAllByOrderId(orderId);
-    }
-
     public void saveOrderProducts (Set<OrderProductPostDTO> orderProductDTOs, Order order){
         for (OrderProductPostDTO orderProductDTO: orderProductDTOs){
             OrderProduct orderProduct = new OrderProduct();
