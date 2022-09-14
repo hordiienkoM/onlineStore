@@ -19,10 +19,6 @@ import java.util.Set;
 public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private OrderProductRepository orderProductRepository;
 
     public void saveOrder(Order order) throws OrderSaveException{
         try {
