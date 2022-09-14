@@ -10,7 +10,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "product")
-@Getter @Setter
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

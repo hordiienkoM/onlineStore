@@ -7,8 +7,9 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name="ORDERS")
-@Getter @Setter
+@Table(name = "ORDERS")
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

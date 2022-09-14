@@ -45,7 +45,7 @@ public class OrderController {
     @PostMapping("/newOrder")
     public ResponseEntity createOrder(
             @RequestParam Long userId,
-            @RequestBody OrderPostDTO orderPostDTO){
+            @RequestBody OrderPostDTO orderPostDTO) {
         try {
             Order order = orderMapper.postDtoToOrder(orderPostDTO);
             order.setUser(userService.getUser(userId));
@@ -53,13 +53,13 @@ public class OrderController {
             Set<OrderProductPostDTO> orderProductDTOs = orderPostDTO.getOrderProduct();
             orderProductService.saveOrderProducts(orderProductDTOs, order);
             return ResponseEntity.ok().body("Order has been saved");
-        } catch (UserNotFoundException|OrderSaveException e){
+        } catch (UserNotFoundException | OrderSaveException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/")
-    public ResponseEntity deleteOrder(@RequestParam Long orderId){
+    public ResponseEntity deleteOrder(@RequestParam Long orderId) {
         try {
             orderService.deleteOrder(orderId);
             return ResponseEntity.ok().body("Order has been deleted");
@@ -72,12 +72,12 @@ public class OrderController {
     public ResponseEntity updateOrder(
             @RequestParam Long orderId,
             @RequestParam Long userId,
-            @RequestBody OrderPostDTO orderPostDTO){
+            @RequestBody OrderPostDTO orderPostDTO) {
         try {
             orderService.deleteOrder(orderId);
             createOrder(userId, orderPostDTO);
             return ResponseEntity.ok().body("Order has been updated");
-        } catch (OrderNotFoundException e){
+        } catch (OrderNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

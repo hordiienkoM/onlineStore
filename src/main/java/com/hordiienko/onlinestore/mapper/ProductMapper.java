@@ -6,5 +6,6 @@ import com.hordiienko.onlinestore.entity.Product;
 
 public interface ProductMapper {
     ProductGetDTO toProductGetDTO(Product product);
+
     Product toProduct(ProductInnerDTO innerProductDTO);
 }

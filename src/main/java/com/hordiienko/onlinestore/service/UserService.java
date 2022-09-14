@@ -15,7 +15,7 @@ public class UserService {
 
     public User getUser(Long userId) throws UserNotFoundException {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             return user.get();
         }
         throw new UserNotFoundException();

@@ -12,18 +12,18 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public void saveOrder(Order order) throws OrderSaveException{
+    public void saveOrder(Order order) throws OrderSaveException {
         try {
             orderRepository.save(order);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new OrderSaveException();
         }
     }
 
-    public void deleteOrder(Long orderId) throws OrderNotFoundException{
+    public void deleteOrder(Long orderId) throws OrderNotFoundException {
         try {
             orderRepository.deleteById(orderId);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new OrderNotFoundException();
         }
     }
