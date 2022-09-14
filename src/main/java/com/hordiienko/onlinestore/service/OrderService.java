@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.entity.Order;
+import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
@@ -23,11 +24,19 @@ public class OrderService {
     @Autowired
     private OrderProductRepository orderProductRepository;
 
-    public void saveOrder(Order order) throws OrderSaveException {
+    public void saveOrder(Order order) throws OrderSaveException{
         try {
             orderRepository.save(order);
         } catch (Exception e){
             throw new OrderSaveException();
+        }
+    }
+
+    public void deleteOrder(Long orderId) throws OrderNotFoundException{
+        try {
+            orderRepository.deleteById(orderId);
+        } catch (Exception e){
+            throw new OrderNotFoundException();
         }
     }
 }
