@@ -22,4 +22,8 @@ public class ProductService {
         }
         throw new ProductNotFoundException();
     }
+
+    public Product getProduct(Long productId){
+        return productRepository.findById(productId).get();
+    }
 }

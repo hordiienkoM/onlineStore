@@ -16,5 +16,5 @@ public class OrderPostDTO {
     private String status;
     private GregorianCalendar createDate;
     private String address;
-//    private Set<OrderProductGetDTO> products;
+    private Set<OrderProductPostDTO> orderProduct;
 }
