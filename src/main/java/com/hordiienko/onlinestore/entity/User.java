@@ -11,7 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-@Getter @Setter
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

@@ -16,12 +16,12 @@ public class OrderProductService {
     @Autowired
     private OrderProductRepository orderProductRepository;
 
-    public void saveOrderProduct(OrderProduct orderProduct){
+    public void saveOrderProduct(OrderProduct orderProduct) {
         orderProductRepository.save(orderProduct);
     }
 
-    public void saveOrderProducts (Set<OrderProductPostDTO> orderProductDTOs, Order order){
-        for (OrderProductPostDTO orderProductDTO: orderProductDTOs){
+    public void saveOrderProducts(Set<OrderProductPostDTO> orderProductDTOs, Order order) {
+        for (OrderProductPostDTO orderProductDTO : orderProductDTOs) {
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setProduct(productService
                     .getProduct(orderProductDTO.getProduct().getId()));
