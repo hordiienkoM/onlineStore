@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserPostDTO {
-    private Long userId;
+    private Long id;
 }

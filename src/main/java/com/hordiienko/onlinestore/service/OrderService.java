@@ -25,11 +25,13 @@ public class OrderService {
     @Autowired
     private OrderProductRepository orderProductRepository;
 
-    //    the orderProduct is saved after the Order is created, because the Order has no index before saving
-    public void saveOrder(Order order, Set<OrderProductPostDTO> products) throws OrderSaveException {
+    public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Long userId) throws OrderSaveException {
         try {
+            order.setUser(userService.getUser(userId));
+            Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
+            order.setOrderProduct(orderProducts);
             orderRepository.save(order);
-            orderProductService.saveOrderProducts(products, order);
+            return order;
         } catch (Exception e) {
             throw new OrderSaveException();
         }
@@ -48,8 +50,12 @@ public class OrderService {
         order.setUser(userService.getUser(userId));
         order.setId(orderId);
         orderProductRepository.deleteAll(orderProductRepository.findAllByOrderId(orderId));
-        Set<OrderProduct> orderProducts = orderProductService.converter(orderBody.getOrderProduct(), order);
+        Set<OrderProduct> orderProducts = orderProductService.convert(orderBody.getOrderProduct(), order);
         order.setOrderProduct(orderProducts);
         orderRepository.save(order);
+    }
+
+    public Order getOrder(Long orderId){
+        return orderRepository.findById(orderId).orElseThrow();
     }
 }
