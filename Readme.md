@@ -1,6 +1,6 @@
 
 1) Create (POST)
-   http://localhost:8080/order/order?userId=3
+   http://localhost:8080/v1/orders/userId=3
    {
    "status": "1",
    "createDate": "2022-09-14T17:26:05.856907682",
@@ -13,9 +13,9 @@
    "product":{"id": 2}}]
    }
 2) Read all orders (GET)
-   http://localhost:8080/order/orders?userId=1
-3) Update order (POST)
-   http://localhost:8080/order/order/id?orderId=32&userId=3
+   http://localhost:8080/v1/orders/?userId=1
+3) Update order (PUT)
+   http://localhost:8080/v1/orders/5?userId=3
    {
    "status": "2",
    "createDate": "2022-09-14T17:26:05.856907682",
@@ -28,7 +28,7 @@
    "product":{"id": 1}}]
    }
 4) Delete order (DELETE)
-   http://localhost:8080/order/id?orderId=40
+   http://localhost:8080/v1/orders/14
 
    
    

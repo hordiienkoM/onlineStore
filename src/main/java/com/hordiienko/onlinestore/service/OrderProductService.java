@@ -17,15 +17,9 @@ public class OrderProductService {
     @Autowired
     private OrderProductRepository orderProductRepository;
 
-    public void saveOrderProduct(OrderProduct orderProduct) {
-        orderProductRepository.save(orderProduct);
-    }
-
     public void saveOrderProducts(Set<OrderProductPostDTO> orderProductDTOs, Order order) {
         Set<OrderProduct> orderProducts = converter(orderProductDTOs, order);
-        for (OrderProduct orderProduct : orderProducts) {
-            saveOrderProduct(orderProduct);
-        }
+        orderProductRepository.saveAll(orderProducts);
     }
 
     public Set<OrderProduct> converter(Set<OrderProductPostDTO> orderProductDTOs, Order order) {

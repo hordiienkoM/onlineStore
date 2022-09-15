@@ -19,7 +19,7 @@ import java.util.Set;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/order")
+@RequestMapping("/v1/orders")
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -29,54 +29,46 @@ public class OrderController {
     private OrderMapper orderMapper;
 
 
-    @GetMapping("/orders")
+    @GetMapping()
     public ResponseEntity getOrders(@RequestParam Long userId) {
-        try {
-            User user = userService.getUser(userId);
-            Set<Order> orders = user.getOrders();
-            return ResponseEntity.ok().body(orderMapper.toOrderGetDTOs(orders));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(orderMapper.toOrderGetDTOs(
+                userService.getOrders(userId)
+        ));
     }
 
-    @PostMapping("/order")
-    public ResponseEntity createOrder(@RequestParam Long userId, @RequestBody OrderPostDTO orderBody) {
+    @PostMapping()
+    public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody) {
         try {
             Order order = orderMapper.postDtoToOrder(orderBody);
-            orderService.saveOrder(order, userId, orderBody.getOrderProduct());
+            orderService.saveOrder(order, orderBody.getOrderProduct());
             return ResponseEntity.ok().body("Order has been saved");
         } catch (OrderSaveException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/id")
-    public ResponseEntity deleteOrder(@RequestParam Long orderId) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteOrder(@PathVariable Long id) {
         try {
-            orderService.deleteOrder(orderId);
+            orderService.deleteOrder(id);
             return ResponseEntity.ok().body("Order has been deleted");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PostMapping("/order/id")
+    @PutMapping("/{id}")
     public ResponseEntity updateOrder(
-            @RequestParam Long orderId,
+            @PathVariable Long id,
             @RequestParam Long userId,
             @RequestBody OrderPostDTO orderBody) {
         try {
+            OrderPostDTO body = orderBody;
             Order order = orderMapper.postDtoToOrder(orderBody);
-            orderService.updateOrder(order, userId, orderBody, orderId);
+            orderService.updateOrder(order, userId, orderBody, id);
             return ResponseEntity.ok().body("Order has been updated");
         } catch (UserNotFoundException|OrderSaveException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @GetMapping("/date")
-    public ResponseEntity getDate(){
-        return ResponseEntity.ok().body(LocalDateTime.now());
     }
 }

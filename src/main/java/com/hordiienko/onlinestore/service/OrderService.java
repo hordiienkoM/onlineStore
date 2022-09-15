@@ -26,9 +26,8 @@ public class OrderService {
     private OrderProductRepository orderProductRepository;
 
     //    the orderProduct is saved after the Order is created, because the Order has no index before saving
-    public void saveOrder(Order order, Long userId, Set<OrderProductPostDTO> products) throws OrderSaveException {
+    public void saveOrder(Order order, Set<OrderProductPostDTO> products) throws OrderSaveException {
         try {
-            order.setUser(userService.getUser(userId));
             orderRepository.save(order);
             orderProductService.saveOrderProducts(products, order);
         } catch (Exception e) {
