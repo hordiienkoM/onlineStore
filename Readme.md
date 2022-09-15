@@ -1,6 +1,6 @@
 
 1) Create (POST)
-   http://localhost:8080/v1/orders/userId=3
+   http://localhost:8080/v1/orders?userId=2
    {
    "status": "1",
    "createDate": "2022-09-14T17:26:05.856907682",

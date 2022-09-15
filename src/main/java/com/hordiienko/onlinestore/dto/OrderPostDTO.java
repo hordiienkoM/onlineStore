@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderPostDTO {
-    private UserPostDTO user;
+//    private UserPostDTO user;
     private String status;
     private LocalDateTime createDate;
     private String address;
