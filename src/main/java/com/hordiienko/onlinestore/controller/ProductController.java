@@ -1,19 +1,14 @@
 package com.hordiienko.onlinestore.controller;
 
 
-import com.hordiienko.onlinestore.dto.ProductGetDTO;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.mapper.ProductMapper;
-import com.hordiienko.onlinestore.repository.ProductRepository;
 import com.hordiienko.onlinestore.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Set;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -24,10 +19,17 @@ public class ProductController {
     @Autowired
     private ProductMapper productMapper;
 
+//    @GetMapping
+//    private ResponseEntity getAllProducts(@RequestParam Integer page, @RequestParam Integer size){
+//        Page<Product> products = productService.getProducts(page, size);
+//        return ResponseEntity.ok().body(productMapper.toProductGetDTOs(products));
+//    }
+
     @GetMapping
-    private ResponseEntity getAllProducts(){
-        Set<Product> products = productService.getAllProduct();
-        Set<ProductGetDTO> productsDTO = productMapper.toProductGetDTOs(products);
-        return ResponseEntity.ok().body(productsDTO);
+    private ResponseEntity getAllProducts(@RequestParam Integer page,
+                                          @RequestParam Integer pageSize,
+                                          @RequestParam String sortField){
+        Page<Product> pageProductsDTO = productService.getProducts(page, pageSize, sortField);
+        return ResponseEntity.ok().body(productMapper.toProductGetDTOs(pageProductsDTO));
     }
 }
