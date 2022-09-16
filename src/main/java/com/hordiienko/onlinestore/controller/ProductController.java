@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +21,7 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @GetMapping
-    private ResponseEntity getProductsPage(@RequestParam Integer page,
+    public ResponseEntity getProductsPage(@RequestParam Integer page,
                                            @RequestParam Integer pageSize,
                                            @RequestParam String sortField){
         Page<Product> pageProductsDTO = productService.getProducts(page, pageSize, sortField);
