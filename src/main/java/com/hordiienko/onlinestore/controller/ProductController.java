@@ -19,16 +19,10 @@ public class ProductController {
     @Autowired
     private ProductMapper productMapper;
 
-//    @GetMapping
-//    private ResponseEntity getAllProducts(@RequestParam Integer page, @RequestParam Integer size){
-//        Page<Product> products = productService.getProducts(page, size);
-//        return ResponseEntity.ok().body(productMapper.toProductGetDTOs(products));
-//    }
-
     @GetMapping
-    private ResponseEntity getAllProducts(@RequestParam Integer page,
-                                          @RequestParam Integer pageSize,
-                                          @RequestParam String sortField){
+    private ResponseEntity getProductsPage(@RequestParam Integer page,
+                                           @RequestParam Integer pageSize,
+                                           @RequestParam String sortField){
         Page<Product> pageProductsDTO = productService.getProducts(page, pageSize, sortField);
         return ResponseEntity.ok().body(productMapper.toProductGetDTOs(pageProductsDTO));
     }

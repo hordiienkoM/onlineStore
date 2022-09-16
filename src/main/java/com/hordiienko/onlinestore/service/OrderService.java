@@ -10,6 +10,9 @@ import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import com.hordiienko.onlinestore.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -57,5 +60,10 @@ public class OrderService {
 
     public Order getOrder(Long orderId){
         return orderRepository.findById(orderId).orElseThrow();
+    }
+
+    public Page<Order> getByUserId(Long userId, Integer page, Integer size, String sortField){
+        return orderRepository.findAllByUserId(
+                userId, PageRequest.of(page,size).withSort(Sort.by(sortField)));
     }
 }

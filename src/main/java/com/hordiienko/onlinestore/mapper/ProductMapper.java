@@ -6,12 +6,10 @@ import com.hordiienko.onlinestore.entity.Product;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 
-import java.util.Set;
 import java.util.function.Function;
 
 @Mapper
 public interface ProductMapper {
-//    Page<ProductGetDTO> toProductGetDTOs(Page<Product> products);
     ProductGetDTO toProductGetDTO(Product product);
     Product toProduct(ProductInnerDTO innerProductDTO);
     default Page<ProductGetDTO> toProductGetDTOs(Page<Product> products){

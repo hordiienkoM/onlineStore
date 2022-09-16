@@ -7,7 +7,6 @@ import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderService;
-import com.hordiienko.onlinestore.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +20,15 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private UserService userService;
-    @Autowired
     private OrderMapper orderMapper;
 
-
     @GetMapping()
-    public ResponseEntity getOrders(@RequestParam Long userId) {
-        return ResponseEntity.ok().body(orderMapper.toOrderGetDTOs(
-                userService.getOrders(userId)
+    public ResponseEntity getOrdersPage(@RequestParam Long userId,
+                                        @RequestParam Integer page,
+                                        @RequestParam Integer pageSize,
+                                        @RequestParam String sortField) {
+        return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
+                orderService.getByUserId(userId, page, pageSize, sortField)
         ));
     }
 
