@@ -9,11 +9,14 @@ import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping("/v1/orders")
 public class OrderController {
@@ -23,14 +26,27 @@ public class OrderController {
     private OrderMapper orderMapper;
 
     @GetMapping()
-    public ResponseEntity getOrdersPage(@RequestParam Long userId,
+    public String getOrdersPage(@RequestParam Long userId,
                                         @RequestParam Integer page,
                                         @RequestParam Integer pageSize,
-                                        @RequestParam String sortField) {
-        return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
+                                        @RequestParam String sortField,
+                                                      Model model) {
+        Page<OrderGetDTO> orders = orderMapper.toOrdersGetDTO(
                 orderService.getByUserId(userId, page, pageSize, sortField)
-        ));
+        );
+        model.addAttribute("orders", orders);
+        return "orders_page";
     }
+
+//    @GetMapping()
+//    public ResponseEntity getOrdersPage(@RequestParam Long userId,
+//                                        @RequestParam Integer page,
+//                                        @RequestParam Integer pageSize,
+//                                        @RequestParam String sortField) {
+//        return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
+//                orderService.getByUserId(userId, page, pageSize, sortField)
+//        ));
+//    }
 
     @PostMapping()
     public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody, @RequestParam Long userId) {
