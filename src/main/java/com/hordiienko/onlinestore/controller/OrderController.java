@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping("/v1/orders")
 public class OrderController {
@@ -26,27 +26,14 @@ public class OrderController {
     private OrderMapper orderMapper;
 
     @GetMapping()
-    public String getOrdersPage(@RequestParam Long userId,
+    public ResponseEntity getOrdersPage(@RequestParam Long userId,
                                         @RequestParam Integer page,
                                         @RequestParam Integer pageSize,
-                                        @RequestParam String sortField,
-                                                      Model model) {
-        Page<OrderGetDTO> orders = orderMapper.toOrdersGetDTO(
+                                        @RequestParam String sortField) {
+        return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
                 orderService.getByUserId(userId, page, pageSize, sortField)
-        );
-        model.addAttribute("orders", orders);
-        return "orders_page";
+        ));
     }
-
-//    @GetMapping()
-//    public ResponseEntity getOrdersPage(@RequestParam Long userId,
-//                                        @RequestParam Integer page,
-//                                        @RequestParam Integer pageSize,
-//                                        @RequestParam String sortField) {
-//        return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
-//                orderService.getByUserId(userId, page, pageSize, sortField)
-//        ));
-//    }
 
     @PostMapping()
     public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody, @RequestParam Long userId) {

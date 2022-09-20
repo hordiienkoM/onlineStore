@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping("/v1/products")
 public class ProductController {
@@ -23,21 +23,10 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @GetMapping
-    public String getProductsPage(@RequestParam Integer page,
-                                          @RequestParam Integer pageSize,
-                                          @RequestParam String sortField,
-                                                        Model model){
-        Page<Product> pageProducts = productService.getProducts(page, pageSize, sortField);
-        Page<ProductGetDTO> pageProductsDTO = productMapper.toProductGetDTOs(pageProducts);
-        model.addAttribute("products", pageProductsDTO);
-        return "products_page";
+    public ResponseEntity getProductsPage(@RequestParam Integer page,
+                                           @RequestParam Integer pageSize,
+                                           @RequestParam String sortField){
+        Page<Product> pageProductsDTO = productService.getProducts(page, pageSize, sortField);
+        return ResponseEntity.ok().body(productMapper.toProductGetDTOs(pageProductsDTO));
     }
-
-//    @GetMapping
-//    public ResponseEntity getProductsPage(@RequestParam Integer page,
-//                                           @RequestParam Integer pageSize,
-//                                           @RequestParam String sortField){
-//        Page<Product> pageProductsDTO = productService.getProducts(page, pageSize, sortField);
-//        return ResponseEntity.ok().body(productMapper.toProductGetDTOs(pageProductsDTO));
-//    }
 }
