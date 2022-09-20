@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
@@ -9,6 +10,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class ProductGetDTO {
+    @JsonProperty("product_id")
     private Long id;
     private String description;
 }
