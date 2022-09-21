@@ -1,7 +1,6 @@
 package com.hordiienko.onlinestore.controller;
 
 
-import com.hordiienko.onlinestore.dto.ProductGetDTO;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.mapper.ProductMapper;
 import com.hordiienko.onlinestore.service.ProductService;
@@ -9,8 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

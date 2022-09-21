@@ -5,22 +5,23 @@
     <title>Online shop</title>
     <link rel="stylesheet" href="/src/table.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
+<h5>User id: <a id="current_user_id">2</a></h5>
 
 <div>
     <table id="orders_table">
         <thead>
         <tr>
-            <th>Order id</th>
+            <th>Order №</th>
             <th>Status</th>
             <th>Date</th>
             <th>Address</th>
-            <th>Product id</th>
-            <th>Description</th>
-            <th>Amount</th>
+            <th>View</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,20 @@
     <a id="current_orders_page"></a>
     <input type="submit" id="previous_orders_page" value="previous">
     <input type="submit" id="next_orders_page" value="next">
+</div>
+
+<div>
+    <table id="">
+        <thead>
+        <tr>
+            <th>Order № <a id="current_order_id"></a></th>
+            <th>Order №</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
 </div>
 <br>
 <br>
@@ -57,119 +72,151 @@
 <br>
 <br>
 
-<div>
-    <table id="table1">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Sex</th>
-            <th>Occupation</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Ram</td>
-            <td>21</td>
-            <td>Male</td>
-            <td>Doctor</td>
-        </tr>
-        <tr>
-            <td>Mohan</td>
-            <td>32</td>
-            <td>Male</td>
-            <td>Teacher</td>
-        </tr>
-        <tr>
-            <td>Rani</td>
-            <td>42</td>
-            <td>Female</td>
-            <td>Nurse</td>
-        </tr>
-        <tr>
-            <td>Johan</td>
-            <td>23</td>
-            <td>Female</td>
-            <td>Software Engineer</td>
-        </tr>
-        <tr>
-            <td>Shajia</td>
-            <td>39</td>
-            <td>Female</td>
-            <td>Farmer</td>
-        </tr>
-        <tr>
-            <td>Jack</td>
-            <td>19</td>
-            <td>Male</td>
-            <td>Student</td>
-        </tr>
-        <tr>
-            <td>Hina</td>
-            <td>30</td>
-            <td>Female</td>
-            <td>Artist</td>
-        </tr>
-        <tr>
-            <td>Gauhar</td>
-            <td>36</td>
-            <td>Female</td>
-            <td>Artist</td>
-        </tr>
-        <tr>
-            <td>Jacky</td>
-            <td>55</td>
-            <td>Female</td>
-            <td>Bank Manager</td>
-        </tr>
-        <tr>
-            <td>Pintu</td>
-            <td>36</td>
-            <td>Male</td>
-            <td>Clerk</td>
-        </tr>
-        <tr>
-            <td>Sumit</td>
-            <td>33</td>
-            <td>Male</td>
-            <td>Footballer</td>
-        </tr>
-        <tr>
-            <td>Radhu</td>
-            <td>40</td>
-            <td>Female</td>
-            <td>Coder</td>
-        </tr>
-        <tr>
-            <td>Mamta</td>
-            <td>49</td>
-            <td>Female</td>
-            <td>Student</td>
-        </tr>
-        <tr>
-            <td>Priya</td>
-            <td>36</td>
-            <td>Female</td>
-            <td>Worker</td>
-        </tr>
-        <tr>
-            <td>Johnny</td>
-            <td>41</td>
-            <td>Male</td>
-            <td>Forest Officer</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 <p></p>
 <p></p>
 <script>
-    $(document).ready(function () {
-        $('#table1').DataTable();
-    });
+    let user_id = $("#current_user_id").text();
+    let current_orders_page = 0;
+    let page_orders_size = 3;
+    let sort_orders_field = "id";
+    let last_orders_page = false;
+    let first_orders_page = false;
+    let order_content_size = 0
+    function turn_next_orders() {
+        current_orders_page++;
+        $('#orders_table tbody').empty();
+        $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
+        $.ajax({
+            url: "http://localhost:8080/v1/orders",
+            method: "get",
+            data: {
+                "userId": user_id,
+                "page": (current_orders_page - 1),
+                "pageSize": page_orders_size,
+                "sortField": sort_orders_field
+            },
+            dataType: "json",
+            success: function (data){
+                show_orders_page(data)
+                order_content_size = data.content.length;
+                button_manager();
+            }
+        });
+
+    }
+    turn_next_orders();
+
+    $(document).ready(function (){
+        $("#next_orders_page").click(function () {
+            if (last_orders_page !== true) {
+                turn_next_orders();
+            }
+        })
+    })
+
+    function turn_previous_orders() {
+        current_orders_page--;
+        $('#orders_table tbody').empty();
+        $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
+        $.ajax({
+            url: "http://localhost:8080/v1/orders",
+            method: "get",
+            data: {
+                "userId": user_id,
+                "page": (current_orders_page - 1),
+                "pageSize": page_orders_size,
+                "sortField": sort_orders_field
+            },
+            dataType: "json",
+            success: function (data){
+                show_orders_page(data);
+            }
+        });
+    }
+
+    $(document).ready(function (){
+        $("#previous_orders_page").click(function () {
+            if (current_orders_page - 2 >= 0) {
+                turn_previous_orders();
+            }
+        })
+    })
+
+    function show_orders_page(data) {
+        for (let i = 0; i < data.content.length; i++) {
+            const order_id = data.content[i].id;
+            const order_status = data.content[i].status;
+            const this_date = new Date(data.content[i].createDate)
+            const order_date = this_date.toLocaleDateString() + " " +
+                this_date.getHours() + ":" + this_date.getMinutes();
+            const value_order_id = "value = \"" + order_id + "\"";
+            const order_address = data.content[i].address;
+            const new_row = '<tr><td>' + order_id + '</td>' +
+                '<td>' + order_status + '</td>' +
+                '<td>' + order_date + '</td>' +
+                '<td>' + order_address + '</td>' +
+                '<td><button class="order-view" ' + value_order_id + '>view</button></td>' +
+                '<td><button class="order-edit"' + value_order_id + '>edit</button></td>' +
+                '<td><button class="order-delete"' + value_order_id + '>delete</button></td>' +
+                '</tr>';
+            $('#orders_table tbody').append(new_row);
+        }
+        last_orders_page = data.last;
+        first_orders_page = data.first;
+    }
+
+    function button_manager() {
+        listen_order_view_buttons();
+        listen_order_edit_buttons();
+        listen_order_delete_buttons()
+    }
+
+    function listen_order_view_buttons(){
+        $(".order-view").click(function(e) {
+            e.preventDefault();
+            alert(122121)
+        });
+    }
+    // $("button").click(function(e) {
+    //     e.preventDefault();
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/pages/test/",
+    //         data: {
+    //             id: $(this).val(), // < note use of 'this' here
+    //             access_token: $("#access_token").val()
+    //         },
+    //         success: function(result) {
+    //             alert('ok');
+    //         },
+    //         error: function(result) {
+    //             alert('error');
+    //         }
+    //     });
+    // });
+
+    function listen_order_edit_buttons(){
+        $(".order-edit").click(function(e) {
+            e.preventDefault();
+            alert(122121)
+        });
+    }
+
+    function listen_order_delete_buttons(){
+        $(".order-delete").click(function(e) {
+            e.preventDefault();
+            alert(122121)
+        });
+    }
+
+    function order_buttons_color() {
+        if(last_orders_page !== true){
+
+        }
+    }
 </script>
 <script type="text/javascript" src="/src/products_table.js"></script>
-<script type="text/javascript" src="/src/orders_table.js"></script>
+<!--<script type="text/javascript" src="/src/orders_table.js"></script>-->
 </body>
 
 </html>

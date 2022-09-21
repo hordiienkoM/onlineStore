@@ -4,7 +4,6 @@ package com.hordiienko.onlinestore.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -14,5 +13,4 @@ public class OrderGetDTO {
     private String status;
     private LocalDateTime createDate;
     private String address;
-    private Set<OrderProductGetDTO> orderProduct;
 }
