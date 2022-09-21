@@ -66,4 +66,8 @@ public class OrderService {
         return orderRepository.findAllByUserId(
                 userId, PageRequest.of(page,size).withSort(Sort.by(sortField)));
     }
+
+    public Set<OrderProduct> getProductsByOrderId(Long orderId){
+        return getOrder(orderId).getOrderProduct();
+    }
 }

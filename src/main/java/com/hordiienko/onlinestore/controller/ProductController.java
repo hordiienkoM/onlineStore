@@ -29,4 +29,5 @@ public class ProductController {
         Page<Product> pageProductsDTO = productService.getProducts(page, pageSize, sortField);
         return ResponseEntity.ok().body(productMapper.toProductGetDTOs(pageProductsDTO));
     }
+
 }
