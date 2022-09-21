@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Mapper
 public interface OrderMapper {
 
-    @Mapping(source = "createDate", target = "createDate", dateFormat = "yyyy-MM-dd hh:mm:ss")
+    @Mapping(source = "createDate", target = "createDate", dateFormat = "yyyy-MM-dd, hh:mm:ss")
     Order postDtoToOrder(OrderPostDTO orderPostDTO);
 
     OrderGetDTO toOrderGetDTO(Order order);

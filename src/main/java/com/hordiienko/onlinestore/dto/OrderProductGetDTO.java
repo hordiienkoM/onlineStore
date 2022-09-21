@@ -8,7 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderProductGetDTO {
-    @JsonProperty("products")
-    private ProductGetDTO product;
+//    @JsonProperty("products")
+//    private ProductGetDTO product;
+    private Long productId;
+    private String description;
     private Integer amount;
 }
