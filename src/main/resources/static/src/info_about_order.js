@@ -3,7 +3,7 @@ function showOrderInfo(){
     order_id = $("#current_order_id").text();
     writeOrderTable();
     writeProductsTable();
-    $("#delete_current_order").val(order_id);
+    $("#order_view .order_delete").val(order_id);
 }
 
 function writeOrderTable () {
@@ -40,4 +40,23 @@ function writeProductsTable() {
             }
         }
     });
+}
+
+function deleteOrderById(orderId){
+    $.ajax({
+        url: "http://localhost:8080/v1/orders/" + orderId,
+        method: "DELETE",
+        success: function (data) {
+            if (data)
+            {
+                alert("Order " + orderId + " was deleted")
+
+            }
+            else
+            {
+                alert("Order not found");
+            }
+        }
+    });
+    $("#order_view").hide();
 }
