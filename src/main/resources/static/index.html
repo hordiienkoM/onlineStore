@@ -28,8 +28,6 @@
         </tbody>
     </table>
 
-
-
     <a id="current_orders_page"></a>
     <input type="submit" id="previous_orders_page" value="previous">
     <input type="submit" id="next_orders_page" value="next">
@@ -55,155 +53,60 @@
     <input type="submit" id="next_product_page" value="next">
 </div>
 
+<div id="order_view" style="display: none;">
+    <h5>Order id: <a id="current_order_id">1</a></h5>
+    <table id="order_info">
+        <thead>
+        <tr>
+            <th colspan="3">Order info</th>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <th>Address</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <table id="order_products">
+        <thead>
+        <tr>
+            <th colspan="3">products</th>
+        </tr>
+        <tr>
+            <th>Product</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <button id="edit_current_order">
+        Edit
+    </button>
+    <button id="delete_current_order" value="">
+        Delete
+    </button>
+    <button id="return">
+        Return
+    </button>
+</div>
 <br>
 <br>
 
 <p></p>
-<a href="/toDelete.html">link text</a>
 <p></p>
-<script>
-    let user_id = $("#current_user_id").text();
-    let current_orders_page = 0;
-    let page_orders_size = 3;
-    let sort_orders_field = "id";
-    let last_orders_page = false;
-    let first_orders_page = false;
-    let order_content_size = 0
-    function turn_next_orders() {
-        current_orders_page++;
-        $('#orders_table tbody').empty();
-        $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
-        $.ajax({
-            url: "http://localhost:8080/v1/orders",
-            method: "get",
-            data: {
-                "userId": user_id,
-                "page": (current_orders_page - 1),
-                "pageSize": page_orders_size,
-                "sortField": sort_orders_field
-            },
-            dataType: "json",
-            success: function (data){
-                show_orders_page(data)
-                order_content_size = data.content.length;
-                button_manager();
-            }
-        });
-
-    }
-    turn_next_orders();
-
-    $(document).ready(function (){
-        $("#next_orders_page").click(function () {
-            if (last_orders_page !== true) {
-                turn_next_orders();
-            }
-        })
-    })
-
-    function turn_previous_orders() {
-        current_orders_page--;
-        $('#orders_table tbody').empty();
-        $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
-        $.ajax({
-            url: "http://localhost:8080/v1/orders",
-            method: "get",
-            data: {
-                "userId": user_id,
-                "page": (current_orders_page - 1),
-                "pageSize": page_orders_size,
-                "sortField": sort_orders_field
-            },
-            dataType: "json",
-            success: function (data){
-                show_orders_page(data);
-            }
-        });
-    }
-
-    $(document).ready(function (){
-        $("#previous_orders_page").click(function () {
-            if (current_orders_page - 2 >= 0) {
-                turn_previous_orders();
-            }
-        })
-    })
-
-    function show_orders_page(data) {
-        for (let i = 0; i < data.content.length; i++) {
-            const order_id = data.content[i].id;
-            const order_status = data.content[i].status;
-            const this_date = new Date(data.content[i].createDate)
-            const order_date = this_date.toLocaleDateString() + " " +
-                this_date.getHours() + ":" + this_date.getMinutes();
-            const value_order_id = "value = \"" + order_id + "\"";
-            const order_address = data.content[i].address;
-            const new_row = '<tr><td>' + order_id + '</td>' +
-                '<td>' + order_status + '</td>' +
-                '<td>' + order_date + '</td>' +
-                '<td>' + order_address + '</td>' +
-                '<td><button class="order-view" ' + value_order_id + '>view</button></td>' +
-                '<td><button class="order-edit"' + value_order_id + '>edit</button></td>' +
-                '<td><button class="order-delete"' + value_order_id + '>delete</button></td>' +
-                '</tr>';
-            $('#orders_table tbody').append(new_row);
-        }
-        last_orders_page = data.last;
-        first_orders_page = data.first;
-    }
-
-    function button_manager() {
-        listen_order_view_buttons();
-        listen_order_edit_buttons();
-        listen_order_delete_buttons()
-    }
-
-    function listen_order_view_buttons(){
-        $(".order-view").click(function(e) {
-            e.preventDefault();
-            alert(122121)
-        });
-    }
-    // $("button").click(function(e) {
-    //     e.preventDefault();
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/pages/test/",
-    //         data: {
-    //             id: $(this).val(), // < note use of 'this' here
-    //             access_token: $("#access_token").val()
-    //         },
-    //         success: function(result) {
-    //             alert('ok');
-    //         },
-    //         error: function(result) {
-    //             alert('error');
-    //         }
-    //     });
-    // });
-
-    function listen_order_edit_buttons(){
-        $(".order-edit").click(function(e) {
-            e.preventDefault();
-            alert(122121)
-        });
-    }
-
-    function listen_order_delete_buttons(){
-        $(".order-delete").click(function(e) {
-            e.preventDefault();
-            alert(122121)
-        });
-    }
-
-    function order_buttons_color() {
-        if(last_orders_page !== true){
-
-        }
-    }
-</script>
+<script type="text/javascript" src="/src/info_about_order.js"></script>
 <script type="text/javascript" src="/src/products_table.js"></script>
-<!--<script type="text/javascript" src="/src/orders_table.js"></script>-->
+<script type="text/javascript" src="/src/orders_table.js"></script>
 </body>
 
 </html>
