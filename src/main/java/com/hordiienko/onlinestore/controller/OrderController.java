@@ -2,10 +2,12 @@ package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.dto.*;
 import com.hordiienko.onlinestore.entity.Order;
+import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
+import com.hordiienko.onlinestore.mapper.OrderProductMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 
 @RestController
@@ -24,6 +28,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private OrderProductMapper orderProductMapper;
 
     @GetMapping()
     public ResponseEntity getOrdersPage(@RequestParam Long userId,
@@ -37,7 +43,7 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity getOrder(@PathVariable Long orderId){
-        return ResponseEntity.ok().body(orderMapper.toOrderGetDTO(
+        return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
                 orderService.getOrder(orderId)
         ));
     }

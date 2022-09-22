@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.mapper;
 
 import com.hordiienko.onlinestore.dto.OrderGetDTO;
+import com.hordiienko.onlinestore.dto.OrderGetInfoDTO;
 import com.hordiienko.onlinestore.dto.OrderInnerDTO;
 import com.hordiienko.onlinestore.dto.OrderPostDTO;
 import com.hordiienko.onlinestore.entity.Order;
@@ -28,4 +29,6 @@ public interface OrderMapper {
             }
         });
     }
+
+    OrderGetInfoDTO toOrderFieldsGetDTO(Order order);
 }
