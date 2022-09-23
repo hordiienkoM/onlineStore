@@ -34,24 +34,6 @@
 </div>
 
 <br>
-<br>
-<div>
-    <table id="products_table">
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>description</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <br>
-
-    <a id="current_products_page"></a>
-    <input type="submit" id="previous_product_page" value="previous">
-    <input type="submit" id="next_product_page" value="next">
-</div>
 
 <div id="order_view" style="display: none;">
     <h5>Order id: <a id="current_order_id">1</a></h5>
@@ -97,9 +79,34 @@
     </button>
 </div>
 <br>
-<br>
+<div>
+    <h3>Create new order</h3>
+    <table id="products_table">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Amount</th>
+            <th>Add to order</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+
+    <a id="current_products_page"></a>
+    <input type="submit" id="previous_product_page" value="previous">
+    <input type="submit" id="next_product_page" value="next">
+    <br>
+    <br>
+
+    <input type="text" id="user_address" placeholder="Enter your address here">
+    <br>
+    <button id="create_button">Create order</button>
+</div>
 
 <p></p>
+<a href="/toDelete.html">link text</a>
 <p></p>
 <script type="text/javascript" src="/src/function_delete.js"></script>
 <script type="text/javascript" src="/src/info_about_order.js"></script>
