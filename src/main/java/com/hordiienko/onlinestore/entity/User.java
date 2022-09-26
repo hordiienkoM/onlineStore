@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String role;
-
+    @Transient
     @JsonIgnore
     private String password;
     @OneToMany(
@@ -35,34 +35,36 @@ public class User implements UserDetails {
             mappedBy = "user"
     )
     private Set<Order> orders = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getRoles();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return name;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
