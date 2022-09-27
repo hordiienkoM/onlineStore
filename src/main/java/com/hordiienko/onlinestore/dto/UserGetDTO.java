@@ -10,6 +10,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserGetDTO {
     private Long id;
-    private String name;
+    private String username;
     private Set<OrderGetDTO> orders;
 }
