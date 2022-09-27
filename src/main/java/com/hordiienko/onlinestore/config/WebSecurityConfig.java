@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfig{
     @Autowired
     private DataSource dataSource;
 
@@ -25,7 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
-    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf()
@@ -38,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/admin_page")
+                .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout()
