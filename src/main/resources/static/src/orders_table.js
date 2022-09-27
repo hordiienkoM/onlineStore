@@ -1,4 +1,4 @@
-let user_id = $("#current_user_id").text();
+let user_id = getCurrentUserId();
 let current_orders_page = 0;
 let page_orders_size = 3;
 let sort_orders_field = "id";
@@ -28,6 +28,7 @@ function turn_next_orders() {
 
 }
 turn_next_orders();
+$("#current_user_id").text(getCurrentUserId());
 
 $(document).ready(function (){
     $("#next_orders_page").click(function () {
