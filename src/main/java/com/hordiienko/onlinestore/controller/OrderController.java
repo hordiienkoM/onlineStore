@@ -6,13 +6,14 @@ import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
+import com.hordiienko.onlinestore.mapper.PageableMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 
 
 @RestController
@@ -24,21 +25,27 @@ public class OrderController {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
+    private PageableMapper pageableMapper;
+
+
     @GetMapping()
-    public ResponseEntity getOrdersPage(@RequestParam Long userId,
-                                        @RequestParam Integer page,
-                                        @RequestParam Integer pageSize,
-                                        @RequestParam String sortField) {
+    public ResponseEntity getOrdersPage(@RequestBody PageableDTO pageableDTO) {
+        Pageable pageable = pageableMapper.toPageableWithSort(pageableDTO);
         return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
-                orderService.getByUserId(userId, page, pageSize, sortField)
+                orderService.getByUserId(pageable)
         ));
     }
 
     @GetMapping("/{orderId}")
     public ResponseEntity getOrder(@PathVariable Long orderId){
-        return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
-                orderService.getOrder(orderId)
-        ));
+        try {
+            return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
+                    orderService.getOrder(orderId)
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Order not found");
+        }
     }
 
     @PostMapping()
@@ -63,19 +70,19 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateOrder(
-            @PathVariable Long id,
-            @RequestParam Long userId,
-            @RequestBody OrderPostDTO orderBody) {
-        try {
-            Order order = orderMapper.postDtoToOrder(orderBody);
-            orderService.updateOrder(order, userId, orderBody, id);
-            return ResponseEntity.ok().body(
-                    orderMapper.toOrderGetDTO(orderService.getOrder(id))
-            );
-        } catch (UserNotFoundException|OrderSaveException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity updateOrder(
+//            @PathVariable Long id,
+//            @RequestParam Long userId,
+//            @RequestBody OrderPostDTO orderBody) {
+//        try {
+//            Order order = orderMapper.postDtoToOrder(orderBody);
+//            orderService.updateOrder(order, userId, orderBody, id);
+//            return ResponseEntity.ok().body(
+//                    orderMapper.toOrderGetDTO(orderService.getOrder(id))
+//            );
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

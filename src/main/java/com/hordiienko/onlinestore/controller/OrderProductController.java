@@ -22,10 +22,14 @@ public class OrderProductController {
     private OrderProductMapper orderProductMapper;
 
     @GetMapping("/{orderId}")
-    public ResponseEntity getByOrderId(@PathVariable Long orderId){
-        Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId);
-        Set<OrderProductInfoGetDTO> products = orderProductMapper.toOrderProductInfoGetDTOs(orderProducts);
-        return ResponseEntity.ok().body(products);
+    public ResponseEntity getByOrderId(@PathVariable Long orderId) {
+        try {
+            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId);
+            Set<OrderProductInfoGetDTO> products = orderProductMapper.toOrderProductInfoGetDTOs(orderProducts);
+            return ResponseEntity.ok().body(products);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("The user does not own the order");
+        }
     }
 
 
