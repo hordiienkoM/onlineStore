@@ -21,13 +21,10 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private ProductMapper productMapper;
-    @Autowired
-    private PageableMapper pageableMapper;
 
     @GetMapping
-    public ResponseEntity getProductsPage(@RequestBody PageableDTO pageableDTO){
-        Page<Product> pageProductsDTO = productService.getProducts(pageableMapper.toPageableWithSort(pageableDTO));
+    public ResponseEntity getProductsPage(Pageable pageable){
+        Page<Product> pageProductsDTO = productService.getProducts(pageable);
         return ResponseEntity.ok().body(productMapper.toProductGetDTOs(pageProductsDTO));
     }
-
 }
