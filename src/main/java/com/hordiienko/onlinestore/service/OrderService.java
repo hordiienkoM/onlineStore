@@ -12,6 +12,7 @@ import com.hordiienko.onlinestore.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,8 @@ public class OrderService {
     private OrderProductService orderProductService;
     @Autowired
     private OrderProductRepository orderProductRepository;
+    @Autowired
+    private SessionService sessionService;
 
     public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Long userId) throws OrderSaveException {
         try {
@@ -42,7 +45,12 @@ public class OrderService {
 
     public void deleteOrder(Long orderId) throws OrderNotFoundException {
         try {
-            orderRepository.deleteById(orderId);
+            Order order = orderRepository.findById(orderId).orElseThrow();
+            if (checkUserHasOrder(order)) {
+                orderRepository.deleteById(orderId);
+            } else {
+                throw new Exception();
+            }
         } catch (Exception e) {
             throw new OrderNotFoundException();
         }
@@ -58,16 +66,26 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order getOrder(Long orderId){
-        return orderRepository.findById(orderId).orElseThrow();
+    public Order getOrder(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        if(checkUserHasOrder(order)){
+            return order;
+        } else {
+            throw new Exception("Order not found");
+        }
     }
 
-    public Page<Order> getByUserId(Long userId, Integer page, Integer size, String sortField){
-        return orderRepository.findAllByUserId(
-                userId, PageRequest.of(page,size).withSort(Sort.by(sortField)));
+    public boolean checkUserHasOrder(Order order){
+        Set<Order> userOrders = sessionService.getCurrenUser().getOrders();
+        return userOrders.contains(order);
     }
 
-    public Set<OrderProduct> getProductsByOrderId(Long orderId){
+    public Page<Order> getByUserId(Pageable pageable){
+        Long userId = sessionService.getCurrentUserId();
+        return orderRepository.findAllByUserId(userId, pageable);
+    }
+
+    public Set<OrderProduct> getProductsByOrderId(Long orderId) throws Exception {
         return getOrder(orderId).getOrderProduct();
     }
 }

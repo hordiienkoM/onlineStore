@@ -1,4 +1,3 @@
-let user_id = getCurrentUserId();
 let current_orders_page = 0;
 let page_orders_size = 3;
 let sort_orders_field = "id";
@@ -9,16 +8,24 @@ function turn_next_orders() {
     current_orders_page++;
     $('#orders_table tbody').empty();
     $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
+    let sendInfo = {
+        page: (current_orders_page - 1),
+        size: page_orders_size,
+        sortField: sort_orders_field
+    };
+    alert(JSON.stringify(sendInfo))
     $.ajax({
-        url: "http://localhost:8080/v1/orders",
+        url: "http://localhost:8080/v1/products",
         method: "get",
-        data: {
-            "userId": user_id,
-            "page": (current_orders_page - 1),
-            "pageSize": page_orders_size,
-            "sortField": sort_orders_field
-        },
+        async: false,
+        data: JSON.stringify(sendInfo),
+        // headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json'
+        // },
         dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        traditional: true,
         success: function (data){
             show_orders_page(data)
             order_content_size = data.content.length;
@@ -43,17 +50,19 @@ function turn_previous_orders() {
     current_orders_page--;
     $('#orders_table tbody').empty();
     $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
+    let sendInfo = {
+        page: (current_orders_page - 1),
+        size: page_orders_size,
+        sortField: sort_orders_field
+    };
     $.ajax({
         url: "http://localhost:8080/v1/orders",
         method: "get",
-        data: {
-            "userId": user_id,
-            "page": (current_orders_page - 1),
-            "pageSize": page_orders_size,
-            "sortField": sort_orders_field
-        },
-        dataType: "json",
+        data: JSON.stringify(sendInfo),
+        dataType: "application/json; charset=utf-8",
+        contentType: "application/json; charset=utf-8",
         success: function (data){
+            alert(data)
             show_orders_page(data);
             order_content_size = data.content.length;
             button_manager();

@@ -6,9 +6,14 @@ function turn_next_product() {
     current_page++;
     $('#products_table tbody').empty();
     $("#current_page_products").replaceWith("<a id='current_page_products'> " + current_page + " </a>");
+    let pageable = {
+        page: current_page - 1,
+        size: page_size,
+        sortField: sort_field
+    }
     $.ajax({
-        url: "http://localhost:8080/v1/products?page=" + (current_page - 1) + "&pageSize= " +
-            page_size + "&sortField=" + sort_field,
+        url: "http://localhost:8080/v1/products",
+        data: JSON.stringify(pageable),
         method: "get",
         dataType: "json",
         success: function (data){
