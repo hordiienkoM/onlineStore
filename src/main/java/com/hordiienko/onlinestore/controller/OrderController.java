@@ -4,15 +4,14 @@ import com.hordiienko.onlinestore.dto.*;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
-import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
-import com.hordiienko.onlinestore.mapper.PageableMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,13 +25,9 @@ public class OrderController {
     @Autowired
     private OrderMapper orderMapper;
 
-    @Autowired
-    private PageableMapper pageableMapper;
-
 
     @GetMapping()
-    public ResponseEntity getOrdersPage(@RequestBody PageableDTO pageableDTO) {
-        Pageable pageable = pageableMapper.toPageableWithSort(pageableDTO);
+    public ResponseEntity getOrdersPage(Pageable pageable) {
         return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
                 orderService.getByUserId(pageable)
         ));

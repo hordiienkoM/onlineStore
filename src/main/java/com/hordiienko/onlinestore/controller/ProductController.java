@@ -1,9 +1,7 @@
 package com.hordiienko.onlinestore.controller;
 
 
-import com.hordiienko.onlinestore.dto.PageableDTO;
 import com.hordiienko.onlinestore.entity.Product;
-import com.hordiienko.onlinestore.mapper.PageableMapper;
 import com.hordiienko.onlinestore.mapper.ProductMapper;
 import com.hordiienko.onlinestore.service.ProductService;
 import lombok.AllArgsConstructor;
