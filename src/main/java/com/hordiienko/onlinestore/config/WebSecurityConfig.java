@@ -33,7 +33,7 @@ public class WebSecurityConfig{
                 .antMatchers("/admin_page").hasRole("ADMIN")
                 .antMatchers("/online_shop").hasRole("USER")
                 .antMatchers("/", "/resources/**").permitAll()
-                .antMatchers("/v1/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/v1/orders").hasAnyRole("ADMIN","USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

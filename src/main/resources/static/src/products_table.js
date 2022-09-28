@@ -7,15 +7,16 @@ function turn_next_product() {
     $('#products_table tbody').empty();
     $("#current_page_products").replaceWith("<a id='current_page_products'> " + current_page + " </a>");
     let pageable = {
-        page: current_page - 1,
-        size: page_size,
-        sortField: sort_field
+        "page": current_page - 1,
+        "size": page_size,
+        "sortField": sort_field
     }
     $.ajax({
         url: "http://localhost:8080/v1/products",
-        data: JSON.stringify(pageable),
         method: "get",
-        dataType: "json",
+        async: false,
+        data: JSON.stringify(pageable),
+        dataType: "application/json",
         success: function (data){
             for (let i = 0; i < data.content.length; i++) {
                 const product_id = data.content[i].product_id;
@@ -45,6 +46,10 @@ function turn_previous_product() {
         url: "http://localhost:8080/v1/products?page=" + (current_page - 1) + "&pageSize= " +
             page_size + "&sortField=" + sort_field,
         method: "get",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         dataType: "json",
         success: function (data){
             for (let i = 0; i < data.content.length; i++) {
