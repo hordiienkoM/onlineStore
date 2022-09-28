@@ -1,10 +1,10 @@
-let user_id = $("#current_user_id").text();
 let current_orders_page = 0;
 let page_orders_size = 3;
 let sort_orders_field = "id";
 let last_orders_page = false;
 let first_orders_page = false;
 let order_content_size = 0
+$("#current_user_id").text(getCurrentUserId())
 function turn_next_orders() {
     current_orders_page++;
     $('#orders_table tbody').empty();
@@ -13,9 +13,8 @@ function turn_next_orders() {
         url: "http://localhost:8080/v1/orders",
         method: "get",
         data: {
-            "userId": user_id,
             "page": (current_orders_page - 1),
-            "pageSize": page_orders_size,
+            "size": page_orders_size,
             "sortField": sort_orders_field
         },
         dataType: "json",
@@ -46,9 +45,8 @@ function turn_previous_orders() {
         url: "http://localhost:8080/v1/orders",
         method: "get",
         data: {
-            "userId": user_id,
             "page": (current_orders_page - 1),
-            "pageSize": page_orders_size,
+            "size": page_orders_size,
             "sortField": sort_orders_field
         },
         dataType: "json",
