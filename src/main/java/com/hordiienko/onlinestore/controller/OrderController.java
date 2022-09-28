@@ -27,6 +27,7 @@ public class OrderController {
 
 
     @GetMapping()
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getOrdersPage(Pageable pageable) {
         return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
                 orderService.getByUserId(pageable)
@@ -34,6 +35,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getOrder(@PathVariable Long orderId){
         try {
             return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
@@ -58,6 +60,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity deleteOrder(@PathVariable Long id) {
         try {
             orderService.deleteOrder(id);
