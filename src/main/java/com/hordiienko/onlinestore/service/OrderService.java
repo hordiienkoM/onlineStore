@@ -31,9 +31,9 @@ public class OrderService {
     @Autowired
     private SessionService sessionService;
 
-    public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Long userId) throws OrderSaveException {
+    public Order saveOrder(Order order, Set<OrderProductPostDTO> products) throws OrderSaveException {
         try {
-            order.setUser(userService.getUser(userId));
+            order.setUser(userService.getUser(sessionService.getCurrentUserId()));
             Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
             order.setOrderProduct(orderProducts);
             orderRepository.save(order);

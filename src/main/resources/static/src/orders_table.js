@@ -1,3 +1,4 @@
+let user_id = $("#current_user_id").text();
 let current_orders_page = 0;
 let page_orders_size = 3;
 let sort_orders_field = "id";
@@ -8,24 +9,16 @@ function turn_next_orders() {
     current_orders_page++;
     $('#orders_table tbody').empty();
     $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
-    let sendInfo = {
-        page: (current_orders_page - 1),
-        size: page_orders_size,
-        sortField: sort_orders_field
-    };
-    alert(JSON.stringify(sendInfo))
     $.ajax({
-        url: "http://localhost:8080/v1/products",
+        url: "http://localhost:8080/v1/orders",
         method: "get",
-        async: false,
-        data: JSON.stringify(sendInfo),
-        // headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        // },
+        data: {
+            "userId": user_id,
+            "page": (current_orders_page - 1),
+            "pageSize": page_orders_size,
+            "sortField": sort_orders_field
+        },
         dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        traditional: true,
         success: function (data){
             show_orders_page(data)
             order_content_size = data.content.length;
@@ -35,7 +28,6 @@ function turn_next_orders() {
 
 }
 turn_next_orders();
-$("#current_user_id").text(getCurrentUserId());
 
 $(document).ready(function (){
     $("#next_orders_page").click(function () {
@@ -50,19 +42,17 @@ function turn_previous_orders() {
     current_orders_page--;
     $('#orders_table tbody').empty();
     $("#current_orders_page").replaceWith("<a id='current_orders_page'> " + current_orders_page + " </a>");
-    let sendInfo = {
-        page: (current_orders_page - 1),
-        size: page_orders_size,
-        sortField: sort_orders_field
-    };
     $.ajax({
         url: "http://localhost:8080/v1/orders",
         method: "get",
-        data: JSON.stringify(sendInfo),
-        dataType: "application/json; charset=utf-8",
-        contentType: "application/json; charset=utf-8",
+        data: {
+            "userId": user_id,
+            "page": (current_orders_page - 1),
+            "pageSize": page_orders_size,
+            "sortField": sort_orders_field
+        },
+        dataType: "json",
         success: function (data){
-            alert(data)
             show_orders_page(data);
             order_content_size = data.content.length;
             button_manager();
@@ -112,12 +102,12 @@ function button_manager() {
 function listen_order_view_buttons(){
     $(".order_view").click(function(e) {
         e.preventDefault();
-            let order_id = $(this).val();
-            $("#order_view").show();
-            $("#current_order_id ").text(order_id);
-            showOrderInfo();
-        });
-    }
+        let order_id = $(this).val();
+        $("#order_view").show();
+        $("#current_order_id ").text(order_id);
+        showOrderInfo();
+    });
+}
 
 function listen_order_edit_buttons(){
     $(".order_edit").click(function(e) {

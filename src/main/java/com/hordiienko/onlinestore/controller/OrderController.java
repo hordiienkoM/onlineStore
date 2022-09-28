@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -49,10 +50,11 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody, @RequestParam Long userId) {
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
+    public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody) {
         try {
             Order order = orderMapper.postDtoToOrder(orderBody);
-            order = orderService.saveOrder(order, orderBody.getOrderProduct(), userId);
+            order = orderService.saveOrder(order, orderBody.getOrderProduct());
             return ResponseEntity.ok().body(
                     orderMapper.toOrderGetDTO(order));
         } catch (OrderSaveException e) {
