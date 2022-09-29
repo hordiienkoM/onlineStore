@@ -30,7 +30,4 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public Long findUserId(String username){
-        return userRepository.findByUsername(username).getId();
-    }
 }

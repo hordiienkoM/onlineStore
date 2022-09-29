@@ -4,7 +4,6 @@ import com.hordiienko.onlinestore.dto.OrderPostDTO;
 import com.hordiienko.onlinestore.dto.OrderProductPostDTO;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.OrderProduct;
-import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
@@ -12,9 +11,7 @@ import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import com.hordiienko.onlinestore.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

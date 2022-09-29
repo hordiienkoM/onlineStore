@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -69,20 +68,4 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity updateOrder(
-//            @PathVariable Long id,
-//            @RequestParam Long userId,
-//            @RequestBody OrderPostDTO orderBody) {
-//        try {
-//            Order order = orderMapper.postDtoToOrder(orderBody);
-//            orderService.updateOrder(order, userId, orderBody, id);
-//            return ResponseEntity.ok().body(
-//                    orderMapper.toOrderGetDTO(orderService.getOrder(id))
-//            );
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }
