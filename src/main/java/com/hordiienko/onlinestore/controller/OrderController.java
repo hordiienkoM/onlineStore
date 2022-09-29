@@ -7,12 +7,14 @@ import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 
 
 @RestController
@@ -27,9 +29,10 @@ public class OrderController {
 
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity getOrdersPage(Pageable pageable) {
+    @ResponseBody
+    public ResponseEntity getOrdersPage(Pageable pageable, Principal principal) {
         return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
-                orderService.getByUserId(pageable)
+                orderService.getByUserId(pageable, principal.getName())
         ));
     }
 

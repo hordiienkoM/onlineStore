@@ -9,11 +9,14 @@ import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import com.hordiienko.onlinestore.repository.OrderRepository;
+import com.hordiienko.onlinestore.repository.UserRepository;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Set;
 
 @Service
@@ -28,6 +31,8 @@ public class OrderService {
     private OrderProductRepository orderProductRepository;
     @Autowired
     private SessionService sessionService;
+    @Autowired
+    private UserRepository userRepository;
 
     public Order saveOrder(Order order, Set<OrderProductPostDTO> products) throws OrderSaveException {
         try {
@@ -80,8 +85,8 @@ public class OrderService {
         return orderUserId.equals(currentUserId);
     }
 
-    public Page<Order> getByUserId(Pageable pageable){
-        Long userId = sessionService.getCurrentUserId();
+    public Page<Order> getByUserId(Pageable pageable, String username){
+        Long userId = userRepository.findByUsername(username).getId();
         return orderRepository.findAllByUserId(userId, pageable);
     }
 
