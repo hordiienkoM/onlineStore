@@ -78,7 +78,6 @@ function listen_product_add_buttons() {
 function listen_create_new_order() {
     $("#create_button").click(function (e) {
         e.preventDefault();
-        let userId = $("#current_user_id").text();
         let new_order = {
             status: "new",
             createDate: new Date($.now()),
@@ -88,7 +87,7 @@ function listen_create_new_order() {
         alert(JSON.stringify(new_order));
         $.ajax({
 
-            url: "http://localhost:8080/v1/orders?userId=" + userId,
+            url: "http://localhost:8080/v1/orders",
             type: "POST",
             data: JSON.stringify(new_order),
             headers: {

@@ -4,6 +4,7 @@ import com.hordiienko.onlinestore.dto.OrderPostDTO;
 import com.hordiienko.onlinestore.dto.OrderProductPostDTO;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.OrderProduct;
+import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
@@ -51,6 +52,7 @@ public class OrderService {
             } else {
                 throw new Exception();
             }
+//            orderRepository.deleteById(orderId);
         } catch (Exception e) {
             throw new OrderNotFoundException();
         }
@@ -76,8 +78,9 @@ public class OrderService {
     }
 
     public boolean checkUserHasOrder(Order order){
-        Set<Order> userOrders = sessionService.getCurrenUser().getOrders();
-        return userOrders.contains(order);
+        Long orderUserId = order.getUser().getId();
+        Long currentUserId = sessionService.getCurrenUser().getId();
+        return orderUserId.equals(currentUserId);
     }
 
     public Page<Order> getByUserId(Pageable pageable){

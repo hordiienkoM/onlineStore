@@ -7,5 +7,9 @@
 <h1>Welcome!</h1>
 
 <p>Click <a th:href="@{/online_shop}">here</a> to see a greeting.</p>
+<br>
+<form th:action="@{/logout}" method="post">
+  <input type="submit" value="Sign Out"/>
+</form>
 </body>
 </html>
