@@ -1,5 +1,6 @@
 package com.hordiienko.onlinestore.service;
 
+import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return user;
+        return new UserDetailsImpl(user);
     }
 
     public User findByUsername(String username){
