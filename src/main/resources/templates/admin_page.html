@@ -5,7 +5,13 @@
     <title>Admin page</title>
 </head>
 <body>
+
 Hello Admin
+<br>
+<br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 
 </body>
 </html>
