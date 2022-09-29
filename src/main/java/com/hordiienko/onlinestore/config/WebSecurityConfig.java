@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,16 +32,19 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                .antMatcher("/v1/**")
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().hasAnyRole("ADMIN", "USER")
+                .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form
+                .loginPage("/login")
+                .permitAll()
                 )
-//                .antMatcher("/admin_page")
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .anyRequest().hasRole("ADMIN")
-//                )
-                .httpBasic(withDefaults());
+                .authorizeRequests(auth -> {
+                    auth.antMatchers("/", "/login").permitAll();
+                    auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN","USER");
+                    auth.antMatchers("/admin_page").hasRole("ADMIN");
+                    auth.antMatchers("/v1/**").hasAnyRole("USER","ADMIN");
+                });
         return http.build();
     }
 
@@ -53,30 +57,5 @@ public class WebSecurityConfig {
                 .formLogin(withDefaults());
         return http.build();
     }
-//    @Bean
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .csrf()
-//                .disable()
-//                .authorizeRequests()
-////                .antMatchers(HttpMethod.GET, "/**").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
-////                .antMatchers(HttpMethod.POST, "/**").hasAnyRole( "ROLE_USER")
-////                .antMatchers(HttpMethod.POST, "/**").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
-////                .antMatchers(HttpMethod.DELETE, "/**").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
-//                .antMatchers("/admin_page").hasRole("ROLE_ADMIN")
-//                .antMatchers("/online_shop").hasRole("ROLE_USER")
-////                .antMatchers("/", "/resources/**").permitAll()
-//                .antMatchers("/").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .logoutSuccessUrl("/");
-//    }
 
 }
