@@ -11,6 +11,7 @@ import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import com.hordiienko.onlinestore.repository.OrderRepository;
 import com.hordiienko.onlinestore.repository.UserRepository;
+import com.hordiienko.onlinestore.service.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,8 +35,8 @@ public class OrderService {
 
     public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Authentication authentication) throws OrderSaveException {
         try {
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            order.setUser(userRepository.findById(userDetails.getUserId()).orElseThrow());
+            Long currentUserId = SessionUtil.getCurrentUserId(authentication);
+            order.setUser(userRepository.findById(currentUserId).orElseThrow());
             Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
             order.setOrderProduct(orderProducts);
             orderRepository.save(order);
@@ -47,9 +48,9 @@ public class OrderService {
 
     public void deleteOrder(Long orderId, Authentication authentication) throws OrderNotFoundException {
         try {
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            Long currentUserId = SessionUtil.getCurrentUserId(authentication);
             Order order = orderRepository.findById(orderId).orElseThrow();
-            if (checkUserHasOrder(order, userDetails.getUserId())) {
+            if (checkUserHasOrder(order, currentUserId)) {
                 orderRepository.deleteById(orderId);
             } else {
                 throw new Exception();
@@ -71,8 +72,8 @@ public class OrderService {
 
     public Order getOrder(Long orderId, Authentication authentication) throws Exception {
         Order order = orderRepository.findById(orderId).orElseThrow();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        if(checkUserHasOrder(order, userDetails.getUserId())){
+        Long currentUserId = SessionUtil.getCurrentUserId(authentication);
+        if(checkUserHasOrder(order, currentUserId)){
             return order;
         } else {
             throw new Exception("Order not found");
@@ -85,8 +86,8 @@ public class OrderService {
     }
 
     public Page<Order> getByUserId(Pageable pageable, Authentication authentication){
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return orderRepository.findAllByUserId(userDetails.getUserId(), pageable);
+        Long currentUserId = SessionUtil.getCurrentUserId(authentication);
+        return orderRepository.findAllByUserId(currentUserId, pageable);
     }
 
     public Set<OrderProduct> getProductsByOrderId(Long orderId, Authentication authentication) throws Exception {

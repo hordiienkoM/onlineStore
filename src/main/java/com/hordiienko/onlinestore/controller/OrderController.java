@@ -1,7 +1,6 @@
 package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.dto.*;
-import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
@@ -28,7 +27,7 @@ public class OrderController {
 
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity getOrdersPage(Pageable pageable, Authentication authentication) {
+    public ResponseEntity getOrdersPage(Authentication authentication, Pageable pageable) {
         return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
                 orderService.getByUserId(pageable, authentication)
         ));
@@ -69,4 +68,6 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 }
