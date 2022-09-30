@@ -3,6 +3,7 @@ package com.hordiienko.onlinestore.dto.authorization;
 
 import com.hordiienko.onlinestore.entity.Role;
 import com.hordiienko.onlinestore.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +15,10 @@ import java.util.Collection;
 import java.util.Set;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private User user;
-
-    public UserDetailsImpl(User user) {
-        this.user = user;
-    }
 
     @Override
     public Set<Role> getAuthorities() {
@@ -35,6 +33,10 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public String getUsername() {
         return user.getUsername();
+    }
+
+    public Long getUserId(){
+        return user.getId();
     }
 
     @Override
