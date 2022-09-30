@@ -1,12 +1,15 @@
 package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.dto.OrderProductInfoGetDTO;
+import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.mapper.OrderProductMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -22,17 +25,17 @@ public class OrderProductController {
     private OrderProductMapper orderProductMapper;
 
     @GetMapping("/{orderId}")
-    public ResponseEntity getByOrderId(@PathVariable Long orderId) {
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public ResponseEntity getByOrderId(@PathVariable Long orderId, Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         try {
-            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId);
+            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, userDetails.getUserId());
             Set<OrderProductInfoGetDTO> products = orderProductMapper.toOrderProductInfoGetDTOs(orderProducts);
             return ResponseEntity.ok().body(products);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("The user does not own the order");
         }
     }
-
-
 }
 
 

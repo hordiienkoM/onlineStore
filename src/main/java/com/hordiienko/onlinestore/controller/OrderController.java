@@ -1,20 +1,19 @@
 package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.dto.*;
+import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 
 @RestController
@@ -29,19 +28,20 @@ public class OrderController {
 
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    @ResponseBody
-    public ResponseEntity getOrdersPage(Pageable pageable, Principal principal) {
+    public ResponseEntity getOrdersPage(Pageable pageable, Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
-                orderService.getByUserId(pageable, principal.getName())
+                orderService.getByUserId(pageable, userDetails.getUserId())
         ));
     }
 
     @GetMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity getOrder(@PathVariable Long orderId){
+    public ResponseEntity getOrder(@PathVariable Long orderId, Authentication authentication){
         try {
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
-                    orderService.getOrder(orderId)
+                    orderService.getOrder(orderId, userDetails.getUserId())
             ));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Order not found");
@@ -50,10 +50,11 @@ public class OrderController {
 
     @PostMapping()
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody) {
+    public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody, Authentication authentication) {
         try {
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             Order order = orderMapper.postDtoToOrder(orderBody);
-            order = orderService.saveOrder(order, orderBody.getOrderProduct());
+            order = orderService.saveOrder(order, orderBody.getOrderProduct(), userDetails.getUserId());
             return ResponseEntity.ok().body(
                     orderMapper.toOrderGetDTO(order));
         } catch (OrderSaveException e) {
@@ -61,11 +62,12 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity deleteOrder(@PathVariable Long id) {
+    public ResponseEntity deleteOrder(@PathVariable Long orderId, Authentication authentication) {
         try {
-            orderService.deleteOrder(id);
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            orderService.deleteOrder(orderId, userDetails.getUserId());
             return ResponseEntity.ok().body("Order has been deleted");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

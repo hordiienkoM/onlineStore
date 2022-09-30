@@ -1,5 +1,6 @@
 package com.hordiienko.onlinestore.controller;
 
+import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

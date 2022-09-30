@@ -34,9 +34,9 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    public Order saveOrder(Order order, Set<OrderProductPostDTO> products) throws OrderSaveException {
+    public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Long userId) throws OrderSaveException {
         try {
-            order.setUser(userService.getUser(sessionService.getCurrentUserId()));
+            order.setUser(userRepository.findById(userId).orElseThrow());
             Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
             order.setOrderProduct(orderProducts);
             orderRepository.save(order);
@@ -46,15 +46,14 @@ public class OrderService {
         }
     }
 
-    public void deleteOrder(Long orderId) throws OrderNotFoundException {
+    public void deleteOrder(Long orderId, Long currentUserId) throws OrderNotFoundException {
         try {
             Order order = orderRepository.findById(orderId).orElseThrow();
-            if (checkUserHasOrder(order)) {
+            if (checkUserHasOrder(order, currentUserId)) {
                 orderRepository.deleteById(orderId);
             } else {
                 throw new Exception();
             }
-//            orderRepository.deleteById(orderId);
         } catch (Exception e) {
             throw new OrderNotFoundException();
         }
@@ -70,27 +69,25 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order getOrder(Long orderId) throws Exception {
+    public Order getOrder(Long orderId, Long currentUserId) throws Exception {
         Order order = orderRepository.findById(orderId).orElseThrow();
-        if(checkUserHasOrder(order)){
+        if(checkUserHasOrder(order, currentUserId)){
             return order;
         } else {
             throw new Exception("Order not found");
         }
     }
 
-    public boolean checkUserHasOrder(Order order){
+    public boolean checkUserHasOrder(Order order, Long currentUserId){
         Long orderUserId = order.getUser().getId();
-        Long currentUserId = sessionService.getCurrenUser().getId();
         return orderUserId.equals(currentUserId);
     }
 
-    public Page<Order> getByUserId(Pageable pageable, String username){
-        Long userId = userRepository.findByUsername(username).getId();
+    public Page<Order> getByUserId(Pageable pageable, Long userId){
         return orderRepository.findAllByUserId(userId, pageable);
     }
 
-    public Set<OrderProduct> getProductsByOrderId(Long orderId) throws Exception {
-        return getOrder(orderId).getOrderProduct();
+    public Set<OrderProduct> getProductsByOrderId(Long orderId, Long currentUserId) throws Exception {
+        return getOrder(orderId, currentUserId).getOrderProduct();
     }
 }
