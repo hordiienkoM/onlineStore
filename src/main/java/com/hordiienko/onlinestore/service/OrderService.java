@@ -60,10 +60,15 @@ public class OrderService {
         }
     }
 
-    public void updateOrder(Order order, Long userId, OrderPostDTO orderBody, Long orderId)
-            throws UserNotFoundException, OrderSaveException {
-        order.setUser(userService.getUser(userId));
+    public void updateOrder(Order order, OrderPostDTO orderBody, Long orderId, Authentication authentication)
+            throws UserNotFoundException, OrderSaveException{
+        Order lastOrder = orderRepository.findById(orderId).orElseThrow();
+        Long userId = SessionUtil.getCurrentUserId(authentication);
+        if(!checkUserHasOrder(lastOrder, userId)){
+            throw new OrderSaveException();
+        }
         order.setId(orderId);
+        order.setUser(userService.getUser(userId));
         orderProductRepository.deleteAll(orderProductRepository.findAllByOrderId(orderId));
         Set<OrderProduct> orderProducts = orderProductService.convert(orderBody.getOrderProduct(), order);
         order.setOrderProduct(orderProducts);

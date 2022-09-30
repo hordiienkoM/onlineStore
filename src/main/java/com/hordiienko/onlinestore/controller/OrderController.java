@@ -4,6 +4,7 @@ import com.hordiienko.onlinestore.dto.*;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.OrderSaveException;
+import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -69,5 +70,17 @@ public class OrderController {
         }
     }
 
-
+    @PutMapping("/order/id")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
+    public ResponseEntity updateOrder(@RequestParam Long orderId,
+                                      @RequestBody OrderPostDTO orderBody,
+                                      Authentication authentication) {
+        try {
+            Order order = orderMapper.postDtoToOrder(orderBody);
+            orderService.updateOrder(order, orderBody, orderId, authentication);
+            return ResponseEntity.ok().body("Order has been updated");
+        } catch (UserNotFoundException | OrderSaveException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,7 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity getProductsPage(Pageable pageable){
         Page<Product> pageProductsDTO = productService.getProducts(pageable);
         return ResponseEntity.ok().body(productMapper.toProductGetDTOs(pageProductsDTO));
