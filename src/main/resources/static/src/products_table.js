@@ -84,7 +84,6 @@ function listen_create_new_order() {
             address: $('#user_address').val(),
             orderProduct: products_to_order
         };
-        alert(JSON.stringify(new_order));
         $.ajax({
 
             url: "http://localhost:8080/v1/orders",
