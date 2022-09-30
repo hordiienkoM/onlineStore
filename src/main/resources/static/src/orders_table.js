@@ -94,7 +94,8 @@ function show_orders_page(data) {
 function button_manager() {
     listen_order_view_buttons();
     listen_order_edit_buttons();
-    listen_order_delete_buttons()
+    listen_order_delete_buttons();
+    listen_update_current_order();
 }
 
 function listen_order_view_buttons(){
@@ -110,9 +111,23 @@ function listen_order_view_buttons(){
 function listen_order_edit_buttons(){
     $(".order_edit").click(function(e) {
         e.preventDefault();
-        alert(122121)
+        let order_id = $(this).val();
+        $("#order_edit_view").show();
+        $("#current_edit_order_id ").text(order_id);
+        showEditOrderInfo()
     });
 }
+
+// function listen_order_update_button(){
+//     $("#update_current_order").click(function(e) {
+//         e.preventDefault();
+//         listen_update_current_order();
+//         // let order_id = $(this).val();
+//         // $("#order_edit_view").show();
+//         // $("#current_edit_order_id ").text(order_id);
+//         // showEditOrderInfo()
+//     });
+// }
 
 function listen_order_delete_buttons(){
     $(".order_delete").click(function(e) {

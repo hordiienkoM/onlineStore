@@ -70,9 +70,9 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/order/id")
+    @PutMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity updateOrder(@RequestParam Long orderId,
+    public ResponseEntity updateOrder(@PathVariable Long orderId,
                                       @RequestBody OrderPostDTO orderBody,
                                       Authentication authentication) {
         try {

@@ -1,5 +1,6 @@
 package com.hordiienko.onlinestore.controller;
 
+import com.hordiienko.onlinestore.dto.OrderProductGetDTO;
 import com.hordiienko.onlinestore.dto.OrderProductInfoGetDTO;
 import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.OrderProduct;
@@ -30,6 +31,18 @@ public class OrderProductController {
         try {
             Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, authentication);
             Set<OrderProductInfoGetDTO> products = orderProductMapper.toOrderProductInfoGetDTOs(orderProducts);
+            return ResponseEntity.ok().body(products);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("The user does not own the order");
+        }
+    }
+
+    @GetMapping("/full_info/{orderId}")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public ResponseEntity getDtoByOrderId(@PathVariable Long orderId, Authentication authentication) {
+        try {
+            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, authentication);
+            Set<OrderProductGetDTO> products = orderProductMapper.toOrderProductGetDTOs(orderProducts);
             return ResponseEntity.ok().body(products);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("The user does not own the order");
