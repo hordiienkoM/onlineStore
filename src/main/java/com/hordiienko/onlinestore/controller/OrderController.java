@@ -29,9 +29,8 @@ public class OrderController {
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getOrdersPage(Pageable pageable, Authentication authentication) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
-                orderService.getByUserId(pageable, userDetails.getUserId())
+                orderService.getByUserId(pageable, authentication)
         ));
     }
 
@@ -39,9 +38,8 @@ public class OrderController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getOrder(@PathVariable Long orderId, Authentication authentication){
         try {
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
-                    orderService.getOrder(orderId, userDetails.getUserId())
+                    orderService.getOrder(orderId, authentication)
             ));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Order not found");
@@ -52,9 +50,8 @@ public class OrderController {
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody, Authentication authentication) {
         try {
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             Order order = orderMapper.postDtoToOrder(orderBody);
-            order = orderService.saveOrder(order, orderBody.getOrderProduct(), userDetails.getUserId());
+            order = orderService.saveOrder(order, orderBody.getOrderProduct(), authentication);
             return ResponseEntity.ok().body(
                     orderMapper.toOrderGetDTO(order));
         } catch (OrderSaveException e) {
@@ -66,8 +63,7 @@ public class OrderController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity deleteOrder(@PathVariable Long orderId, Authentication authentication) {
         try {
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            orderService.deleteOrder(orderId, userDetails.getUserId());
+            orderService.deleteOrder(orderId, authentication);
             return ResponseEntity.ok().body("Order has been deleted");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

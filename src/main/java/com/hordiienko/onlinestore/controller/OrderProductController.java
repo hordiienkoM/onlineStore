@@ -27,9 +27,8 @@ public class OrderProductController {
     @GetMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getByOrderId(@PathVariable Long orderId, Authentication authentication) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         try {
-            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, userDetails.getUserId());
+            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, authentication);
             Set<OrderProductInfoGetDTO> products = orderProductMapper.toOrderProductInfoGetDTOs(orderProducts);
             return ResponseEntity.ok().body(products);
         } catch (Exception e) {
