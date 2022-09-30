@@ -80,7 +80,54 @@
         Delete
     </button>
 </div>
+
 <br>
+
+<div id="order_edit_view" style="display: none;">
+    <h5>Update order №: <a id="current_edit_order_id">1</a></h5>
+    <table id="edit_order_info">
+        <thead>
+        <tr>
+            <th colspan="3">Order info</th>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <th>Address</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+            <td><input type="text" id="current_user_address"></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <table id="edit_order_products">
+        <thead>
+        <tr>
+            <th colspan="2">products</th>
+        </tr>
+        <tr>
+            <th>Product</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button id="update_current_order">
+        Update
+    </button>
+    <button class="order_delete" value="">
+        Delete
+    </button>
+</div>
+
+<br>
+
 <div>
     <h3>Create new order</h3>
     <table id="products_table">
@@ -114,6 +161,9 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+<script type="text/javascript" src="/src/function_update.js"></script>
+<script type="text/javascript" src="/src/function_create.js"></script>
+<script type="text/javascript" src="/src/info_about_edit_order.js"></script>
 <script type="text/javascript" src="/src/get_user_id.js"></script>
 <script type="text/javascript" src="/src/function_delete.js"></script>
 <script type="text/javascript" src="/src/info_about_order.js"></script>
