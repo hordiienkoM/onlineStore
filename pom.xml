@@ -16,7 +16,6 @@
     <properties>
         <java.version>17</java.version>
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
-<!--        <liquibase.propertyFile>${project.basedir}/src/main/resources/db/liquibase.properties</liquibase.propertyFile>-->
     </properties>
     <dependencies>
         <dependency>
