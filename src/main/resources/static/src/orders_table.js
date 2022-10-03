@@ -32,7 +32,7 @@ $(document).ready(function (){
     $("#next_orders_page").click(function () {
         if (last_orders_page !== true) {
             turn_next_orders();
-            $("#order_view").hide();
+            order_info_hide();
         }
     })
 })
@@ -62,7 +62,7 @@ $(document).ready(function (){
     $("#previous_orders_page").click(function () {
         if (first_orders_page !== true) {
             turn_previous_orders();
-            $("#order_view").hide();
+            order_info_hide();
         }
     })
 })
@@ -103,7 +103,10 @@ function listen_order_view_buttons(){
         e.preventDefault();
         let order_id = $(this).val();
         $("#order_view").show();
-        $("#current_order_id ").text(order_id);
+        $("#current_edit_order_id ").text(order_id);
+        $("#current_order_id").show();
+        $("#order_view .order_edit").val(order_id)
+        $("#order_view .order_delete").val(order_id)
         showOrderInfo();
     });
 }
@@ -114,20 +117,11 @@ function listen_order_edit_buttons(){
         let order_id = $(this).val();
         $("#order_edit_view").show();
         $("#current_edit_order_id ").text(order_id);
+        $("#order_edit_view .order_delete").val(order_id)
+        $("#current_order_id").show();
         showEditOrderInfo()
     });
 }
-
-// function listen_order_update_button(){
-//     $("#update_current_order").click(function(e) {
-//         e.preventDefault();
-//         listen_update_current_order();
-//         // let order_id = $(this).val();
-//         // $("#order_edit_view").show();
-//         // $("#current_edit_order_id ").text(order_id);
-//         // showEditOrderInfo()
-//     });
-// }
 
 function listen_order_delete_buttons(){
     $(".order_delete").click(function(e) {
@@ -135,4 +129,10 @@ function listen_order_delete_buttons(){
         let order_id = $(this).val();
         deleteOrderById(order_id);
     });
+}
+
+function order_info_hide(){
+    $("#order_view").hide();
+    $("#order_edit_view").hide();
+    $("#current_order_id").hide();
 }

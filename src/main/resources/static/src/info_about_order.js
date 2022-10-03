@@ -1,6 +1,6 @@
 let order_id;
 function showOrderInfo(){
-    order_id = $("#current_order_id").text();
+    order_id = $("#current_edit_order_id").text();
     writeOrderTable();
     writeProductsTable();
     $("#order_view .order_delete").val(order_id);
