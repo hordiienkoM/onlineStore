@@ -36,34 +36,4 @@ public class User {
     private Set<Order> orders = new HashSet<>();
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return getRoles();
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
 }

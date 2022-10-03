@@ -16,6 +16,7 @@
     <properties>
         <java.version>17</java.version>
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
+<!--        <liquibase.propertyFile>${project.basedir}/src/main/resources/db/liquibase.properties</liquibase.propertyFile>-->
     </properties>
     <dependencies>
         <dependency>
@@ -106,6 +107,18 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.16.1</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-maven-plugin</artifactId>-->
+<!--            <version>4.16.1</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
@@ -148,6 +161,31 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+
+<!--            <plugin>-->
+
+<!--                <groupId>org.liquibase</groupId>-->
+
+<!--                <artifactId>liquibase-maven-plugin</artifactId>-->
+
+<!--                <version>4.2.0</version>-->
+
+<!--                <configuration>-->
+
+<!--                    <propertyFile>src/main/resources/db/liquibase.properties</propertyFile>-->
+
+<!--                    <changeLogFile>src/main/resources/db/changeLog/changelog_1.0.xml</changeLogFile>-->
+
+<!--                </configuration>-->
+
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>com.hordiienko</groupId>-->
+<!--                        <artifactId>OnlineStore</artifactId>-->
+<!--                        <version>0.0.1-SNAPSHOT</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
