@@ -7,8 +7,12 @@ function turn_next_product() {
     $('#products_table tbody').empty();
     $("#current_page_products").replaceWith("<a id='current_page_products'> " + current_page + " </a>");
     $.ajax({
-        url: "http://localhost:8080/v1/products?page=" + (current_page - 1) + "&pageSize= " +
-            page_size + "&sortField=" + sort_field,
+        url: "http://localhost:8080/v1/products",
+        data: {
+            "page": (current_page - 1),
+            "size": page_size,
+            "sortField": sort_field
+        },
         method: "get",
         dataType: "json",
         success: function (data){
@@ -37,8 +41,12 @@ function turn_previous_product() {
     current_page--;
     $("#current_page").replaceWith("<a id='current_page'> " + (current_page) + " </a>");
     $.ajax({
-        url: "http://localhost:8080/v1/products?page=" + (current_page - 1) + "&pageSize= " +
-            page_size + "&sortField=" + sort_field,
+        url: "http://localhost:8080/v1/products",
+        data: {
+            "page": (current_page - 1),
+            "size": page_size,
+            "sortField": sort_field
+        },
         method: "get",
         dataType: "json",
         success: function (data){
