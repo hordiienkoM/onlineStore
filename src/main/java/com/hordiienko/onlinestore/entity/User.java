@@ -28,6 +28,9 @@ public class User {
     private String username;
     @JsonIgnore
     private String password;
+    @JsonIgnore
+    private String token;
+    private boolean enabled;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
