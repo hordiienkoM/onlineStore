@@ -195,5 +195,16 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="16" author="hordiienko">
+        <addColumn tableName="user">
+            <column name="enabled" type="java.lang.boolean" defaultValue="false"/>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="token" type="varchar(255)">
+                <constraints  nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

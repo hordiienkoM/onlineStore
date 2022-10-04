@@ -36,7 +36,6 @@ public class WebSecurityConfig {
         final AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(
                 AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService());
-//        final AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(auth -> {
