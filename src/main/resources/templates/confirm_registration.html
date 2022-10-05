@@ -3,16 +3,12 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Admin page</title>
+    <title>Confirm registration</title>
 </head>
 <body>
-
-Hello Admin
-<br>
-<br>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-
+    <label>Enter code here</label>
+        <input type="number" placeholder="Code" maxlength="6" minlength="6"/>
+    <br>
+    <button id="validation_code_button">confirm registration</button>
 </body>
 </html>
