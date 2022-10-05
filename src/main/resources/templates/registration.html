@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="/src/table.css">
+<!--    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+
+<input id="new_user_email" placeholder="enter your email"><br>
+<input id="new_user_password" placeholder="enter your password"><br>
+<input id="new_user_validation_password" placeholder="repeat your password"><br>
+<a  id="message_uncorrected_email" style="display: none; color: red;">This email is not correct<br></a>
+<a  id="message_uncorrected_password" style="display: none; color: red;">This password is not correct<br></a>
+<a id="message_passwords_not_match" style="display: none; color: red;">Your passwords do not match<br></a>
+<button id="registration_button">registration</button>
+
+<script src="/src/js/registration/listen_registration_button.js"></script>
+<script src="/src/js/registration/validation_email.js"></script>
+<script src="/src/js/registration/validation_password.js"></script>
+</body>
+</html>
