@@ -1,17 +1,13 @@
 package com.hordiienko.onlinestore.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SessionService {
-
-    @Autowired
-    private UserService userService;
-    public Long getCurrentUserId() {
-        String username = SecurityContextHolder
-                .getContext().getAuthentication().getName();
-        return userService.findByUsername(username).getId();
+    public Long getCurrentUserId(Authentication authentication) {
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        return user.getUserId();
     }
 }

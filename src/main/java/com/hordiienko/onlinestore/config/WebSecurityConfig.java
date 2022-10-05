@@ -39,7 +39,7 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(auth -> {
-                    auth.antMatchers("/", "/login").permitAll();
+                    auth.antMatchers("/", "/login", "confirm_registration").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN","USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
                     auth.antMatchers("/v1/**").hasAnyRole("USER","ADMIN");
