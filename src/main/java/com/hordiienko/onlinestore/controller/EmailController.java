@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,11 +28,12 @@ public class EmailController {
 
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity sentMessage(){
+    public ResponseEntity sentMessage(Authentication authentication){
         try {
             senderService.sendMessage(
                     "testmikhma@gmail.com",
-                    "about something"
+                    "about something",
+                            authentication
             );
             return ResponseEntity.ok().body("was send");
         } catch (Exception e) {

@@ -39,6 +39,13 @@ public class UserDetailsImpl implements UserDetails {
         return user.getId();
     }
 
+    public String getToken() {
+        return user.getToken();
+    }
+    public boolean getEnabledValue() {
+        return user.isEnabled();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
