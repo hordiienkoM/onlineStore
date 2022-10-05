@@ -1,15 +1,25 @@
 package com.hordiienko.onlinestore.service;
 
+import com.hordiienko.onlinestore.service.util.HtmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.io.IOException;
 
 @Service
 public class EmailSenderService {
 
     @Autowired
     private JavaMailSender emailSender;
+    @Autowired
+    private JavaMailSender mailSender;
 
     public void sendSimpleMessage(String toEmail, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -20,23 +30,19 @@ public class EmailSenderService {
         emailSender.send(message);
     }
 
-//    @Bean
-//    public JavaMailSender getJavaMailSender() {
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.gmail.com");
-//        mailSender.setPort(587);
-//
-//        mailSender.setUsername("testmikhma@gmail.com");
-//        mailSender.setPassword("cftgb678");
-//
-//        Properties props = mailSender.getJavaMailProperties();
-//        props.put("mail.transport.protocol", "smtp");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.debug", "true");
-//
-//        return mailSender;
-//    }
+
+    public void sendMessage(String toEmail, String subject) throws MessagingException, IOException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+        mimeMessageHelper.setFrom("mikhailgordiyenko1994@gmail.com");
+        mimeMessageHelper.setTo(toEmail);
+        mimeMessageHelper.setSubject(subject);
+
+        mimeMessage.setContent(HtmlReader.readWelcomePage(), "text/html; charset=utf-8");
+
+        mailSender.send(mimeMessage);
+    }
 
 
 }
