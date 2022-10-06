@@ -38,7 +38,7 @@ public class UserService {
             user.setRoles(Collections.singleton(new Role(1L, "USER_ROLE")));
             user.setPassword(user.getPassword());
             user.setToken(TokenUtil.getToken());
-//            emailSenderService.sendMessage(user);
+            emailSenderService.sendMessage(user);
             userRepository.save(user);
         }
     }
