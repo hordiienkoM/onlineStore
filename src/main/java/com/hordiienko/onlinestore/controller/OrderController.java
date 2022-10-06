@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/v1/orders")
 public class OrderController {
     @Autowired

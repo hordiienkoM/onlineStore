@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserPostDTO {
-    private Long id;
+    private String username;
+    private String password;
 }

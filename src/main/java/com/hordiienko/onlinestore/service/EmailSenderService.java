@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
+import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.service.util.HtmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -33,25 +34,24 @@ public class EmailSenderService {
     }
 
 
-    public void sendMessage(String toEmail, String subject, Authentication authentication) throws MessagingException, IOException {
+    public void sendMessage(User user) throws MessagingException, IOException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
         mimeMessageHelper.setFrom("mikhailgordiyenko1994@gmail.com");
-        mimeMessageHelper.setTo(toEmail);
-        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setTo(user.getUsername());
+        mimeMessageHelper.setSubject("registration on the site Online Store");
         String defaultPage = HtmlReader.readWelcomePage();
-        String personalizedPage = getPersonalizedPage(defaultPage, authentication);
+        String personalizedPage = getPersonalizedPage(defaultPage, user);
 
         mimeMessage.setContent(personalizedPage, "text/html; charset=utf-8");
 
         mailSender.send(mimeMessage);
     }
 
-    public String getPersonalizedPage(String defaultPage, Authentication authentication) {
+    public String getPersonalizedPage(String defaultPage, User user) {
         String[] divided = defaultPage.split("split");
         StringBuilder personalizedPage = new StringBuilder();
-        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
         String username = user.getUsername();
         String token = user.getToken();
         personalizedPage.append(divided[0]);

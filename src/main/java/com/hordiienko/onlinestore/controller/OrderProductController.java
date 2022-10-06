@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/v1/order_products")
 public class OrderProductController {
 

@@ -1,6 +1,6 @@
 package com.hordiienko.onlinestore.service.util;
 
-public class PasswordUtil {
+public class TokenUtil {
 
     public static String getToken() {
         String pass = "";

@@ -3,6 +3,7 @@ package com.hordiienko.onlinestore.config;
 import com.hordiienko.onlinestore.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,8 +40,10 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(auth -> {
-                    auth.antMatchers("/registration", "/static/src/js/**").not().authenticated();
-//                    auth.antMatchers("/registration", "/confirm_registration").not().authenticated();
+                    auth.antMatchers("/registration").not().authenticated();
+                    auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
+                    auth.antMatchers(HttpMethod.GET, "/v1/users").not().authenticated();
+                    auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
                     auth.antMatchers("/", "/login", "/confirm_registration").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN","USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
