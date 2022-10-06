@@ -19,7 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(("/v1/email"))
 public class EmailController {
 
@@ -30,11 +29,11 @@ public class EmailController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity sentMessage(Authentication authentication){
         try {
-            senderService.sendMessage(
-                    "testmikhma@gmail.com",
-                    "about something",
-                            authentication
-            );
+//            senderService.sendMessage(
+//                    "testmikhma@gmail.com",
+//                    "about something",
+//                            authentication
+//            );
             return ResponseEntity.ok().body("was send");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

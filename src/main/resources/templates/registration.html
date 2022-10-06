@@ -10,14 +10,34 @@
 </head>
 <body>
 
-<input id="new_user_email" placeholder="enter your email"><br>
-<input id="new_user_password" placeholder="enter your password"><br>
-<input id="new_user_validation_password" placeholder="repeat your password"><br>
-<a  id="message_uncorrected_email" style="display: none; color: red;">This email is not correct<br></a>
-<a  id="message_uncorrected_password" style="display: none; color: red;">This password is not correct<br></a>
-<a id="message_passwords_not_match" style="display: none; color: red;">Your passwords do not match<br></a>
-<button id="registration_button">registration</button>
+<div id="registration_form">
+    <input id="new_user_email" placeholder="enter email"><br>
+    <input type="password" id="new_user_password" placeholder="enter password"><br>
+    <input type="password" id="new_user_validation_password" placeholder="repeat password"><br>
 
+    <a  id="message_uncorrected_email" style="display: none; color: red;">This email is not correct<br></a>
+    <a  id="message_uncorrected_password" style="display: none; color: red;">This password is not correct<br></a>
+    <a id="message_passwords_not_match" style="display: none; color: red;">Your passwords do not match<br></a>
+    <a id="message_registration_error" style="display: none; color: red;"></a><br>
+    <button id="registration_button">register</button>
+</div>
+<div id="confirm_form" style="display: none;">
+    <h3>We sent password to your email</h3>
+    <h4>Enter password from received email here</h4>
+    <input type="number" id="received_password" placeholder="enter received password" maxlength="6" minlength="6"><br>
+    <a  id="message_uncorrected_token" style="display: none; color: red;">This password is not correct<br></a>
+    <a  id="message_token_not_match" style="display: none; color: red;">Passwords do not match<br></a>
+    <button id="confirm_button">confirm registration</button>
+</div>
+<div id="registration_completed_message" style="display: none;">
+    <h3>Registration completed successfully</h3>
+    <a href="/online_shop">Go to personal account</a>
+</div>
+
+
+<script src="/src/js/registration/listen_confirm_button.js"></script>
+<script src="/src/js/registration/registration.js"></script>
+<script src="/src/js/registration/hide_all_registration_error.js"></script>
 <script src="/src/js/registration/listen_registration_button.js"></script>
 <script src="/src/js/registration/validation_email.js"></script>
 <script src="/src/js/registration/validation_password.js"></script>
