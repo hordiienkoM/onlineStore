@@ -41,10 +41,10 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(auth -> {
                     auth.antMatchers("/registration").not().authenticated();
+                    auth.antMatchers("/").permitAll();
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
-                    auth.antMatchers(HttpMethod.GET, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
-                    auth.antMatchers("/", "/login", "/confirm_registration").permitAll();
+                    auth.antMatchers( "/login").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN","USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
                     auth.antMatchers("/v1/**").hasAnyRole("USER","ADMIN");
@@ -53,6 +53,30 @@ public class WebSecurityConfig {
                 .formLogin(withDefaults());
         return http.build();
     }
+
+//    csrf()
+//                .disable()
+//                .authorizeRequests()
+//    //Доступ только для не зарегистрированных пользователей
+//                .antMatchers("/registration").not().fullyAuthenticated()
+//    //Доступ только для пользователей с ролью Администратор
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/news").hasRole("USER")
+//    //Доступ разрешен всем пользователей
+//                .antMatchers("/", "/resources/**").permitAll()
+//    //Все остальные страницы требуют аутентификации
+//                .anyRequest().authenticated()
+//                .and()
+//    //Настройка для входа в систему
+//                .formLogin()
+//                .loginPage("/login")
+//    //Перенарпавление на главную страницу после успешного входа
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll()
+//                .logoutSuccessUrl("/");
 
     @Bean
     public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {

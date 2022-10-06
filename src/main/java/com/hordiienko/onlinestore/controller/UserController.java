@@ -38,10 +38,4 @@ public class UserController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity getUserById(@RequestParam Long userId){
-        User user = userService.getUser(userId);
-        return ResponseEntity.ok().body(userMapper.toUserGetDTO(user));
-    }
-
 }
