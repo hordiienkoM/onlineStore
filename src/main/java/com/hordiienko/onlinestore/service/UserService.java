@@ -30,12 +30,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void registrationUser(User user) throws Exception {
-        boolean bol = Validator.isEmail(user.getUsername());
+    public synchronized void registrationUser(User user) throws Exception {
         if (userRepository.findByUsername(user.getUsername()) != null){
             throw new UserAlreadyExistException();
-//        } else if (!Validator.isEmail(user.getUsername())) {
-        } else if (!bol) {
+        } else if (!Validator.isEmail(user.getUsername())) {
             throw new Exception("Email doesn't correct");
         } else {
             String salt = BCrypt.gensalt();
@@ -43,18 +41,22 @@ public class UserService {
             user.setPassword(hashPassword);
             user.setRoles(Collections.singleton(new Role(1L, "USER_ROLE")));
             user.setToken(TokenUtil.getToken());
-//            emailSenderService.sendMessage(user);
             userRepository.save(user);
+            emailSenderService.sendMessage(user);
         }
     }
 
     public void confirmRegistration(String username, String token) throws Exception {
         User user = findByUsername(username);
         if(!user.getToken().equals(token)) {
-            throw new Exception("passwords not match");
+            throw new Exception("Code not match");
         }
         user.setEnabled(true);
         userRepository.save(user);
+    }
+
+    public void deleteById(Long id){
+        userRepository.deleteById(id);
     }
 
 }

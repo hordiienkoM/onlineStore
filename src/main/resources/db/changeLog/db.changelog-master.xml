@@ -206,5 +206,13 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="17" author="hordiienko">
+        <addUniqueConstraint
+                columnNames="username"
+                constraintName="username_unique"
+                tableName="user"
+        />
+    </changeSet>
+
 
 </databaseChangeLog>
