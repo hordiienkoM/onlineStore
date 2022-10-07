@@ -34,7 +34,7 @@ public class UserController {
             userService.registrationUser(user);
             return ResponseEntity.ok().body("User was saved");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("User with this name already exist");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

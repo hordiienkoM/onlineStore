@@ -5,6 +5,7 @@ import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.UserAlreadyExistException;
 import com.hordiienko.onlinestore.repository.UserRepository;
 import com.hordiienko.onlinestore.service.util.TokenUtil;
+import com.hordiienko.onlinestore.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,13 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void registrationUser(User user) throws UserAlreadyExistException, MessagingException, IOException {
+    public void registrationUser(User user) throws Exception {
+        boolean bol = Validator.isEmail(user.getUsername());
         if (userRepository.findByUsername(user.getUsername()) != null){
             throw new UserAlreadyExistException();
+//        } else if (!Validator.isEmail(user.getUsername())) {
+        } else if (!bol) {
+            throw new Exception("Email doesn't correct");
         } else {
             String salt = BCrypt.gensalt();
             String hashPassword = BCrypt.hashpw(user.getPassword(), salt);
