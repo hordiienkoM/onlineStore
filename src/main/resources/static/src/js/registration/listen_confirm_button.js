@@ -16,7 +16,6 @@ function validationConfirmPassword(pass) {
 
 function sendPassToServer(pass) {
     let username = $("#new_user_email").val();
-    alert(username + " " + pass)
     $.ajax({
         url: "http://localhost:8080/v1/users/confirm",
         type: "POST",
@@ -26,7 +25,6 @@ function sendPassToServer(pass) {
         },
         dataType: "text",
         success: function (data) {
-            alert(data)
             hide_validation_errors()
             $("#confirm_form").hide();
             $("#registration_completed_message").show();

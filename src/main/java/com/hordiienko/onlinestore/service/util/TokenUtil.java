@@ -7,6 +7,6 @@ public class TokenUtil {
         for (int i = 0; i < 6; i++) {
             pass += (int)(Math.random()*9);
         }
-        return new String(pass);
+        return pass;
     }
 }

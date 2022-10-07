@@ -28,10 +28,10 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity saveNewUser(@RequestBody UserPostDTO newUser){
+    public ResponseEntity registrationUser(@RequestBody UserPostDTO newUser){
         try {
             User user = userMapper.toUser(newUser);
-            userService.registrationNewUser(user);
+            userService.registrationUser(user);
             return ResponseEntity.ok().body("User was saved");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("User with this name already exist");
