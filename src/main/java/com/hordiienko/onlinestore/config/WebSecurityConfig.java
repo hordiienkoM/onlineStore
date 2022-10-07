@@ -44,6 +44,8 @@ public class WebSecurityConfig {
                     auth.antMatchers("/").permitAll();
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
+//                    to delete the row below
+                    auth.antMatchers(HttpMethod.DELETE, "/v1/users").not().authenticated();
                     auth.antMatchers( "/login").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN","USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");

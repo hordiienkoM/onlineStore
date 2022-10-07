@@ -38,4 +38,15 @@ public class UserController {
         }
     }
 
+//    the method to delete
+    @DeleteMapping()
+    public  ResponseEntity deleteById(@RequestParam Long id){
+        try {
+            userService.deleteById(id);
+            return ResponseEntity.ok().body("user was deleted");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
