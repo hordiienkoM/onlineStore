@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Collections;
 
+// not delete emailSenderService.sendMessage(user)!!!
 @Service
 public class UserService {
     @Autowired
@@ -28,7 +29,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void registrationNewUser(User user) throws UserAlreadyExistException, MessagingException, IOException {
+    public void registrationUser(User user) throws UserAlreadyExistException, MessagingException, IOException {
         if (userRepository.findByUsername(user.getUsername()) != null){
             throw new UserAlreadyExistException();
         } else {
@@ -36,7 +37,6 @@ public class UserService {
             String hashPassword = BCrypt.hashpw(user.getPassword(), salt);
             user.setPassword(hashPassword);
             user.setRoles(Collections.singleton(new Role(1L, "USER_ROLE")));
-            user.setPassword(user.getPassword());
             user.setToken(TokenUtil.getToken());
 //            emailSenderService.sendMessage(user);
             userRepository.save(user);
