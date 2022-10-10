@@ -9,13 +9,16 @@ import com.hordiienko.onlinestore.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Collections;
 
 // not delete emailSenderService.sendMessage(user)!!!
 @Service
+@Validated
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -30,19 +33,17 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public synchronized void registrationUser(User user) throws Exception {
+    public synchronized void registrationUser(@Valid User user) throws Exception {
         if (userRepository.findByUsername(user.getUsername()) != null){
             throw new UserAlreadyExistException();
-        } else if (!Validator.isEmail(user.getUsername())) {
-            throw new Exception("Email doesn't correct");
         } else {
             String salt = BCrypt.gensalt();
             String hashPassword = BCrypt.hashpw(user.getPassword(), salt);
             user.setPassword(hashPassword);
-            user.setRoles(Collections.singleton(new Role(1L, "USER_ROLE")));
+            user.setRoles(Collections.singleton(new Role(1, "USER_ROLE")));
             user.setToken(TokenUtil.getToken());
             userRepository.save(user);
-            emailSenderService.sendMessage(user);
+//            emailSenderService.sendMessage(user);
         }
     }
 

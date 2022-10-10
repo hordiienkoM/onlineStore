@@ -1,4 +1,4 @@
-package com.hordiienko.onlinestore.service;
+package com.hordiienko.onlinestore.service.impl;
 
 
 import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
