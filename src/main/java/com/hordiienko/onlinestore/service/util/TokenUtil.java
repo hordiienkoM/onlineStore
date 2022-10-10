@@ -1,12 +1,11 @@
 package com.hordiienko.onlinestore.service.util;
 
+import java.util.Random;
+
 public class TokenUtil {
 
     public static String getToken() {
-        String pass = "";
-        for (int i = 0; i < 6; i++) {
-            pass += (int)(Math.random()*9);
-        }
-        return pass;
+        int number = new Random().nextInt(999999);
+        return String.format("%06d", number);
     }
 }
