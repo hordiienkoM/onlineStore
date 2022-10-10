@@ -1,50 +1,39 @@
 package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.entity.User;
-import com.hordiienko.onlinestore.service.util.HtmlReader;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class EmailSenderService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender emailSender;
+    private final SpringTemplateEngine templateEngine;
 
+    public void sendHtmlMessage(User user) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+        Context context = new Context();
+        context.setVariable("name", user.getUsername());
+        context.setVariable("code", user.getToken());
+        helper.setFrom("mikhailgordiyenko1994@gmail.com");
+        helper.setTo(user.getUsername());
+        helper.setSubject("Registration on the site Online Store");
+        String htmlContent = templateEngine.process("welcome_page.html", context);
+        helper.setText(htmlContent, true);
 
-    public void sendMessage(User user) throws MessagingException, IOException {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-
-        mimeMessageHelper.setFrom("mikhailgordiyenko1994@gmail.com");
-        mimeMessageHelper.setTo(user.getUsername());
-        mimeMessageHelper.setSubject("registration on the site Online Store");
-        String defaultPage = HtmlReader.readWelcomePage();
-        String personalizedPage = getPersonalizedPage(defaultPage, user);
-
-        mimeMessage.setContent(personalizedPage, "text/html; charset=utf-8");
-
-        mailSender.send(mimeMessage);
+        log.info("Sending email to: {} with html body: {}", user.getUsername(), htmlContent);
+        emailSender.send(message);
     }
-
-    public String getPersonalizedPage(String defaultPage, User user) {
-        String[] divided = defaultPage.split("split");
-        StringBuilder personalizedPage = new StringBuilder();
-        String username = user.getUsername();
-        String token = user.getToken();
-        personalizedPage.append(divided[0]);
-        personalizedPage.append(username);
-        personalizedPage.append(divided[1]);
-        personalizedPage.append(token);
-        personalizedPage.append(divided[2]);
-        return personalizedPage.toString();
-    }
-
-
 }
