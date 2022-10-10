@@ -7,7 +7,7 @@ function listen_create_new_order() {
             address: $('#user_address').val(),
             orderProduct: products_to_order
         };
-        alert(JSON.stringify(new_order))
+        // alert(JSON.stringify(new_order))
         $.ajax({
             url: "http://localhost:8080/v1/orders",
             type: "POST",
@@ -16,9 +16,13 @@ function listen_create_new_order() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            success: function (data){
-                alert(JSON.stringify("Order was created"))
+            success: function () {
+                alert("Order was created")
+            },
+            error: function (data) {
+                alert(JSON.stringify(data))
             }
         });
     });
 }
+

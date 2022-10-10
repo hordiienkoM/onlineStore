@@ -7,17 +7,22 @@ import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 
 @RestController
 @RequestMapping("/v1/orders")
+@Validated
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -47,7 +52,7 @@ public class OrderController {
 
     @PostMapping()
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity createOrder(@RequestBody OrderPostDTO orderBody, Authentication authentication) {
+    public ResponseEntity createOrder(@RequestBody @Valid OrderPostDTO orderBody, Authentication authentication) {
         try {
             Order order = orderMapper.postDtoToOrder(orderBody);
             order = orderService.saveOrder(order, orderBody.getOrderProduct(), authentication);
@@ -81,5 +86,17 @@ public class OrderController {
         } catch (UserNotFoundException | OrderSaveException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+//    to delete
+    @GetMapping("/test")
+    public ResponseEntity testAuthorize(@RequestParam String message){
+        return ResponseEntity.ok().body(message);
     }
 }
