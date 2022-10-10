@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Hello user</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h3>Hello <h3>split</h3></h3>
+<p>
+    Hello, <a th:text="${name}"></a>!
+</p>
 <p>Confirm registration on the Online Store website.</p>
-<p>This is your personal code to complete registration "<b>split</b>"</p>
+<p>This is your personal code to complete registration "<b th:text="${code}"></b>"</p>
     <br>
 <p> If you have not registered, please ignore this email.</p>
+
 </body>
 </html>

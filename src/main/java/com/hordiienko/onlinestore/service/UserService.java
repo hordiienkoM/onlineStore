@@ -5,15 +5,12 @@ import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.UserAlreadyExistException;
 import com.hordiienko.onlinestore.repository.UserRepository;
 import com.hordiienko.onlinestore.service.util.TokenUtil;
-import com.hordiienko.onlinestore.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.Collections;
 
 // not delete emailSenderService.sendMessage(user)!!!
@@ -43,7 +40,7 @@ public class UserService {
             user.setRoles(Collections.singleton(new Role(1, "USER_ROLE")));
             user.setToken(TokenUtil.getToken());
             userRepository.save(user);
-//            emailSenderService.sendMessage(user);
+            emailSenderService.sendHtmlMessage(user);
         }
     }
 
