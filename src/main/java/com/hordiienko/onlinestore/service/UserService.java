@@ -53,6 +53,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public boolean checkUserEnabled(String username) {
+        User user = userRepository.findByUsername(username);
+        return user.isEnabled();
+    }
+
     public void deleteById(Long id){
         userRepository.deleteById(id);
     }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Registration</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="confirm_form">
+  <h3>Confirm your registration</h3>
+  <input type="text" id="new_user_email" placeholder="enter your email"><br>
+  <input type="number" id="received_password" placeholder="enter confirmation code" maxlength="6" minlength="6"><br>
+  <a  id="message_uncorrected_token" style="display: none; color: red;">This code is not correct<br></a>
+  <a  id="message_token_not_match" style="display: none; color: red;">Code does not match<br></a>
+  <button id="confirm_button">confirm registration</button>
+</div>
+<div th:if="${param.error}">
+    <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+</div>
+<div id="registration_completed_message" style="display: none;">
+    <h3>Registration completed successfully</h3>
+    <a href="/online_shop">Go to personal account</a>
+</div>
+
+<script src="/src/js/registration/listen_confirm_button.js" ></script>
+</body>
+</html>

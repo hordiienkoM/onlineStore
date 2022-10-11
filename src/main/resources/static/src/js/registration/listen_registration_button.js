@@ -20,3 +20,7 @@ $("#registration_button").click(function (e) {
         hide_all_registration_error();
     }
 });
+
+
+
+
