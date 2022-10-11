@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
     <link rel="stylesheet" href="/src/table.css">
-<!--    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
@@ -23,10 +21,10 @@
 </div>
 <div id="confirm_form" style="display: none;">
     <h3>We sent password to your email</h3>
-    <h4>Enter password from received email here</h4>
+    <h4>Enter code from received email here</h4>
     <input type="number" id="received_password" placeholder="enter received password" maxlength="6" minlength="6"><br>
-    <a  id="message_uncorrected_token" style="display: none; color: red;">This password is not correct<br></a>
-    <a  id="message_token_not_match" style="display: none; color: red;">Passwords do not match<br></a>
+    <a  id="message_uncorrected_token" style="display: none; color: red;">This code is not correct<br></a>
+    <a  id="message_token_not_match" style="display: none; color: red;">Code does not match<br></a>
     <button id="confirm_button">confirm registration</button>
 </div>
 <div id="registration_completed_message" style="display: none;">

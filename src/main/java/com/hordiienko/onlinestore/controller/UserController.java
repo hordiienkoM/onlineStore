@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 @RestController
@@ -48,6 +49,12 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @GetMapping("/enable")
+    public ResponseEntity checkEnabled(
+            @RequestParam("username") @Email(message = "Email is not correct") String username
+    ){
+        return ResponseEntity.ok(userService.checkUserEnabled(username));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

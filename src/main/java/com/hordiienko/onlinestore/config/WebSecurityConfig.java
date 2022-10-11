@@ -47,9 +47,11 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(auth -> {
                     auth.antMatchers("/registration").not().authenticated();
+                    auth.antMatchers("/confirm_registration").not().authenticated();
                     auth.antMatchers("/").permitAll();
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
+                    auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
 //                    to delete the row below
                     auth.antMatchers(HttpMethod.DELETE, "/v1/users").not().authenticated();
                     auth.antMatchers( "/login").permitAll();
@@ -58,8 +60,24 @@ public class WebSecurityConfig {
                     auth.antMatchers("/v1/**").hasAnyRole("USER","ADMIN");
                     auth.anyRequest().hasAnyRole("USER","ADMIN");
                 })
-                .formLogin(withDefaults());
+//                .formLogin(withDefaults())
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/online_shop")
+                .and()
+                .httpBasic();
         return http.build();
+
+
+//        .formLogin()
+//                .loginPage("/login")
+//                //Перенарпавление на главную страницу после успешного входа
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll()
+//                .logoutSuccessUrl("/");
     }
 
     @Bean
