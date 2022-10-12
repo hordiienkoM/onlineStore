@@ -5,12 +5,10 @@ import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.mapper.UserMapper;
 import com.hordiienko.onlinestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
@@ -56,12 +54,6 @@ public class UserController {
     ){
         return ResponseEntity.ok(userService.checkUserEnabled(username));
     }
-
-//    @ExceptionHandler(ConstraintViolationException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
-//        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//    }
 
     //    the method to delete
     @DeleteMapping()
