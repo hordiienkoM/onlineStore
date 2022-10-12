@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
 
 @RestController
@@ -39,7 +38,7 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity getOrder(@PathVariable @Min(1) Long orderId, Authentication authentication){
+    public ResponseEntity getOrder(@PathVariable Long orderId, Authentication authentication) {
         try {
             return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
                     orderService.getOrder(orderId, authentication)
@@ -87,9 +86,9 @@ public class OrderController {
         }
     }
 
-//    to delete
+    //    to delete
     @GetMapping("/test")
-    public ResponseEntity testAuthorize(@RequestParam String message){
+    public ResponseEntity testAuthorize(@RequestParam String message) {
         return ResponseEntity.ok().body(message);
     }
 }

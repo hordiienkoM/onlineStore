@@ -1,5 +1,6 @@
 package com.hordiienko.onlinestore.service;
 
+import com.hordiienko.onlinestore.dto.UserConfirmDTO;
 import com.hordiienko.onlinestore.entity.Role;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.UserAlreadyExistException;
@@ -43,9 +44,9 @@ public class UserService {
         emailSenderService.sendHtmlMessage(user);
     }
 
-    public void confirmRegistration(String username, String token) throws Exception {
-        User user = findByUsername(username);
-        if(!user.getToken().equals(token)) {
+    public void confirmRegistration(UserConfirmDTO confirm) throws Exception {
+        User user = findByUsername(confirm.getUsername());
+        if(!user.getToken().equals(confirm.getToken())) {
             throw new Exception("Code not match");
         }
         user.setEnabled(true);
