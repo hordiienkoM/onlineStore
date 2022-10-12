@@ -31,17 +31,16 @@ public class UserService {
     }
 
     public synchronized void registrationUser(@Valid User user) throws Exception {
-        if (userRepository.findByUsername(user.getUsername()) != null){
+        if (userRepository.existsByUsername(user.getUsername())){
             throw new UserAlreadyExistException();
-        } else {
-            String salt = BCrypt.gensalt();
-            String hashPassword = BCrypt.hashpw(user.getPassword(), salt);
-            user.setPassword(hashPassword);
-            user.setRoles(Collections.singleton(new Role(1, "USER_ROLE")));
-            user.setToken(TokenUtil.getToken());
-            userRepository.save(user);
-            emailSenderService.sendHtmlMessage(user);
         }
+        String salt = BCrypt.gensalt();
+        String hashPassword = BCrypt.hashpw(user.getPassword(), salt);
+        user.setPassword(hashPassword);
+        user.setRoles(Collections.singleton(new Role(1, "USER_ROLE")));
+        user.setToken(TokenUtil.getToken());
+        userRepository.save(user);
+        emailSenderService.sendHtmlMessage(user);
     }
 
     public void confirmRegistration(String username, String token) throws Exception {

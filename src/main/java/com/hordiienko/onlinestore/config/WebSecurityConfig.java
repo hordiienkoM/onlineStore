@@ -52,7 +52,7 @@ public class WebSecurityConfig {
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
                     auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
-//                    to delete the row below
+//                    to delete two row below
                     auth.antMatchers(HttpMethod.DELETE, "/v1/users").not().authenticated();
                     auth.antMatchers( "/login").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN","USER");
