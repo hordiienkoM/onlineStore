@@ -21,8 +21,8 @@ public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Min(value = 1, message = "Amount value must be greater than 1")
-    @Max(value = 150, message = "Amount value must be less than 150")
+    @Min(value = 1)
+    @Max(value = 150)
     private Integer amount;
 
     @ManyToOne
