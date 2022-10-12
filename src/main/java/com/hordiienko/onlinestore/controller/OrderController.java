@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 
 @RestController
@@ -40,7 +41,7 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity getOrder(@PathVariable Long orderId, Authentication authentication){
+    public ResponseEntity getOrder(@PathVariable @Min(1) Long orderId, Authentication authentication){
         try {
             return ResponseEntity.ok().body(orderMapper.toOrderFieldsGetDTO(
                     orderService.getOrder(orderId, authentication)
@@ -86,12 +87,6 @@ public class OrderController {
         } catch (UserNotFoundException | OrderSaveException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 //    to delete
