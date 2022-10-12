@@ -9,11 +9,6 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
     UserGetDTO toUserGetDTO(User user);
 
-    default User toUser(UserPostDTO userPostDTO){
-        User user = new User();
-        user.setUsername(userPostDTO.getUsername());
-        user.setPassword(userPostDTO.getPassword());
-        return user;
-    }
+    User toUser(UserPostDTO userPostDTO);
 
 }

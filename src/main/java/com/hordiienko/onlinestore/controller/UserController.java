@@ -3,6 +3,7 @@ package com.hordiienko.onlinestore.controller;
 import com.hordiienko.onlinestore.dto.UserPostDTO;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.mapper.UserMapper;
+import com.hordiienko.onlinestore.repository.UserRepository;
 import com.hordiienko.onlinestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/confirm")
     public ResponseEntity confirmRegistration(
