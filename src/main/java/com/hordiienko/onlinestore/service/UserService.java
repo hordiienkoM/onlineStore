@@ -38,7 +38,7 @@ public class UserService {
         String salt = BCrypt.gensalt();
         String hashPassword = BCrypt.hashpw(user.getPassword(), salt);
         user.setPassword(hashPassword);
-        user.setRoles(Collections.singleton(new Role(1, "USER_ROLE")));
+        user.setRoles(Collections.singleton(new Role(1L, "USER_ROLE")));
         user.setToken(TokenUtil.getToken());
         userRepository.save(user);
         emailSenderService.sendHtmlMessage(user);

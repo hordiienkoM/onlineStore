@@ -14,17 +14,17 @@ import java.util.Set;
 @NoArgsConstructor
 public class Role implements GrantedAuthority {
     @Id
-    private Integer id;
+    private Long id;
     private String name;
     @Transient
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    public Role(Integer id) {
+    public Role(Long id) {
         this.id = id;
     }
 
-    public Role(Integer id, String name) {
+    public Role(Long id, String name) {
         this.id = id;
         this.name = name;
     }

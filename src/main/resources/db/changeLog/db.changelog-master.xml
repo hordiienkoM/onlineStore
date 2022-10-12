@@ -214,5 +214,21 @@
         />
     </changeSet>
 
+    <changeSet id="18" author="hordiienko">
+        <dropForeignKeyConstraint  baseTableName="user_roles"
+                                   constraintName="fk_role_id"/>
+    </changeSet>
+
+    <changeSet id="19" author="hordiienko">
+        <modifyDataType tableName="user_roles" columnName="roles_id" newDataType="bigint"/>
+        <modifyDataType tableName="role" columnName="id" newDataType="bigint"/>
+    </changeSet>
+
+    <changeSet id="20" author="hordiienko">
+        <addForeignKeyConstraint constraintName="fk_role_id"
+                                 baseTableName="user_roles" baseColumnNames="roles_id"
+                                 referencedTableName="role" referencedColumnNames="id" />
+    </changeSet>
+
 
 </databaseChangeLog>
