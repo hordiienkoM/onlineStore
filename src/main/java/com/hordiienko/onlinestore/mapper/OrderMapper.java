@@ -21,14 +21,5 @@ public interface OrderMapper {
 
     Order innerOrderToOrder(OrderInnerDTO innerOrder);
 
-    default Page<OrderGetDTO> toOrdersGetDTO(Page<Order> orders){
-        return orders.map(new Function<Order, OrderGetDTO>() {
-            @Override
-            public OrderGetDTO apply(Order order) {
-                return toOrderGetDTO(order);
-            }
-        });
-    }
-
     OrderGetInfoDTO toOrderFieldsGetDTO(Order order);
 }

@@ -1,12 +1,12 @@
 let edit_order_id;
-function showEditOrderInfo(){
+
+function showEditOrderInfo() {
     edit_order_id = $("#current_edit_order_id").text();
     writeEditOrderTable();
     writeEditProductsTable();
-    // $("#order_view .order_delete").val(edit_order_id);
 }
 
-function writeEditOrderTable () {
+function writeEditOrderTable() {
     $.ajax({
         async: false,
         url: "http://localhost:8080/v1/orders/" + edit_order_id,
@@ -39,7 +39,7 @@ function writeEditProductsTable() {
                 const description = data[i].description;
                 const amount = data[i].amount;
                 const new_row = '<tr><td>' + description + '<a style="display: none;" id="update_product_id_'
-                    + i + '">' + product_id + '</a>'+'</td>' +
+                    + i + '">' + product_id + '</a>' + '</td>' +
                     '<td><input type="text" id="new_amount_' + i + '" value="' + amount + '"></td>' +
                     '</tr>';
                 $("#edit_order_products tbody").append(new_row)

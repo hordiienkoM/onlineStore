@@ -5,7 +5,7 @@ $("#confirm_button").click(function (e) {
         hide_validation_errors();
         $("#message_uncorrected_token").show();
     } else {
-        sendPassToServer(pass)
+        sendTokenToServer(pass)
     }
 });
 
@@ -14,14 +14,20 @@ function validationConfirmPassword(pass) {
     return validate.test(pass);
 }
 
-function sendPassToServer(pass) {
+function sendTokenToServer(pass) {
     let username = $("#new_user_email").val();
+    let data = {
+        "username": username,
+        "token": pass
+    }
+    alert(JSON.stringify(data))
     $.ajax({
         url: "http://localhost:8080/v1/users/confirm",
         type: "POST",
-        data: {
-            "username": username,
-            "token": pass
+        data: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         },
         dataType: "text",
         success: function (data) {
@@ -36,7 +42,7 @@ function sendPassToServer(pass) {
     })
 }
 
-function hide_validation_errors(){
+function hide_validation_errors() {
     $("#message_uncorrected_token").hide();
     $("#message_token_not_match").hide;
 }

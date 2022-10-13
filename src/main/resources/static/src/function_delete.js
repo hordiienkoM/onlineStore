@@ -1,14 +1,11 @@
-function deleteOrderById(orderId){
+function deleteOrderById(orderId) {
     $.ajax({
         url: "http://localhost:8080/v1/orders/" + orderId,
         method: "DELETE",
         success: function (data) {
-            if (data)
-            {
+            if (data) {
                 alert("Order " + orderId + " was deleted")
-            }
-            else
-            {
+            } else {
                 alert("Order not found");
             }
         }

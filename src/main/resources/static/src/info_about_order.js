@@ -1,12 +1,13 @@
 let order_id;
-function showOrderInfo(){
+
+function showOrderInfo() {
     order_id = $("#current_edit_order_id").text();
     writeOrderTable();
     writeProductsTable();
     $("#order_view .order_delete").val(order_id);
 }
 
-function writeOrderTable () {
+function writeOrderTable() {
     $.ajax({
         url: "http://localhost:8080/v1/orders/" + order_id,
         method: "get",

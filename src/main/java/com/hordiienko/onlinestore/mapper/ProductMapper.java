@@ -11,13 +11,6 @@ import java.util.function.Function;
 @Mapper
 public interface ProductMapper {
     ProductGetDTO toProductGetDTO(Product product);
+
     Product toProduct(ProductInnerDTO innerProductDTO);
-    default Page<ProductGetDTO> toProductGetDTOs(Page<Product> products){
-        return products.map(new Function<Product, ProductGetDTO>() {
-            @Override
-            public ProductGetDTO apply(Product product) {
-                return toProductGetDTO(product);
-            }
-        });
-    }
 }

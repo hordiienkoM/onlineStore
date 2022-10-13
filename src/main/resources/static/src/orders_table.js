@@ -5,6 +5,7 @@ let last_orders_page = false;
 let first_orders_page = false;
 let order_content_size = 0
 $("#current_user_id").text(getCurrentUserId())
+
 function turn_next_orders() {
     current_orders_page++;
     $('#orders_table tbody').empty();
@@ -18,7 +19,7 @@ function turn_next_orders() {
             "sortField": sort_orders_field
         },
         dataType: "json",
-        success: function (data){
+        success: function (data) {
             show_orders_page(data)
             order_content_size = data.content.length;
             button_manager();
@@ -26,9 +27,10 @@ function turn_next_orders() {
     });
 
 }
+
 turn_next_orders();
 
-$(document).ready(function (){
+$(document).ready(function () {
     $("#next_orders_page").click(function () {
         if (last_orders_page !== true) {
             turn_next_orders();
@@ -50,7 +52,7 @@ function turn_previous_orders() {
             "sortField": sort_orders_field
         },
         dataType: "json",
-        success: function (data){
+        success: function (data) {
             show_orders_page(data);
             order_content_size = data.content.length;
             button_manager();
@@ -58,7 +60,7 @@ function turn_previous_orders() {
     });
 }
 
-$(document).ready(function (){
+$(document).ready(function () {
     $("#previous_orders_page").click(function () {
         if (first_orders_page !== true) {
             turn_previous_orders();
@@ -98,8 +100,8 @@ function button_manager() {
     listen_update_current_order();
 }
 
-function listen_order_view_buttons(){
-    $(".order_view").click(function(e) {
+function listen_order_view_buttons() {
+    $(".order_view").click(function (e) {
         e.preventDefault();
         let order_id = $(this).val();
         $("#order_view").show();
@@ -111,8 +113,8 @@ function listen_order_view_buttons(){
     });
 }
 
-function listen_order_edit_buttons(){
-    $(".order_edit").click(function(e) {
+function listen_order_edit_buttons() {
+    $(".order_edit").click(function (e) {
         e.preventDefault();
         let order_id = $(this).val();
         $("#order_edit_view").show();
@@ -123,15 +125,15 @@ function listen_order_edit_buttons(){
     });
 }
 
-function listen_order_delete_buttons(){
-    $(".order_delete").click(function(e) {
+function listen_order_delete_buttons() {
+    $(".order_delete").click(function (e) {
         e.preventDefault();
         let order_id = $(this).val();
         deleteOrderById(order_id);
     });
 }
 
-function order_info_hide(){
+function order_info_hide() {
     $("#order_view").hide();
     $("#order_edit_view").hide();
     $("#current_order_id").hide();
