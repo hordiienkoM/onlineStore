@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.dto;
 
 
+import com.hordiienko.onlinestore.entity.enums.Status;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderGetDTO {
     private Long id;
-    private String status;
+    private Status status;
     private LocalDateTime createDate;
     private String address;
 }

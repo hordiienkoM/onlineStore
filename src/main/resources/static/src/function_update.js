@@ -4,7 +4,6 @@ function listen_update_current_order() {
     $("#update_current_order").click(function (e) {
         e.preventDefault();
         let new_order_info = {
-            status: "updated",
             createDate: new Date($.now()),
             address: $('#current_user_address').val(),
             orderProduct: update_products_list()
@@ -19,7 +18,7 @@ function listen_update_current_order() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            success: function (){
+            success: function () {
                 alert("Order was updated");
                 $("#order_edit_view").hide();
             }
