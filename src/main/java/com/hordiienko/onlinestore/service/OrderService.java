@@ -2,7 +2,6 @@ package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.dto.OrderPostDTO;
 import com.hordiienko.onlinestore.dto.OrderProductPostDTO;
-import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.enums.Status;

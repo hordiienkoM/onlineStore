@@ -52,7 +52,6 @@ public class WebSecurityConfig {
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
                     auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
-//                    to delete two row below
                     auth.antMatchers(HttpMethod.DELETE, "/v1/users").not().authenticated();
                     auth.antMatchers("/login").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
@@ -60,24 +59,12 @@ public class WebSecurityConfig {
                     auth.antMatchers("/v1/**").hasAnyRole("USER", "ADMIN");
                     auth.anyRequest().hasAnyRole("USER", "ADMIN");
                 })
-//                .formLogin(withDefaults())
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/online_shop")
                 .and()
                 .httpBasic();
         return http.build();
-
-
-//        .formLogin()
-//                .loginPage("/login")
-//                //Перенарпавление на главную страницу после успешного входа
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .logoutSuccessUrl("/");
     }
 
     @Bean
@@ -92,7 +79,7 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
+
         return (web) -> web.ignoring().antMatchers("/src/**");
     }
-
 }

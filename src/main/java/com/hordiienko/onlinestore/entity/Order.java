@@ -5,7 +5,6 @@ import com.hordiienko.onlinestore.entity.enums.Status;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.*;
 
