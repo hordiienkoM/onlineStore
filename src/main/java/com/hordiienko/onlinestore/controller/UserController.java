@@ -51,7 +51,6 @@ public class UserController {
         return ResponseEntity.ok(userService.checkUserEnabled(username));
     }
 
-    //    the method to delete
     @DeleteMapping()
     public ResponseEntity deleteById(@RequestParam Long id) {
         try {

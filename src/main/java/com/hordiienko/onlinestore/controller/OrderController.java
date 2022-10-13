@@ -86,10 +86,4 @@ public class OrderController {
             throw new RuntimeException(e);
         }
     }
-
-    //    to delete
-    @GetMapping("/test")
-    public ResponseEntity testAuthorize(@RequestParam String message) {
-        return ResponseEntity.ok().body(message);
-    }
 }

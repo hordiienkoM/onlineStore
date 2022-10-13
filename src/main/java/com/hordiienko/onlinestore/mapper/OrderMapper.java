@@ -7,9 +7,6 @@ import com.hordiienko.onlinestore.dto.OrderPostDTO;
 import com.hordiienko.onlinestore.entity.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.data.domain.Page;
-
-import java.util.function.Function;
 
 @Mapper
 public interface OrderMapper {
