@@ -19,8 +19,8 @@ import java.util.Set;
 public class OrderPostDTO {
     private LocalDateTime createDate;
     @Pattern(regexp = "^[a-zA-Z0-9 .,]+$", message = "this address is not correct")
-    @NotEmpty(message = "Address must be not empty")
+    @NotEmpty
     private String address;
-    @NotEmpty(message = "You must add at list one product")
+    @NotEmpty
     private Set<OrderProductPostDTO> orderProduct;
 }

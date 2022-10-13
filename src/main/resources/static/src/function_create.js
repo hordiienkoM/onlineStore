@@ -18,7 +18,7 @@ function listen_create_new_order() {
                 alert("Order was created")
             },
             error: function (data) {
-                alert(JSON.stringify(data))
+                alert(JSON.stringify(data.error))
             }
         });
     });

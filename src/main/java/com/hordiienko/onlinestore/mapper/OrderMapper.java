@@ -18,5 +18,5 @@ public interface OrderMapper {
 
     Order innerOrderToOrder(OrderInnerDTO innerOrder);
 
-    OrderGetInfoDTO toOrderFieldsGetDTO(Order order);
+    OrderGetInfoDTO toOrderGetInfoDTO(Order order);
 }

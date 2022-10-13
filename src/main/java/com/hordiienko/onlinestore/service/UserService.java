@@ -3,7 +3,9 @@ package com.hordiienko.onlinestore.service;
 import com.hordiienko.onlinestore.dto.UserConfirmDTO;
 import com.hordiienko.onlinestore.entity.Role;
 import com.hordiienko.onlinestore.entity.User;
+import com.hordiienko.onlinestore.exception.CodeNotMatchException;
 import com.hordiienko.onlinestore.exception.UserAlreadyExistException;
+import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.UserRepository;
 import com.hordiienko.onlinestore.service.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +28,12 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow();
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public synchronized void registrationUser(@Valid User user) throws Exception {
-        if (userRepository.existsByUsername(user.getUsername())){
+    public synchronized void registrationUser(@Valid User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistException();
         }
         String salt = BCrypt.gensalt();
@@ -43,22 +45,35 @@ public class UserService {
         emailSenderService.sendHtmlMessage(user);
     }
 
-    public void confirmRegistration(UserConfirmDTO confirm) throws Exception {
-        User user = findByUsername(confirm.getUsername());
-        if(!user.getToken().equals(confirm.getToken())) {
-            throw new Exception("Code not match");
+    public void confirmRegistration(UserConfirmDTO confirm) {
+        User user;
+        try {
+            user = findByUsername(confirm.getUsername());
+        } catch (Exception e) {
+            throw new UserNotFoundException();
+        }
+        if (!user.getToken().equals(confirm.getToken())) {
+            throw new CodeNotMatchException();
         }
         user.setEnabled(true);
         userRepository.save(user);
     }
 
     public boolean checkUserEnabled(String username) {
-        User user = userRepository.findByUsername(username);
-        return user.isEnabled();
+        try {
+            User user = userRepository.findByUsername(username);
+            return user.isEnabled();
+        } catch (Exception e) {
+            throw new UserNotFoundException();
+        }
     }
 
-    public void deleteById(Long id){
-        userRepository.deleteById(id);
+    public void deleteById(Long id) {
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new UserNotFoundException();
+        }
     }
 
 }

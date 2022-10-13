@@ -1,10 +1,13 @@
 package com.hordiienko.onlinestore.exception;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,13 +17,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(BackendException.class)
+    public final ResponseEntity<Object> handleException(BackendException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status", ex.getStatus().value());
+        body.put("error", ex.getMessage());
+        return new ResponseEntity<>(body, ex.getStatus());
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -28,47 +37,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDate.now());
         body.put("status", status.value());
 
-        List<String> errors = ex.getBindingResult()
+        String error = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(x -> x.getDefaultMessage())
-                .collect(Collectors.toList());
+                .findFirst()
+                .orElseThrow();
 
-        body.put("errors", errors);
+        body.put("error", error);
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
-
-
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Throwable mostSpecificCause = ex.getMostSpecificCause();
-        ErrorMessage errorMessage;
-        if (mostSpecificCause != null) {
-            String exceptionName = mostSpecificCause.getClass().getName();
-            String message = mostSpecificCause.getMessage();
-            errorMessage = new ErrorMessage(exceptionName, message);
-        } else {
-            errorMessage = new ErrorMessage(ex.getMessage());
-        }
-        return new ResponseEntity(errorMessage, headers, status);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDate.now());
-        body.put("status", HttpStatus.BAD_REQUEST);
-        List<String> errors = ex.
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        String error = ex.
                 getConstraintViolations()
                 .stream()
                 .map(ConstraintViolation::getMessage)
-                .collect(Collectors.toList());
-        body.put("errors", errors);
+                .findFirst().orElseThrow();
+        body.put("error", error);
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
 }
 
 

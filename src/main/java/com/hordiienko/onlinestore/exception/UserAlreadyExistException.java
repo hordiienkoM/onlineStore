@@ -1,7 +1,9 @@
 package com.hordiienko.onlinestore.exception;
 
-public class UserAlreadyExistException extends Exception {
+import org.springframework.http.HttpStatus;
+
+public class UserAlreadyExistException extends BackendException {
     public UserAlreadyExistException() {
-        super("A user with this name already exist");
+        super("A user with this name already exist", HttpStatus.CONFLICT);
     }
 }

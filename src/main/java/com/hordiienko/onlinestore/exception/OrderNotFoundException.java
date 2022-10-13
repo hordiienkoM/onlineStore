@@ -1,7 +1,9 @@
 package com.hordiienko.onlinestore.exception;
 
-public class OrderNotFoundException extends Exception {
+import org.springframework.http.HttpStatus;
+
+public class OrderNotFoundException extends BackendException {
     public OrderNotFoundException() {
-        super("Order not found");
+        super("Order not found", HttpStatus.NOT_FOUND);
     }
 }
