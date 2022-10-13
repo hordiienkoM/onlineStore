@@ -1,29 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
-  <title tiles:fragment="title">Log in</title>
+    <title tiles:fragment="title">Log in</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
-  <form class="form-signin" method="post" action="/login">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <p>
-      <label for="username" class="sr-only">Username</label>
-      <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
-    </p>
-    <p>
-      <label for="password" class="sr-only">Password</label>
-      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
-    </p>
-    <button id="login_button" type="submit">Sign in</button>
-  </form>
+    <form class="form-signin" method="post" action="/login">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <p>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
+                   autofocus="">
+        </p>
+        <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                   required="">
+        </p>
+        <button id="login_button" type="submit">Sign in</button>
+    </form>
 
 </div>
 
 <div id="error_message" style="display: none;">
-  <p style="color: red" class="text-danger">Incorrect email</p>
+    <p style="color: red" class="text-danger">Incorrect email</p>
 </div>
-  <a id="confirm_link"  th:href="@{/confirm_registration}"></a>
+<a id="confirm_link" th:href="@{/confirm_registration}"></a>
 
 <script src="/src/js/login/check_enabled.js"></script>
 </body>

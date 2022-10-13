@@ -31,9 +31,10 @@ public class OrderController {
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getOrdersPage(Authentication authentication, Pageable pageable) {
-        return ResponseEntity.ok().body(orderMapper.toOrdersGetDTO(
+        return ResponseEntity.ok().body(
                 orderService.getByUserId(pageable, authentication)
-        ));
+                            .map(orderMapper::toOrderGetDTO)
+        );
     }
 
     @GetMapping("/{orderId}")

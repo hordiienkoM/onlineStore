@@ -15,8 +15,7 @@ function listen_update_current_order() {
             data: JSON.stringify(new_order_info),
             dataType: 'text',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Accept': 'application/json', 'Content-Type': 'application/json'
             },
             success: function () {
                 alert("Order was updated");
@@ -32,8 +31,7 @@ function update_products_list() {
         let name_product_index = "#update_product_id_" + i;
         let name_amount_index = "#new_amount_" + i;
         let product_order = {
-            amount: $(name_amount_index).val(),
-            product: {"id": $(name_product_index).text()}
+            amount: $(name_amount_index).val(), product: {"id": $(name_product_index).text()}
         };
         products_list.push(product_order);
     }

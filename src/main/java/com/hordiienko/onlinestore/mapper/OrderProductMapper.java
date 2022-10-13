@@ -17,8 +17,10 @@ public interface OrderProductMapper {
 
     @Mapping(source = "product.description", target = "description")
     OrderProductInfoGetDTO toOrderProductInfoGetDTO(OrderProduct orderProduct);
+
     OrderProduct toOrderProduct(OrderProductPostDTO orderProductPostDTO);
 
     Set<OrderProductGetDTO> toOrderProductGetDTOs(Set<OrderProduct> products);
+
     Set<OrderProductInfoGetDTO> toOrderProductInfoGetDTOs(Set<OrderProduct> products);
 }

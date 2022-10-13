@@ -2,11 +2,9 @@ package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.dto.OrderProductGetDTO;
 import com.hordiienko.onlinestore.dto.OrderProductInfoGetDTO;
-import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.mapper.OrderProductMapper;
 import com.hordiienko.onlinestore.service.OrderService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -1,7 +1,6 @@
 package com.hordiienko.onlinestore.dto;
 
 
-
 import lombok.*;
 
 @Data

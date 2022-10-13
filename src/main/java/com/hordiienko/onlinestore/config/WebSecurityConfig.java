@@ -24,7 +24,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class WebSecurityConfig {
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
 
@@ -54,11 +54,11 @@ public class WebSecurityConfig {
                     auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
 //                    to delete two row below
                     auth.antMatchers(HttpMethod.DELETE, "/v1/users").not().authenticated();
-                    auth.antMatchers( "/login").permitAll();
-                    auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN","USER");
+                    auth.antMatchers("/login").permitAll();
+                    auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
-                    auth.antMatchers("/v1/**").hasAnyRole("USER","ADMIN");
-                    auth.anyRequest().hasAnyRole("USER","ADMIN");
+                    auth.antMatchers("/v1/**").hasAnyRole("USER", "ADMIN");
+                    auth.anyRequest().hasAnyRole("USER", "ADMIN");
                 })
 //                .formLogin(withDefaults())
                 .formLogin()

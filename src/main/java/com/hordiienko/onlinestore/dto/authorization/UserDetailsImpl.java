@@ -6,12 +6,8 @@ import com.hordiienko.onlinestore.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.Set;
 
 @Data
@@ -35,13 +31,14 @@ public class UserDetailsImpl implements UserDetails {
         return user.getUsername();
     }
 
-    public Long getUserId(){
+    public Long getUserId() {
         return user.getId();
     }
 
     public String getToken() {
         return user.getToken();
     }
+
     public boolean getEnabledValue() {
         return user.isEnabled();
     }

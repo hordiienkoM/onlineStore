@@ -1,10 +1,9 @@
-
 $("#login_button").click(function (e) {
     e.preventDefault();
     check_enabled();
 });
 
-function check_enabled () {
+function check_enabled() {
     let username = $("#username").val();
     $.ajax({
         url: "http://localhost:8080/v1/users/enable",
@@ -15,7 +14,7 @@ function check_enabled () {
             "username": username
         },
         success: function (data) {
-            if(data === true){
+            if (data === true) {
                 let button = $("#login_button");
                 button.unbind("click");
                 button.trigger("click");

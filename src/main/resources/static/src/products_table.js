@@ -2,6 +2,7 @@ let current_page = 0;
 let page_size = 2;
 let sort_field = "id";
 let last_product_page = false;
+
 function turn_next_product() {
     current_page++;
     $('#products_table tbody').empty();
@@ -15,7 +16,7 @@ function turn_next_product() {
         },
         method: "get",
         dataType: "json",
-        success: function (data){
+        success: function (data) {
             for (let i = 0; i < data.content.length; i++) {
                 const product_id = data.content[i].product_id;
                 const description = data.content[i].description;
@@ -49,7 +50,7 @@ function turn_previous_product() {
         },
         method: "get",
         dataType: "json",
-        success: function (data){
+        success: function (data) {
             for (let i = 0; i < data.content.length; i++) {
                 const product_id = data.content[i].product_id;
                 const description = data.content[i].description;
@@ -83,7 +84,7 @@ function listen_product_add_buttons() {
     });
 }
 
-$(document).ready(function (){
+$(document).ready(function () {
     $("#next_product_page").click(function () {
         if (last_product_page !== true) {
             turn_next_product();
@@ -91,7 +92,7 @@ $(document).ready(function (){
     })
 })
 
-$(document).ready(function (){
+$(document).ready(function () {
     $("#previous_product_page").click(function () {
         if (current_page - 2 >= 0) {
             turn_previous_product();
