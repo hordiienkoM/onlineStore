@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hordiienko.onlinestore.entity.enums.Status;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,7 +21,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     private LocalDateTime createDate;
     private String address;
     @ManyToOne(fetch = FetchType.LAZY)
