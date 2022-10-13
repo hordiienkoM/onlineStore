@@ -25,23 +25,15 @@ public class UserController {
 
     @PostMapping("/confirm")
     public ResponseEntity confirmRegistration(@Valid @RequestBody UserConfirmDTO confirm) {
-        try {
-            userService.confirmRegistration(confirm);
-            return ResponseEntity.ok().body("registration completed successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        userService.confirmRegistration(confirm);
+        return ResponseEntity.ok().body("registration completed successfully");
     }
 
     @PostMapping()
     public ResponseEntity registrationUser(@Valid @RequestBody UserPostDTO newUser) {
-        try {
-            User user = userMapper.toUser(newUser);
-            userService.registrationUser(user);
-            return ResponseEntity.ok().body("User was saved");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        User user = userMapper.toUser(newUser);
+        userService.registrationUser(user);
+        return ResponseEntity.ok().body("User was saved");
     }
 
     @GetMapping("/enable")
@@ -53,11 +45,7 @@ public class UserController {
 
     @DeleteMapping()
     public ResponseEntity deleteById(@RequestParam Long id) {
-        try {
-            userService.deleteById(id);
-            return ResponseEntity.ok().body("user was deleted");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        userService.deleteById(id);
+        return ResponseEntity.ok().body("user was deleted");
     }
 }

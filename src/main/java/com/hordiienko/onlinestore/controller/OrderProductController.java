@@ -25,25 +25,17 @@ public class OrderProductController {
     @GetMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getByOrderId(@PathVariable Long orderId, Authentication authentication) {
-        try {
-            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, authentication);
-            Set<OrderProductInfoGetDTO> products = orderProductMapper.toOrderProductInfoGetDTOs(orderProducts);
-            return ResponseEntity.ok().body(products);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("The user does not own the order");
-        }
+        Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, authentication);
+        Set<OrderProductInfoGetDTO> products = orderProductMapper.toOrderProductInfoGetDTOs(orderProducts);
+        return ResponseEntity.ok().body(products);
     }
 
     @GetMapping("/full_info/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity getDtoByOrderId(@PathVariable Long orderId, Authentication authentication) {
-        try {
-            Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, authentication);
-            Set<OrderProductGetDTO> products = orderProductMapper.toOrderProductGetDTOs(orderProducts);
-            return ResponseEntity.ok().body(products);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("The user does not own the order");
-        }
+        Set<OrderProduct> orderProducts = orderService.getProductsByOrderId(orderId, authentication);
+        Set<OrderProductGetDTO> products = orderProductMapper.toOrderProductGetDTOs(orderProducts);
+        return ResponseEntity.ok().body(products);
     }
 }
 

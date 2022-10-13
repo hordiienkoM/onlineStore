@@ -20,7 +20,6 @@ function sendTokenToServer(pass) {
         "username": username,
         "token": pass
     }
-    alert(JSON.stringify(data))
     $.ajax({
         url: "http://localhost:8080/v1/users/confirm",
         type: "POST",

@@ -6,7 +6,6 @@ import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.enums.Status;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
-import com.hordiienko.onlinestore.exception.OrderSaveException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import com.hordiienko.onlinestore.repository.OrderRepository;
@@ -33,19 +32,14 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Authentication authentication)
-            throws OrderSaveException {
-        try {
-            Long currentUserId = SessionUtil.getCurrentUserId(authentication);
-            order.setUser(userRepository.findById(currentUserId).orElseThrow());
-            order.setStatus(Status.NEW);
-            Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
-            order.setOrderProduct(orderProducts);
-            orderRepository.save(order);
-            return order;
-        } catch (Exception e) {
-            throw new OrderSaveException();
-        }
+    public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Authentication authentication) {
+        Long currentUserId = SessionUtil.getCurrentUserId(authentication);
+        order.setUser(userRepository.findById(currentUserId).orElseThrow());
+        order.setStatus(Status.NEW);
+        Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
+        order.setOrderProduct(orderProducts);
+        orderRepository.save(order);
+        return order;
     }
 
     public void deleteOrder(Long orderId, Authentication authentication) throws OrderNotFoundException {
@@ -63,11 +57,15 @@ public class OrderService {
     }
 
     public void updateOrder(Order order, OrderPostDTO orderBody, Long orderId, Authentication authentication)
-            throws UserNotFoundException, OrderSaveException {
-        Order lastOrder = orderRepository.findById(orderId).orElseThrow();
+            throws UserNotFoundException, OrderNotFoundException {
         Long userId = SessionUtil.getCurrentUserId(authentication);
-        if (!checkUserHasOrder(lastOrder, userId)) {
-            throw new OrderSaveException();
+        try {
+            Order oldOrder = orderRepository.findById(orderId).orElseThrow();
+            if (!checkUserHasOrder(oldOrder, userId)) {
+                throw new OrderNotFoundException();
+            }
+        } catch (Exception e) {
+            throw new OrderNotFoundException();
         }
         order.setId(orderId);
         order.setStatus(Status.UPDATED);
@@ -78,13 +76,20 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order getOrder(Long orderId, Authentication authentication) throws Exception {
-        Order order = orderRepository.findById(orderId).orElseThrow();
-        Long currentUserId = SessionUtil.getCurrentUserId(authentication);
-        if (checkUserHasOrder(order, currentUserId)) {
-            return order;
-        } else {
-            throw new Exception("Order not found");
+    public Order getOrder(Long orderId, Authentication authentication)
+            throws OrderNotFoundException, UserNotFoundException {
+        try {
+            Order order = orderRepository.findById(orderId).orElseThrow();
+            Long currentUserId = SessionUtil.getCurrentUserId(authentication);
+            if (checkUserHasOrder(order, currentUserId)) {
+                return order;
+            } else {
+                throw new OrderNotFoundException();
+            }
+        } catch (UserNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new OrderNotFoundException();
         }
     }
 
@@ -98,7 +103,7 @@ public class OrderService {
         return orderRepository.findAllByUserId(currentUserId, pageable);
     }
 
-    public Set<OrderProduct> getProductsByOrderId(Long orderId, Authentication authentication) throws Exception {
+    public Set<OrderProduct> getProductsByOrderId(Long orderId, Authentication authentication) {
         return getOrder(orderId, authentication).getOrderProduct();
     }
 }

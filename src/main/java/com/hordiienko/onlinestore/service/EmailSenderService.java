@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.entity.User;
+import com.hordiienko.onlinestore.exception.EmailMessageException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -26,21 +27,27 @@ public class EmailSenderService {
     @Resource
     private Environment environment;
 
-    public void sendHtmlMessage(User user) throws MessagingException {
+    public void sendHtmlMessage(User user) {
         MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-        Context context = new Context();
-        context.setVariable("name", user.getUsername());
-        context.setVariable("code", user.getToken());
-        helper.setFrom(
-                Objects.requireNonNull(environment.getProperty("spring.mail.username"))
-        );
-        helper.setTo(user.getUsername());
-        helper.setSubject("Registration on the site Online Store");
-        String htmlContent = templateEngine.process("welcome_page.html", context);
-        helper.setText(htmlContent, true);
+        String htmlContent;
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+            Context context = new Context();
+            context.setVariable("name", user.getUsername());
+            context.setVariable("code", user.getToken());
+            helper.setFrom(
+                    Objects.requireNonNull(environment.getProperty("spring.mail.username"))
+            );
+            helper.setTo(user.getUsername());
+            helper.setSubject("Registration on the site Online Store");
+            htmlContent = templateEngine.process("welcome_page.html", context);
+            helper.setText(htmlContent, true);
+        } catch (MessagingException e) {
+            throw new EmailMessageException();
+        }
 
-        log.info("Sending email to: {} with html body: {}", user.getUsername(), htmlContent);
+        log.info("Sending email to: {}", user.getUsername());
         emailSender.send(message);
     }
 }
