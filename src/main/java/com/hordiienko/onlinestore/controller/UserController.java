@@ -42,10 +42,4 @@ public class UserController {
     ) {
         return ResponseEntity.ok(userService.checkUserEnabled(username));
     }
-
-    @DeleteMapping()
-    public ResponseEntity deleteById(@RequestParam Long id) {
-        userService.deleteById(id);
-        return ResponseEntity.ok().body("user was deleted");
-    }
 }

@@ -52,10 +52,10 @@ public class WebSecurityConfig {
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
                     auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
-                    auth.antMatchers(HttpMethod.DELETE, "/v1/users").not().authenticated();
                     auth.antMatchers("/login").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
+                    auth.antMatchers(HttpMethod.DELETE, "/v1/admin/users").hasRole("ADMIN");
                     auth.antMatchers("/v1/**").hasAnyRole("USER", "ADMIN");
                     auth.anyRequest().hasAnyRole("USER", "ADMIN");
                 })
