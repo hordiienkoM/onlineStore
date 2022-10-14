@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -40,40 +41,28 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        final AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(
-                AuthenticationManagerBuilder.class);
+        final AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService());
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests(auth -> {
-                    auth.antMatchers("/registration").not().authenticated();
-                    auth.antMatchers("/confirm_registration").not().authenticated();
-                    auth.antMatchers("/").permitAll();
-                    auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
-                    auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
-                    auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
-                    auth.antMatchers(HttpMethod.DELETE, "/v1/users").not().authenticated();
-                    auth.antMatchers("/login").permitAll();
-                    auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
-                    auth.antMatchers("/admin_page").hasRole("ADMIN");
-                    auth.antMatchers("/v1/**").hasAnyRole("USER", "ADMIN");
-                    auth.anyRequest().hasAnyRole("USER", "ADMIN");
-                })
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/online_shop")
-                .and()
-                .httpBasic();
+        http.csrf(AbstractHttpConfigurer::disable).authorizeRequests(auth -> {
+            auth.antMatchers("/registration").not().authenticated();
+            auth.antMatchers("/confirm_registration").not().authenticated();
+            auth.antMatchers("/").permitAll();
+            auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
+            auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
+            auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
+            auth.antMatchers("/login").permitAll();
+            auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
+            auth.antMatchers("/admin_page").hasRole("ADMIN");
+            auth.antMatchers(HttpMethod.DELETE, "/v1/admin/user").hasRole("ADMIN");
+            auth.antMatchers("/v1/**").hasAnyRole("USER", "ADMIN");
+            auth.anyRequest().hasAnyRole("USER", "ADMIN");
+        }).formLogin().loginPage("/login").defaultSuccessUrl("/online_shop").and().httpBasic();
         return http.build();
     }
 
     @Bean
     public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                )
-                .formLogin(withDefaults());
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).formLogin(withDefaults());
         return http.build();
     }
 
