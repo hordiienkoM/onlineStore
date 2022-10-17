@@ -1,2 +1,0 @@
-# onlineStore
-study project

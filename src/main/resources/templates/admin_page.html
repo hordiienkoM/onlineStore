@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title tiles:fragment="title" th:text="#{label.admin_page}"></title>
 </head>
 <body>
 
-Hello Admin
-<br>
+<p th:text="#{message.greeting_admin}" />
 <br>
 <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
+    <input type="submit" th:value="#{label.log_out}"/>
 </form>
 
 </body>

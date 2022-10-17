@@ -1,25 +1,29 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Confirm Registration</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title tiles:fragment="title" th:text="#{registration.head}"></title>
 </head>
 <body>
 <div id="confirm_form">
-    <h3>Confirm your registration</h3>
-    <input type="text" id="new_user_email" placeholder="enter your email"><br>
-    <input type="number" id="received_password" placeholder="enter confirmation code" maxlength="6" minlength="6"><br>
-    <a id="message_uncorrected_token" style="display: none; color: red;">This code is not correct<br></a>
-    <a id="message_token_not_match" style="display: none; color: red;">Code does not match<br></a>
-    <button id="confirm_button">confirm registration</button>
+    <h3 th:text="#{message.confirm_registration}"></h3>
+    <input type="text" id="new_user_email" th:placeholder="#{input.email}"><br>
+    <input type="number" id="received_password" th:placeholder="#{input.code}"
+           maxlength="6" minlength="6"><br>
+    <a id="message_uncorrected_token" style="display: none; color: red;"
+       th:text="#{message.uncorrected_token}"><br></a>
+    <a id="message_token_not_match" style="display: none; color: red;"
+       th:text="#{message.does_not_match}"><br></a>
+    <button id="confirm_button" th:text="#{button.confirm_registration}"></button>
 </div>
 <div th:if="${param.error}">
     <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
 </div>
 <div id="registration_completed_message" style="display: none;">
-    <h3>Registration completed successfully</h3>
-    <a href="/online_shop">Go to personal account</a>
+    <h3 th:text="#{message.registration_successfully}"></h3>
+    <a href="/online_shop" th:text="#{personal.account}"></a>
 </div>
 
 <script src="/src/js/registration/listen_confirm_button.js"></script>

@@ -51,8 +51,9 @@ public class WebSecurityConfig {
                     auth.antMatchers("/").permitAll();
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
-                    auth.antMatchers(HttpMethod.GET, "/v1/users/enable").not().authenticated();
-                    auth.antMatchers("/login").permitAll();
+                    auth.antMatchers(HttpMethod.GET, "/v1/users/enable").permitAll();
+                    auth.antMatchers("/login*").permitAll();
+                    auth.antMatchers("/international").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
                     auth.antMatchers(HttpMethod.DELETE, "/v1/admin/users").hasRole("ADMIN");
@@ -62,6 +63,11 @@ public class WebSecurityConfig {
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/online_shop")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
+                .logoutSuccessUrl("/")
                 .and()
                 .httpBasic();
         return http.build();
@@ -79,6 +85,7 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/src/**");
+        return (web) -> web.ignoring()
+                .antMatchers("/src/**");
     }
 }

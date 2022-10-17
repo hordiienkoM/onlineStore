@@ -1,15 +1,21 @@
 <!DOCTYPE html>
+<meta charset="UTF-8">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <title>Home</title>
 </head>
 <body>
-<h1>Welcome!</h1>
+<h1 th:text="#{greeting}"></h1>
 
-<p>Click <a th:href="@{/online_shop}">here</a> Go to personal account</p>
-<p>Click <a th:href="@{/login}">here</a> Login</p>
-<p>Click <a th:href="@{/registration}">here</a> Registration</p>
-<p>Click <a th:href="@{/confirm_registration}">here</a> Confirm registration</p>
+
+<a th:href="@{/online_shop}" th:text="#{personal.account}"></a><br>
+<a th:href="@{/login}" th:text="#{login}"></a><br>
+<a th:href="@{/registration}" th:text="#{registration}"></a><br>
+<a th:href="@{/confirm_registration}" th:text="#{confirm.registration}"></a><br>
+<br>
+<a th:text="#{message.change_language}" />
+<a th:href="@{/?lang=eng}" th:text="ENG" />
+<a th:href="@{/?lang=fr}" th:text="FR" />
 
 </body>
 </html>

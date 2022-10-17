@@ -1,25 +1,26 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
-    <title tiles:fragment="title">Log in</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title tiles:fragment="title" th:text="#{login.head}"></title>
 </head>
 <body>
 <div class="container">
     <form class="form-signin" method="post" action="/login">
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading" th:text="#{login.message}"></h2>
         <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
-                   autofocus="">
+            <label for="username" class="sr-only" th:text="#{login.username}"></label>
+            <input type="text" id="username" name="username" class="form-control" th:placeholder="#{login.username}">
         </p>
         <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                   required="">
+            <label for="password" class="sr-only" th:text="#{login.password}"></label>
+            <input type="password" id="password" name="password"
+                   class="form-control" th:placeholder="#{login.password}">
         </p>
-        <button id="login_button" type="submit">Sign in</button>
+        <button id="login_button" type="submit" th:text="#{login.sign_in}">Sign in</button>
     </form>
-
+</div>
+<div th:if="${param.error}">
+    <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
 </div>
 
 <div id="error_message" style="display: none;">

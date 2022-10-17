@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Online shop</title>
     <link rel="stylesheet" href="/src/table.css">
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title tiles:fragment="title" th:text="#{label.online_shop}"></title>
 </head>
 <body>
-<h5>User id: <a id="current_user_id"></a></h5>
-<input type="hidden" id="hdnSession" data-value="@Request.RequestContext.HttpContext.Session['someKey']"/>
-<a id="logo"></a>
+<h5 th:text="#{message.user_id} "><a id="current_user_id"></a></h5>
 
 <div>
     <table id="orders_table">
         <thead>
         <tr>
-            <th>Order №</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Address</th>
-            <th>View</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{label.order_num}"></th>
+            <th th:text="#{label.status}"></th>
+            <th th:text="#{label.date}"></th>
+            <th th:text="#{label.address}"></th>
+            <th th:text="#{label.view}"></th>
+            <th th:text="#{label.edit}"></th>
+            <th th:text="#{label.delete}"></th>
         </tr>
         </thead>
         <tbody>
@@ -32,23 +29,23 @@
     </table>
 
     <a id="current_orders_page"></a>
-    <input type="submit" id="previous_orders_page" value="previous">
-    <input type="submit" id="next_orders_page" value="next">
+    <input type="submit" id="previous_orders_page" th:value="#{label.previous}">
+    <input type="submit" id="next_orders_page" th:value="#{label.next}">
 </div>
 
 <br>
 
-<h5 id="current_order_id" style="display: none;">Order id: <a id="current_edit_order_id">1</a></h5>
+<h5 id="current_order_id" style="display: none;" th:text="#{message.order_id} "><a id="current_edit_order_id">1</a></h5>
 <div id="order_view" style="display: none;">
     <table id="order_info">
         <thead>
         <tr>
-            <th colspan="3">Order info</th>
+            <th colspan="3" th:text="#{label.order_info}"></th>
         </tr>
         <tr>
-            <th>Date</th>
-            <th>Address</th>
-            <th>Status</th>
+            <th th:text="#{label.date}"></th>
+            <th th:text="#{label.address}"></th>
+            <th th:text="#{label.status}"></th>
         </tr>
         </thead>
         <tbody>
@@ -63,23 +60,19 @@
     <table id="order_products">
         <thead>
         <tr>
-            <th colspan="3">products</th>
+            <th colspan="3" th:text="#{label.products}" />
         </tr>
         <tr>
-            <th>Product</th>
-            <th>Amount</th>
+            <th th:text="#{label.product}" />
+            <th th:text="#{label.amount}" />
         </tr>
         </thead>
         <tbody>
 
         </tbody>
     </table>
-    <button class="order_edit">
-        Edit
-    </button>
-    <button class="order_delete">
-        Delete
-    </button>
+    <button class="order_edit" th:text="#{label.edit}" />
+    <button class="order_delete" th:text="#{label.edit}" />
 </div>
 
 <br>
@@ -88,12 +81,12 @@
     <table id="edit_order_info">
         <thead>
         <tr>
-            <th colspan="3">Order info</th>
+            <th colspan="3" th:text="#{label.order_info}" />
         </tr>
         <tr>
-            <th>Date</th>
-            <th>Address</th>
-            <th>Status</th>
+            <th th:text="#{label.date}" />
+            <th th:text="#{label.address}" />
+            <th th:text="#{label.status}" />
         </tr>
         </thead>
         <tbody>
@@ -108,34 +101,30 @@
     <table id="edit_order_products">
         <thead>
         <tr>
-            <th colspan="2">products</th>
+            <th colspan="2" th:text="#{label.products}" />
         </tr>
         <tr>
-            <th>Product</th>
-            <th>Amount</th>
+            <th th:text="#{label.product}" />
+            <th th:text="#{label.edit}" />
         </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
-    <button id="update_current_order">
-        Update
-    </button>
-    <button class="order_delete" value="">
-        Delete
-    </button>
+    <button id="update_current_order" th:text="#{label.update}" />
+    <button class="order_delete" value="" th:text="#{label.delete}" />
 </div>
 
 <br>
 
 <div>
-    <h3>Create new order</h3>
+    <h3 th:text="#{message.create_order}" />
     <table id="products_table">
         <thead>
         <tr>
-            <th>Product</th>
-            <th>Amount</th>
-            <th>Add to order</th>
+            <th th:text="#{label.product}" />
+            <th th:text="#{label.amount}" />
+            <th th:text="#{label.add_to_order}" />
         </tr>
         </thead>
         <tbody>
@@ -144,22 +133,22 @@
 
 
     <a id="current_products_page"></a>
-    <input type="submit" id="previous_product_page" value="previous">
-    <input type="submit" id="next_product_page" value="next">
+    <input type="submit" id="previous_product_page" th:value="#{label.previous}">
+    <input type="submit" id="next_product_page" th:value="#{label.next}">
     <br>
     <br>
 
-    <input type="text" id="user_address" placeholder="Enter your address here">
+    <input type="text" id="user_address" th:placeholder="#{placeholder.enter_address}">
     <br>
-    <button id="create_button">Create order</button>
+    <button id="create_button" th:text="#{label.create_order}" />
 </div>
 
 <p></p>
 <p></p>
-<a href="/admin_page">Admin page</a>
+<a href="/admin_page" th:text="#{label.admin_page}" />
 
 <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
+    <input type="submit" th:value="#{label.log_out}">
 </form>
 <script type="text/javascript" src="/src/function_update.js"></script>
 <script type="text/javascript" src="/src/function_create.js"></script>
