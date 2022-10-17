@@ -4,6 +4,7 @@ import com.hordiienko.onlinestore.dto.OrderPostDTO;
 import com.hordiienko.onlinestore.dto.OrderProductPostDTO;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.OrderProduct;
+import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.entity.enums.Status;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
 import com.hordiienko.onlinestore.exception.UserNotFoundException;
@@ -31,14 +32,18 @@ public class OrderService {
     private OrderProductRepository orderProductRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailSenderService emailSender;
 
     public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Authentication authentication) {
         Long currentUserId = SessionUtil.getCurrentUserId(authentication);
-        order.setUser(userRepository.findById(currentUserId).orElseThrow());
+        User user = userRepository.findById(currentUserId).orElseThrow();
+        order.setUser(user);
         order.setStatus(Status.NEW);
         Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
         order.setOrderProduct(orderProducts);
         orderRepository.save(order);
+        emailSender.sendMessageNewOrder(user, order);
         return order;
     }
 

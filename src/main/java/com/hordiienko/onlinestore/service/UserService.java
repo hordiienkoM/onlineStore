@@ -42,7 +42,7 @@ public class UserService {
         user.setRoles(Collections.singleton(new Role(1L, "USER_ROLE")));
         user.setToken(TokenUtil.getToken());
         userRepository.save(user);
-        emailSenderService.sendHtmlMessage(user);
+        emailSenderService.sendMessageRegistered(user);
     }
 
     public void confirmRegistration(UserConfirmDTO confirm) {
