@@ -27,6 +27,7 @@ function writeOrderTable() {
 }
 
 function writeProductsTable() {
+    alert(order_id)
     $.ajax({
         url: "http://localhost:8080/v1/order_products/" + order_id,
         method: "get",

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/src/table.css">
@@ -35,7 +36,9 @@
 
 <br>
 
-<h5 id="current_order_id" style="display: none;" th:text="#{message.order_id} "><a id="current_edit_order_id">1</a></h5>
+<h5 id="current_order_id" style="display: none;">
+    <a th:text="#{message.order_id} " />
+    <a id="current_edit_order_id">1</a></h5>
 <div id="order_view" style="display: none;">
     <table id="order_info">
         <thead>
