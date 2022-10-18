@@ -1,13 +1,13 @@
-package com.hordiienko.onlinestore.exception;
+package com.hordiienko.onlinestore.exception.exception_handling;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.hordiienko.onlinestore.exception.BackendException;
+import com.hordiienko.onlinestore.exception.locale_message.ExceptionMessages;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,18 +16,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BackendException.class)
-    public final ResponseEntity<Object> handleException(BackendException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleException(BackendException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("status", ex.getStatus().value());
-        body.put("error", ex.getMessage());
+        body.put("error", ex.getLocalizedMessage());
         return new ResponseEntity<>(body, ex.getStatus());
     }
 
@@ -59,7 +57,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 getConstraintViolations()
                 .stream()
                 .map(ConstraintViolation::getMessage)
-                .findFirst().orElseThrow();
+                .findFirst()
+                .orElseThrow();
         body.put("error", error);
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }

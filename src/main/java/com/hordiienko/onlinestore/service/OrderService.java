@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.Set;
 
 @Service
@@ -47,7 +48,7 @@ public class OrderService {
         return order;
     }
 
-    public void deleteOrder(Long orderId, Authentication authentication) throws OrderNotFoundException {
+    public void deleteOrder(Long orderId, Authentication authentication, Locale locale) throws OrderNotFoundException {
         try {
             Long currentUserId = SessionUtil.getCurrentUserId(authentication);
             Order order = orderRepository.findById(orderId).orElseThrow();
@@ -57,20 +58,22 @@ public class OrderService {
                 throw new Exception();
             }
         } catch (Exception e) {
-            throw new OrderNotFoundException();
+            throw new OrderNotFoundException(locale);
         }
     }
 
-    public void updateOrder(Order order, OrderPostDTO orderBody, Long orderId, Authentication authentication)
+    public void updateOrder(Order order, OrderPostDTO orderBody, Long orderId,
+                            Authentication authentication,
+                            Locale locale)
             throws UserNotFoundException, OrderNotFoundException {
         Long userId = SessionUtil.getCurrentUserId(authentication);
         try {
             Order oldOrder = orderRepository.findById(orderId).orElseThrow();
             if (!checkUserHasOrder(oldOrder, userId)) {
-                throw new OrderNotFoundException();
+                throw new OrderNotFoundException(locale);
             }
         } catch (Exception e) {
-            throw new OrderNotFoundException();
+            throw new OrderNotFoundException(locale);
         }
         order.setId(orderId);
         order.setStatus(Status.UPDATED);
@@ -81,20 +84,14 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order getOrder(Long orderId, Authentication authentication)
-            throws OrderNotFoundException, UserNotFoundException {
-        try {
-            Order order = orderRepository.findById(orderId).orElseThrow();
-            Long currentUserId = SessionUtil.getCurrentUserId(authentication);
-            if (checkUserHasOrder(order, currentUserId)) {
-                return order;
-            } else {
-                throw new OrderNotFoundException();
-            }
-        } catch (UserNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new OrderNotFoundException();
+    public Order getOrder(Long orderId, Authentication authentication, Locale locale)
+            throws OrderNotFoundException{
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        Long currentUserId = SessionUtil.getCurrentUserId(authentication);
+        if (checkUserHasOrder(order, currentUserId)) {
+            return order;
+        } else {
+            throw new OrderNotFoundException(locale);
         }
     }
 
@@ -108,7 +105,7 @@ public class OrderService {
         return orderRepository.findAllByUserId(currentUserId, pageable);
     }
 
-    public Set<OrderProduct> getProductsByOrderId(Long orderId, Authentication authentication) {
-        return getOrder(orderId, authentication).getOrderProduct();
+    public Set<OrderProduct> getProductsByOrderId(Long orderId, Authentication authentication, Locale locale) {
+        return getOrder(orderId, authentication, locale).getOrderProduct();
     }
 }

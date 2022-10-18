@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -24,22 +25,24 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping("/confirm")
-    public ResponseEntity confirmRegistration(@Valid @RequestBody UserConfirmDTO confirm) {
-        userService.confirmRegistration(confirm);
+    public ResponseEntity confirmRegistration(@Valid @RequestBody UserConfirmDTO confirm, Locale locale) {
+        userService.confirmRegistration(confirm, locale);
         return ResponseEntity.ok().body("registration completed successfully");
     }
 
     @PostMapping()
-    public ResponseEntity registrationUser(@Valid @RequestBody UserPostDTO newUser) {
+    public ResponseEntity registrationUser(@Valid @RequestBody UserPostDTO newUser, Locale locale) {
         User user = userMapper.toUser(newUser);
-        userService.registrationUser(user);
+        userService.registrationUser(user, locale);
         return ResponseEntity.ok().body("User was saved");
     }
 
     @GetMapping("/enable")
     public ResponseEntity checkEnabled(
-            @RequestParam("username") @Email String username
+            @RequestParam("username") @Email String username, Locale locale
     ) {
-        return ResponseEntity.ok(userService.checkUserEnabled(username));
+        return ResponseEntity.ok(
+                userService.checkUserEnabled(username, locale)
+        );
     }
 }

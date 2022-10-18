@@ -52,6 +52,7 @@ public class WebSecurityConfig {
                     auth.antMatchers(HttpMethod.POST, "/v1/users").not().authenticated();
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
                     auth.antMatchers(HttpMethod.GET, "/v1/users/enable").permitAll();
+                    auth.antMatchers(HttpMethod.GET, "/v1/admin/exception/*").permitAll();
                     auth.antMatchers("/login*").permitAll();
                     auth.antMatchers("/international").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
