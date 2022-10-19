@@ -5,6 +5,7 @@ import com.hordiienko.onlinestore.dto.UserPostDTO;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.mapper.UserMapper;
 import com.hordiienko.onlinestore.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,12 +26,14 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping("/confirm")
+    @ApiOperation("confirm registration")
     public ResponseEntity confirmRegistration(@Valid @RequestBody UserConfirmDTO confirm, Locale locale) {
         userService.confirmRegistration(confirm, locale);
         return ResponseEntity.ok().body("registration completed successfully");
     }
 
     @PostMapping()
+    @ApiOperation("registration a new user if the username not exist")
     public ResponseEntity registrationUser(@Valid @RequestBody UserPostDTO newUser, Locale locale) {
         User user = userMapper.toUser(newUser);
         userService.registrationUser(user, locale);
@@ -38,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/enable")
+    @ApiOperation("Check that the user already confirm registration")
     public ResponseEntity checkEnabled(
             @RequestParam("username") @Email String username, Locale locale
     ) {

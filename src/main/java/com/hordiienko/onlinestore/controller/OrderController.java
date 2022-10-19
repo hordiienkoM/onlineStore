@@ -4,6 +4,8 @@ import com.hordiienko.onlinestore.dto.*;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.mapper.OrderMapper;
 import com.hordiienko.onlinestore.service.OrderService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ public class OrderController {
 
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @ApiOperation(value = "Get orders page",
+            notes = "pageable has fields: (int)page, (int)size, (String)sort")
     public ResponseEntity getOrdersPage(Authentication authentication, Pageable pageable) {
         return ResponseEntity.ok().body(
                 orderService.getByUserId(pageable, authentication)
@@ -38,9 +42,12 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<OrderGetInfoDTO> getOrder(@PathVariable @Min(1) Long orderId,
-                                                    Authentication authentication,
-                                                    Locale locale) {
+    @ApiOperation("Get  order with id=orderId")
+    public ResponseEntity<OrderGetInfoDTO> getOrder(
+            @ApiParam(value = "order id number" , required = true , example = "1")
+            @PathVariable @Min(1) Long orderId,
+            Authentication authentication,
+            Locale locale) {
         return ResponseEntity.ok().body(orderMapper.toOrderGetInfoDTO(
                 orderService.getOrder(orderId, authentication, locale)
         ));
@@ -48,6 +55,7 @@ public class OrderController {
 
     @PostMapping()
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
+    @ApiOperation("Create new order")
     public ResponseEntity<OrderGetDTO> createOrder(@RequestBody @Valid OrderPostDTO orderBody,
                                                    Authentication authentication) {
         Order order = orderMapper.postDtoToOrder(orderBody);
@@ -58,6 +66,7 @@ public class OrderController {
 
     @DeleteMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @ApiOperation("Delete the order if it belongs to this user")
     public ResponseEntity<String> deleteOrder(@PathVariable Long orderId,
                                               Authentication authentication,
                                               Locale locale) {
@@ -67,6 +76,7 @@ public class OrderController {
 
     @PutMapping("/{orderId}")
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
+    @ApiOperation("Update the order if it belongs to this user")
     public ResponseEntity<String> updateOrder(@PathVariable Long orderId,
                                               @RequestBody OrderPostDTO orderBody,
                                               Authentication authentication,

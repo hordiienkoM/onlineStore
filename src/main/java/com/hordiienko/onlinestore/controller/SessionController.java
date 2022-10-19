@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.service.SessionService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +20,7 @@ public class SessionController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
+    @ApiOperation("return the id of the authorized user")
     public ResponseEntity getCurrentUserId(Authentication authentication) {
         return ResponseEntity.ok().body(sessionService.getCurrentUserId(authentication));
     }
