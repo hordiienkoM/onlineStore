@@ -32,12 +32,12 @@ public class AdminController {
 
     @GetMapping("/exception/{id}")
     public String getException(@PathVariable
-                                   @Min(value = 1, message = "{error.less_min}") Integer id, Locale locale){
+                               @Min(1) Integer id, Locale locale) {
         return id.toString();
     }
 
     @GetMapping("/exception")
-    public TestValidationDTO getException(@RequestBody @Valid TestValidationDTO testDTO, Locale locale){
+    public TestValidationDTO getException(@RequestBody @Valid TestValidationDTO testDTO, Locale locale) {
         return testDTO;
     }
 }
