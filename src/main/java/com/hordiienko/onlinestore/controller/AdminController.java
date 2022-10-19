@@ -2,23 +2,16 @@ package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.dto.test_dto.TestValidationDTO;
 import com.hordiienko.onlinestore.service.UserService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/admin")
