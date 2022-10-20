@@ -33,7 +33,6 @@ public class User {
             mappedBy = "user"
     )
     public Set<Order> orders = new HashSet<>();
-//    private Set<Order> orders = new HashSet<>();
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 }

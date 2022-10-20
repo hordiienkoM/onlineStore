@@ -5,4 +5,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
+    boolean existsByDescription(String description);
 }

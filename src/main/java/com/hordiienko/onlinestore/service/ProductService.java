@@ -1,7 +1,10 @@
 package com.hordiienko.onlinestore.service;
 
 
+import com.hordiienko.onlinestore.dto.ProductPutDTO;
 import com.hordiienko.onlinestore.entity.Product;
+import com.hordiienko.onlinestore.exception.ProductAlreadyExistException;
+import com.hordiienko.onlinestore.exception.ProductNotFoundException;
 import com.hordiienko.onlinestore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +17,14 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public void deleteById(Long productId) {
+        try{
+            productRepository.deleteById(productId);
+        } catch (Exception e) {
+            throw new ProductNotFoundException();
+        }
+    }
+
     public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow();
     }
@@ -22,5 +33,23 @@ public class ProductService {
         return productRepository.findAll(
                 pageable
         );
+    }
+
+    public Product createNew(Product product) {
+        if (productRepository.existsByDescription(product.getDescription())) {
+            throw new ProductAlreadyExistException();
+        }
+        return productRepository.save(product);
+    }
+
+    public Product update(ProductPutDTO newProduct) {
+        Product product;
+        try {
+            product = productRepository.findById(newProduct.getId()).orElseThrow();
+        } catch (Exception e) {
+            throw new ProductNotFoundException();
+        }
+        product.setDescription(newProduct.getDescription());
+        return productRepository.save(product);
     }
 }
