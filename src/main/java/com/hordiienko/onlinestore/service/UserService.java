@@ -34,7 +34,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public synchronized void registrationUser(@Valid User user, Locale locale) {
+    public synchronized void registrationUser(User user, Locale locale) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistException(locale);
         }
@@ -77,5 +77,4 @@ public class UserService {
             throw new UserNotFoundException(locale);
         }
     }
-
 }

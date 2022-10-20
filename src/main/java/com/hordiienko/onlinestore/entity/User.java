@@ -32,7 +32,8 @@ public class User {
             orphanRemoval = true,
             mappedBy = "user"
     )
-    private Set<Order> orders = new HashSet<>();
+    public Set<Order> orders = new HashSet<>();
+//    private Set<Order> orders = new HashSet<>();
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 }

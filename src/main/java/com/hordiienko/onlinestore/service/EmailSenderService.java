@@ -78,7 +78,7 @@ public class EmailSenderService {
         emailSender.send(message);
     }
 
-    private String getProductList(Order order) {
+    protected String getProductList(Order order) {
         Set<OrderProduct> orderProduct = order.getOrderProduct();
         StringBuilder productList = new StringBuilder();
         orderProduct
