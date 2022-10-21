@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserInfoGetDTO {
     private Long id;
     private String username;
+    private boolean enabled;
     private Integer ordersAmount;
 }
