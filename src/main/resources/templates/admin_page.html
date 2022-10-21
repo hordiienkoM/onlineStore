@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/src/table.css">
     <title tiles:fragment="title" th:text="#{label.admin_page}"></title>
 </head>
 <body>
 <table id="users_table">
     <thead>
     <tr>
-        <th th:text="#{users.table.label.id}"></th>
+        <th th:text="#{users.table.label.username}"></th>
         <th th:text="#{users.table.label.is_enable}"></th>
         <th th:text="#{users.table.label.orders_amount}"></th>
         <th th:text="#{table.label.delete}"></th>
@@ -20,9 +21,9 @@
     </tbody>
 </table>
 
-<a id="current_orders_page"></a>
-<input type="submit" id="previous_orders_page" th:value="#{label.previous}">
-<input type="submit" id="next_orders_page" th:value="#{label.next}">
+<a id="current_users_page"></a>
+<input type="submit" id="previous_users_page" th:value="#{label.previous}">
+<input type="submit" id="next_users_page" th:value="#{label.next}">
 
 
 
@@ -32,5 +33,8 @@
     <input type="submit" th:value="#{label.log_out}"/>
 </form>
 
+<script type="text/javascript" src="/src/js/admin/users_table.js"></script>
+<script type="text/javascript" src="/src/js/admin/user_buttons_manager.js"></script>
+<script type="text/javascript" src="/src/js/admin/function_delete_user.js"></script>
 </body>
 </html>

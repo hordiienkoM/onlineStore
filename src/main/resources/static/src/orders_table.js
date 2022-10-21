@@ -25,7 +25,6 @@ function turn_next_orders() {
             button_manager();
         }
     });
-
 }
 
 turn_next_orders();
