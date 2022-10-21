@@ -8,8 +8,8 @@ import javax.validation.constraints.Pattern;
 @Data
 @AllArgsConstructor
 public class UserConfirmDTO {
-    @Pattern(regexp = "^\\S+@\\S+\\.\\S+$", message = "{error.email}")
+    @Pattern(regexp = "^\\S+@\\S+\\.\\S+$", message = "{registration.uncorrected.email}")
     private String username;
-    @Pattern(regexp = "^[0-9]{6}$", message = "this code isn't correct")
+    @Pattern(regexp = "^[0-9]{6}$", message = "{message.uncorrected_token}")
     private String token;
 }

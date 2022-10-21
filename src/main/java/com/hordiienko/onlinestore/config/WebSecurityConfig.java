@@ -58,8 +58,8 @@ public class WebSecurityConfig {
                     auth.antMatchers("/swagger-ui/").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
-                    auth.antMatchers(HttpMethod.GET, "/v1/admin/users").hasRole("ADMIN");
-                    auth.antMatchers(HttpMethod.DELETE, "/v1/admin/users").hasRole("ADMIN");
+                    auth.antMatchers(HttpMethod.GET, "/v1/users").hasRole("ADMIN");
+                    auth.antMatchers(HttpMethod.DELETE, "/v1/users").hasRole("ADMIN");
                     auth.antMatchers("/v1/**").hasAnyRole("USER", "ADMIN");
                     auth.anyRequest().hasAnyRole("USER", "ADMIN");
                 })

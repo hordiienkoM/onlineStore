@@ -24,22 +24,12 @@
 </div>
 <div id="confirm_form" style="display: none;">
     <h3 th:text="#{message.sent_email}"></h3>
-    <h4 th:text="#{message.enter_code}">Enter code from received email here</h4>
-    <input type="number" id="received_password" th:placeholder="#{input.code}"
-           maxlength="6" minlength="6"><br>
-    <a id="message_uncorrected_token" style="display: none; color: red;"
-       th:text="#{message.uncorrected_token}"><br></a>
-    <a id="message_token_not_match" style="display: none; color: red;"
-       th:text="#{message.does_not_match}"><br></a>
-    <button id="confirm_button" th:text="#{button.confirm_registration}"></button>
-</div>
-<div id="registration_completed_message" style="display: none;">
-    <h3 th:text="#{message.registration_successfully}"></h3>
-    <a href="/online_shop" th:text="#{personal.account}"></a>
+    <h4 th:text="#{message.go_to_email}"></h4>
+
+    <a href="/" th:text="#{message.return_main}"></a>
 </div>
 
 
-<script src="/src/js/registration/listen_confirm_button.js"></script>
 <script src="/src/js/registration/registration.js"></script>
 <script src="/src/js/registration/hide_all_registration_error.js"></script>
 <script src="/src/js/registration/listen_registration_button.js"></script>

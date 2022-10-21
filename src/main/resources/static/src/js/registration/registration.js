@@ -18,8 +18,9 @@ function registration(username, password) {
             $("#confirm_form").show();
         },
         error: function (e) {
+            let error = JSON.parse(e.responseText);
             let element_error = $("#message_registration_error")
-            element_error.text(e.responseText);
+            element_error.text(error.error);
             element_error.show()
         }
     })

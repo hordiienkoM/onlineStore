@@ -44,7 +44,7 @@ public class OrderController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @ApiOperation("Get  order with id=orderId")
     public ResponseEntity<OrderGetInfoDTO> getOrder(
-            @ApiParam(value = "order id number" , required = true , example = "1")
+            @ApiParam(value = "order id number", required = true, example = "1")
             @PathVariable @Min(1) Long orderId,
             Authentication authentication,
             Locale locale) {

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<p><a th:text="#{message.user_blank.you_was_added}"/> <a th:text="${name}"/></p>
+<p><a th:text="#{message.user_blank.temp_password}"/></p>
+<p><a th:text="${temp_password}"/></p>
+<p><a th:text="#{message.user_blank.confirm_registration}"/></p>
+<a th:href="${continue_registration}" th:text="#{confirm.registration}"></a>
+</body>
+</html>

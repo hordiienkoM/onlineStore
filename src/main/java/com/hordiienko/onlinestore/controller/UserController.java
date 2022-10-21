@@ -1,12 +1,15 @@
 package com.hordiienko.onlinestore.controller;
 
 import com.hordiienko.onlinestore.dto.UserConfirmDTO;
+import com.hordiienko.onlinestore.dto.UserGetDTO;
 import com.hordiienko.onlinestore.dto.UserPostDTO;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.mapper.UserMapper;
 import com.hordiienko.onlinestore.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +51,26 @@ public class UserController {
         return ResponseEntity.ok(
                 userService.checkUserEnabled(username, locale)
         );
+    }
+
+    @PostMapping("user_blank")
+    @ApiOperation("Create a user that have only an email")
+    public UserGetDTO createUserBlank(@RequestParam @Email String username, Locale locale) {
+        User user = userService.createUserBlank(username, locale);
+        return userMapper.toUserGetDTO(user);
+    }
+
+    @ApiOperation(value = "Delete user by id", notes = "delete user")
+    @DeleteMapping()
+    public ResponseEntity<String> deleteUserById(@RequestParam Long id, Locale locale) {
+        userService.deleteById(id, locale);
+        return ResponseEntity.ok().body("user was deleted");
+    }
+
+    @GetMapping
+    @ApiOperation("Get users page")
+    public ResponseEntity getUsersPage(Pageable pageable) {
+        Page<User> pageUsers = userService.getUsers(pageable);
+        return ResponseEntity.ok().body(pageUsers.map(userMapper::toUserInfoGetDTO));
     }
 }

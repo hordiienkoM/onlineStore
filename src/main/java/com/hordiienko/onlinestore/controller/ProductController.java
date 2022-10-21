@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
+
 @RestController
 @RequestMapping("/v1/products")
 public class ProductController {
@@ -33,24 +35,22 @@ public class ProductController {
 
     @DeleteMapping
     @ApiOperation("Delete the product")
-    public String deleteById(@RequestParam Long productId) {
-        productService.deleteById(productId);
+    public String deleteById(@RequestParam Long productId, Locale locale) {
+        productService.deleteById(productId, locale);
         return "product was deleted";
     }
 
     @PostMapping
     @ApiOperation("Create new product")
-    public ProductGetDTO createNew(@RequestBody ProductPostDTO product) {
-        Product newProduct = productService.createNew(
-                productMapper.toProduct(product)
-        );
+    public ProductGetDTO createNew(@RequestBody ProductPostDTO product, Locale locale) {
+        Product newProduct = productService.createNew(productMapper.toProduct(product), locale);
         return productMapper.toProductGetDTO(newProduct);
     }
 
     @PutMapping
-    @ApiOperation("Create new product")
-    public ProductGetDTO update(@RequestBody ProductPutDTO product) {
-        Product updated = productService.update(product);
+    @ApiOperation("Update the product")
+    public ProductGetDTO update(@RequestBody ProductPutDTO product, Locale locale) {
+        Product updated = productService.update(product, locale);
         return productMapper.toProductGetDTO(updated);
     }
 }

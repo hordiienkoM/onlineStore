@@ -40,7 +40,7 @@ public class UserServiceTest {
     public void registrationNewUserTest() {
         when(mockUserRepository.existsByUsername(anyString())).thenReturn(false);
         when(mockUserRepository.save(mockUser)).thenReturn(mockUser);
-        doNothing().when(emailSenderService).sendMessageRegistered(mockUser);
+        doNothing().when(emailSenderService).sendMessageRegistered(mockUser, Locale.getDefault());
 
         mockUserService.registrationUser(mockUser, Locale.getDefault());
     }

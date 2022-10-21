@@ -11,17 +11,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 @Service
 public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
 
-    public void deleteById(Long productId) {
+    public void deleteById(Long productId, Locale locale) {
         try{
             productRepository.deleteById(productId);
         } catch (Exception e) {
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(locale);
         }
     }
 
@@ -35,19 +37,19 @@ public class ProductService {
         );
     }
 
-    public Product createNew(Product product) {
+    public Product createNew(Product product, Locale locale) {
         if (productRepository.existsByDescription(product.getDescription())) {
-            throw new ProductAlreadyExistException();
+            throw new ProductAlreadyExistException(locale);
         }
         return productRepository.save(product);
     }
 
-    public Product update(ProductPutDTO newProduct) {
+    public Product update(ProductPutDTO newProduct, Locale locale) {
         Product product;
         try {
             product = productRepository.findById(newProduct.getId()).orElseThrow();
         } catch (Exception e) {
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(locale);
         }
         product.setDescription(newProduct.getDescription());
         return productRepository.save(product);

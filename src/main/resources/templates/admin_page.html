@@ -6,8 +6,24 @@
     <title tiles:fragment="title" th:text="#{label.admin_page}"></title>
 </head>
 <body>
+<table id="users_table">
+    <thead>
+    <tr>
 
-<p th:text="#{message.greeting_admin}"/>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<a id="current_orders_page"></a>
+<input type="submit" id="previous_orders_page" th:value="#{label.previous}">
+<input type="submit" id="next_orders_page" th:value="#{label.next}">
+
+
+
+
 <br>
 <form th:action="@{/logout}" method="post">
     <input type="submit" th:value="#{label.log_out}"/>
