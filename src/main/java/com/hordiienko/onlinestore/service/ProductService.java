@@ -37,10 +37,12 @@ public class ProductService {
         );
     }
 
-    public Product createNew(Product product, Locale locale) {
-        if (productRepository.existsByDescription(product.getDescription())) {
+    public Product createNew(String description, Locale locale) {
+        if (productRepository.existsByDescription(description)) {
             throw new ProductAlreadyExistException(locale);
         }
+        Product product = new Product();
+        product.setDescription(description);
         return productRepository.save(product);
     }
 

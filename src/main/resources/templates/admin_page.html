@@ -7,34 +7,69 @@
     <title tiles:fragment="title" th:text="#{label.admin_page}"></title>
 </head>
 <body>
-<table id="users_table">
-    <thead>
-    <tr>
-        <th th:text="#{users.table.label.username}"></th>
-        <th th:text="#{users.table.label.is_enable}"></th>
-        <th th:text="#{users.table.label.orders_amount}"></th>
-        <th th:text="#{table.label.delete}"></th>
-    </tr>
-    </thead>
-    <tbody>
+<div id="user_interface">
+    <table id="users_table">
+        <thead>
+        <tr>
+            <th th:text="#{users.table.label.username}"></th>
+            <th th:text="#{users.table.label.is_enable}"></th>
+            <th th:text="#{users.table.label.orders_amount}"></th>
+            <th th:text="#{table.label.delete}"></th>
+        </tr>
+        </thead>
+        <tbody>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<a id="current_users_page"></a>
-<input type="submit" id="previous_users_page" th:value="#{label.previous}">
-<input type="submit" id="next_users_page" th:value="#{label.next}">
+    <a id="current_users_page"></a>
+    <input type="submit" id="previous_users_page" th:value="#{label.previous}">
+    <input type="submit" id="next_users_page" th:value="#{label.next}">
+    <br>
+    <p th:text="#{message.add_new_user}"></p>
+    <input type="text" id="next_user_username" th:placeholder="#{input.email}">
+    <input type="submit" id="button_add_user" th:value="#{button.label.add}">
+    <p id="add_user_error" style="color: red"></p>
+</div>
 
+<div>
+    <p style="display: none; color: red" id="edit_product_error"></p>
+    <table id="products_table">
+        <thead>
+        <tr>
+            <th th:text="#{products.table.label.description}"></th>
+            <th th:text="#{button.label.edit}"></th>
+            <th th:text="#{button.label.delete}"></th>
+        </tr>
+        </thead>
+        <tbody>
 
+        </tbody>
+    </table>
 
+    <a id="current_products_page"></a>
+    <input type="submit" id="previous_product_page" th:value="#{label.previous}">
+    <input type="submit" id="next_product_page" th:value="#{label.next}">
+    <br>
+    <p th:text="#{message.add_new_product}"></p>
+    <input type="text" id="next_description" th:placeholder="#{products.table.label.description}">
+    <input type="submit" id="add_product" th:value="#{button.label.add}">
+    <p id="add_product_error" style="color: red"></p>
+</div>
 
-<br>
 <form th:action="@{/logout}" method="post">
     <input type="submit" th:value="#{label.log_out}"/>
 </form>
 
+<p style="display: none" id="edit_message_multilingual" th:text="#{message.enter_description}"></p>
 <script type="text/javascript" src="/src/js/admin/users_table.js"></script>
-<script type="text/javascript" src="/src/js/admin/user_buttons_manager.js"></script>
+<script type="text/javascript" src="/src/js/admin/add_new_product.js"></script>
+<script type="text/javascript" src="/src/js/admin/product_buttons_manager.js"></script>
+<script type="text/javascript" src="/src/js/admin/delete_product.js"></script>
+<script type="text/javascript" src="/src/js/admin/edit_product.js"></script>
+<script type="text/javascript" src="/src/js/admin/products_table.js"></script>
 <script type="text/javascript" src="/src/js/admin/function_delete_user.js"></script>
+<script type="text/javascript" src="/src/js/admin/add_new_user.js"></script>
+<script type="text/javascript" src="/src/js/admin/user_buttons_manager.js"></script>
 </body>
 </html>

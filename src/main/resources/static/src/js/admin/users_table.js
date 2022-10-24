@@ -38,6 +38,13 @@ $(document).ready(function () {
     })
 })
 
+$(document).ready(function () {
+    $("#button_add_user").click(function () {
+        let username = $("#next_user_username").val();
+        add_new_user(username);
+    })
+})
+
 //functions with logic to work with a users page
 function get_users_page() {
     $('#users_table tbody').empty();

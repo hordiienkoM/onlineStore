@@ -2,7 +2,6 @@ package com.hordiienko.onlinestore.controller;
 
 
 import com.hordiienko.onlinestore.dto.ProductGetDTO;
-import com.hordiienko.onlinestore.dto.ProductPostDTO;
 import com.hordiienko.onlinestore.dto.ProductPutDTO;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.mapper.ProductMapper;
@@ -15,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Locale;
 
 @RestController
@@ -42,14 +44,14 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation("Create new product")
-    public ProductGetDTO createNew(@RequestBody ProductPostDTO product, Locale locale) {
-        Product newProduct = productService.createNew(productMapper.toProduct(product), locale);
+    public ProductGetDTO createNew(@RequestParam String description, Locale locale) {
+        Product newProduct = productService.createNew(description, locale);
         return productMapper.toProductGetDTO(newProduct);
     }
 
     @PutMapping
     @ApiOperation("Update the product")
-    public ProductGetDTO update(@RequestBody ProductPutDTO product, Locale locale) {
+    public ProductGetDTO update(@Valid @RequestBody ProductPutDTO product, Locale locale) {
         Product updated = productService.update(product, locale);
         return productMapper.toProductGetDTO(updated);
     }
