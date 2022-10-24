@@ -5,12 +5,11 @@ function deleteOrderById(orderId) {
         success: function (data) {
             if (data) {
                 alert("Order " + orderId + " was deleted")
+                turn_current_orders();
             } else {
                 alert("Order not found");
             }
         }
     });
     $("#order_view").hide();
-    let status = "#order_row_id_" + orderId + " .order_status";
-    $(status).text("deleted");
 }

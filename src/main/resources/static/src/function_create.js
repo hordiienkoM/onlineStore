@@ -16,6 +16,7 @@ function listen_create_new_order() {
             },
             success: function () {
                 alert("Order was created")
+                turn_current_orders();
             },
             error: function (data) {
                 alert(JSON.stringify(data.error))

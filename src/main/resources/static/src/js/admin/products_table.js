@@ -47,7 +47,7 @@ $(document).ready(function () {
     })
 })
 
-//functions with logic to work with a users page
+//functions with logic to work with a products page
 function getProductPage() {
     $('#products_table tbody').empty();
     $("#current_products_page").replaceWith("<a id='current_products_page'> " + current_page + " </a>");
