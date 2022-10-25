@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class ProductPutDTO {
-    private Long id;
+@AllArgsConstructor
+@Data
+public class ProductPostDTO {
     @NotEmpty
     private String description;
     @Pattern(regexp = "^[$]\\d+[.]\\d{2}( - [$]\\d+[.]\\d{2})?$", message = "{error.price.not_correct}")

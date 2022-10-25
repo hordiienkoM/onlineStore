@@ -230,5 +230,14 @@
                                  referencedTableName="role" referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="21" author="hordiienko">
+        <addColumn tableName="product">
+            <column name="price" type="varchar(150)" defaultValue="$50"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="22" author="hordiienko">
+        <dropDefaultValue tableName="product" columnName="price"/>
+    </changeSet>
 
 </databaseChangeLog>

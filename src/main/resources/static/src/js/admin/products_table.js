@@ -1,5 +1,5 @@
 let current_page = 0;
-let page_size = 2;
+let page_size = 5;
 let sort_field = "id";
 let last_product_page = false;
 let first_product_page = false;
@@ -43,7 +43,8 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#add_product").click(function () {
         let description = $("#next_description").val();
-        add_new_product(description);
+        let price = $("#next_price").val();
+        add_new_product(description, price);
     })
 })
 
@@ -70,8 +71,10 @@ function showProductPage(data) {
     for (let i = 0; i < data.content.length; i++) {
         const product_id = data.content[i].product_id;
         const description = data.content[i].description;
+        const price = data.content[i].price;
         const value_product_id = "value = \"" + product_id + "\"";
         const last_td = '<tr><td>' + description + '</td>' +
+            '<td>' + price + '</td>' +
             '<td><button class="product_edit"' + value_product_id + '>edit</button></td>' +
             '<td><button class="product_delete"' + value_product_id + '>delete</button></td>' +
             '</tr>';

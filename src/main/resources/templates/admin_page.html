@@ -38,6 +38,7 @@
         <thead>
         <tr>
             <th th:text="#{products.table.label.description}"></th>
+            <th th:text="#{table.label.price}"></th>
             <th th:text="#{button.label.edit}"></th>
             <th th:text="#{button.label.delete}"></th>
         </tr>
@@ -53,16 +54,30 @@
     <br>
     <p th:text="#{message.add_new_product}"></p>
     <input type="text" id="next_description" th:placeholder="#{products.table.label.description}">
+    <input type="text" id="next_price" th:placeholder="#{table.label.price}">
+    <br>
     <input type="submit" id="add_product" th:value="#{button.label.add}">
     <p id="add_product_error" style="color: red"></p>
 </div>
+<br>
+<p id="products_downloaded_successfully" th:text="#{message.products_added}" style="display: none"></p>
+<p id="products_downloaded_fail" style="display: none"></p>
+<input type="submit" id="download_default_products" th:value="#{button.label.download_default_products}">
+<p id="products_deleted_successfully" th:text="#{message.products_deleted}" style="display: none"></p>
+<p id="products_deleted_fail" style="display: none"></p>
+<input type="submit" id="delete_all_products" th:value="#{button.label.delete_all_products}">
+<br>
+<br>
 
 <form th:action="@{/logout}" method="post">
     <input type="submit" th:value="#{label.log_out}"/>
 </form>
 
-<p style="display: none" id="edit_message_multilingual" th:text="#{message.enter_description}"></p>
+<p style="display: none" id="edit_message_multilingual_description" th:text="#{message.enter_description}"></p>
+<p style="display: none" id="edit_message_multilingual_price" th:text="#{message.enter_price}"></p>
 <script type="text/javascript" src="/src/js/admin/users_table.js"></script>
+<script type="text/javascript" src="/src/js/admin/download_default_products.js"></script>
+<script type="text/javascript" src="/src/js/admin/delete_all_products.js"></script>
 <script type="text/javascript" src="/src/js/admin/add_new_product.js"></script>
 <script type="text/javascript" src="/src/js/admin/product_buttons_manager.js"></script>
 <script type="text/javascript" src="/src/js/admin/delete_product.js"></script>

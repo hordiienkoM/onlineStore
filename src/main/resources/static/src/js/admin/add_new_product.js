@@ -1,11 +1,22 @@
-function add_new_product(description) {
+function add_new_product(description, price) {
+    let new_product_info = {
+        description: description,
+        price: price
+    };
     $.ajax({
-        url: "http://localhost:8080/v1/products?description=" + description,
+        url: "http://localhost:8080/v1/products",
         type: "POST",
+        data: JSON.stringify(new_product_info),
+        dataType: 'text',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         success: function () {
             $("#add_product_error").text("")
             alert("Product '" + description + "' has been added");
             $("#next_description").val("")
+            $("#next_price").val("")
             turn_current_products()
         },
         error: function (data) {

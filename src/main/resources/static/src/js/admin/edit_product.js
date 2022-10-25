@@ -1,7 +1,8 @@
-function updateProduct(productId, newDescription) {
+function updateProduct(productId, newDescription, newPrice) {
     let new_product_info = {
         id: productId,
-        description: newDescription
+        description: newDescription,
+        price: newPrice
     };
     $.ajax({
         url: "http://localhost:8080/v1/products",

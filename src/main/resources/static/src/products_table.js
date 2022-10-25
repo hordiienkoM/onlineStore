@@ -1,5 +1,5 @@
 let current_page = 0;
-let page_size = 2;
+let page_size = 5;
 let sort_field = "id";
 let last_product_page = false;
 
@@ -20,9 +20,11 @@ function turn_next_product() {
             for (let i = 0; i < data.content.length; i++) {
                 const product_id = data.content[i].product_id;
                 const description = data.content[i].description;
+                const price = data.content[i].price;
                 const value_product_id = "value = \"" + product_id + "\"";
                 const product_row_id = "id= \"product_row_id_" + product_id + "\"";
                 const last_td = '<tr ' + product_row_id + '><td>' + description + '</td>' +
+                    '<td>' + price + '</td>' +
                     '<td><input type="text" class="products_amount" placeholder="0"></td>' +
                     '<td><button class="add_product" ' + value_product_id + '>add</button></td>' +
                     '</tr>';
@@ -54,9 +56,11 @@ function turn_previous_product() {
             for (let i = 0; i < data.content.length; i++) {
                 const product_id = data.content[i].product_id;
                 const description = data.content[i].description;
+                const price = data.content[i].description;
                 const value_product_id = "value = \"" + product_id + "\"";
                 const product_row_id = "id= \"product_row_id_" + product_id + "\"";
                 const last_td = '<tr ' + product_row_id + '><td>' + description + '</td>' +
+                    '<td>' + price + '</td>' +
                     '<td><input type="text" class="products_amount" placeholder="0"></td>' +
                     '<td><button class="add_product" ' + value_product_id + '>add</button></td>' +
                     '</tr>';

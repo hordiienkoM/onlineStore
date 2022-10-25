@@ -13,4 +13,5 @@ public class ProductGetDTO {
     @JsonProperty("product_id")
     private Long id;
     private String description;
+    private String price;
 }
