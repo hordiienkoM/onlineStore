@@ -27,7 +27,7 @@ public class ProductService {
     private DownloadService downloadService;
 
     public void deleteById(Long productId, Locale locale) {
-        try{
+        try {
             productRepository.deleteById(productId);
         } catch (Exception e) {
             throw new ProductNotFoundException(locale);
