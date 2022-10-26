@@ -1,8 +1,4 @@
-function add_new_product(description, price) {
-    let new_product_info = {
-        description: description,
-        price: price
-    };
+function add_new_product(new_product_info) {
     $.ajax({
         url: "http://localhost:8080/v1/products",
         type: "POST",
@@ -14,7 +10,7 @@ function add_new_product(description, price) {
         },
         success: function () {
             $("#add_product_error").text("")
-            alert("Product '" + description + "' has been added");
+            alert("Product '" + new_product_info.description + "' has been added");
             $("#next_description").val("")
             $("#next_price").val("")
             turn_current_products()

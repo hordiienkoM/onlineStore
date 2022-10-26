@@ -2,6 +2,7 @@ package com.hordiienko.onlinestore.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hordiienko.onlinestore.entity.enums.Brand;
 import lombok.*;
 
 @Data
@@ -13,5 +14,7 @@ public class ProductGetDTO {
     @JsonProperty("product_id")
     private Long id;
     private String description;
-    private String price;
+    private Double price;
+    private String category;
+    private String brand;
 }

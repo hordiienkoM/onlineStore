@@ -11,12 +11,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.Locale;
 
 @RestController
@@ -28,11 +27,17 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     @ApiOperation("Get products page")
     public ResponseEntity getProductsPage(Pageable pageable) {
         Page<Product> pageProducts = productService.getProducts(pageable);
         return ResponseEntity.ok().body(pageProducts.map(productMapper::toProductGetDTO));
+    }
+
+    @GetMapping("/info")
+    @ApiOperation("Get product info")
+    public ResponseEntity getProductsPage(@RequestParam @Min(1) Long id, Locale locale) {
+        Product product = productService.getProduct(id, locale);
+        return ResponseEntity.ok().body(productMapper.toProductGetDTO(product));
     }
 
     @DeleteMapping

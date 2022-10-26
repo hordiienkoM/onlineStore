@@ -1,10 +1,12 @@
 function deleteAllProducts() {
     $.ajax({
         url: "http://localhost:8080/v1/admin/products",
+        async: false,
         type: "DELETE",
         success: function () {
             $("#products_deleted_fail").hide();
             $("#products_deleted_successfully").show();
+            $("#products_downloaded_successfully").hide();
             turn_current_products()
         },
         error: function (data) {

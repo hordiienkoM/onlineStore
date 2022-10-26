@@ -2,10 +2,15 @@ package com.hordiienko.onlinestore.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hordiienko.onlinestore.entity.enums.Brand;
+import com.hordiienko.onlinestore.entity.enums.Category;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,8 +28,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    @Pattern(regexp = "^[$]\\d+[.]\\d{2}( - [$]\\d+[.]\\d{2})?$", message = "{error.price.not_correct}")
-    private String price;
+    @DecimalMin("0.0")
+    private Double price;
+    private LocalDateTime dateCreate;
+    @Enumerated(EnumType.STRING)
+    private Brand brand;
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
 
     @OneToMany(
             cascade = CascadeType.ALL,

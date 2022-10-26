@@ -3,45 +3,27 @@ let page_size = 5;
 let sort_field = "id";
 let last_product_page = false;
 
+//functions turn page
+
 function turn_next_product() {
     current_page++;
-    $('#products_table tbody').empty();
-    $("#current_page_products").replaceWith("<a id='current_page_products'> " + current_page + " </a>");
-    $.ajax({
-        url: "http://localhost:8080/v1/products",
-        data: {
-            "page": (current_page - 1),
-            "size": page_size,
-            "sortField": sort_field
-        },
-        method: "get",
-        dataType: "json",
-        success: function (data) {
-            for (let i = 0; i < data.content.length; i++) {
-                const product_id = data.content[i].product_id;
-                const description = data.content[i].description;
-                const price = data.content[i].price;
-                const value_product_id = "value = \"" + product_id + "\"";
-                const product_row_id = "id= \"product_row_id_" + product_id + "\"";
-                const last_td = '<tr ' + product_row_id + '><td>' + description + '</td>' +
-                    '<td>' + price + '</td>' +
-                    '<td><input type="text" class="products_amount" placeholder="0"></td>' +
-                    '<td><button class="add_product" ' + value_product_id + '>add</button></td>' +
-                    '</tr>';
-                $('#products_table tbody').append(last_td);
-            }
-            last_product_page = data.last;
-            listen_product_add_buttons();
-        }
-    });
+    getProductsPage();
+}
+
+function turn_previous_product() {
+    current_page--;
+    getProductsPage();
 }
 
 turn_next_product();
 listen_create_new_order()
 
-function turn_previous_product() {
+
+let products_to_order = [];
+
+//logic functions
+function getProductsPage() {
     $('#products_table tbody').empty();
-    current_page--;
     $("#current_page").replaceWith("<a id='current_page'> " + (current_page) + " </a>");
     $.ajax({
         url: "http://localhost:8080/v1/products",
@@ -53,26 +35,32 @@ function turn_previous_product() {
         method: "get",
         dataType: "json",
         success: function (data) {
-            for (let i = 0; i < data.content.length; i++) {
-                const product_id = data.content[i].product_id;
-                const description = data.content[i].description;
-                const price = data.content[i].description;
-                const value_product_id = "value = \"" + product_id + "\"";
-                const product_row_id = "id= \"product_row_id_" + product_id + "\"";
-                const last_td = '<tr ' + product_row_id + '><td>' + description + '</td>' +
-                    '<td>' + price + '</td>' +
-                    '<td><input type="text" class="products_amount" placeholder="0"></td>' +
-                    '<td><button class="add_product" ' + value_product_id + '>add</button></td>' +
-                    '</tr>';
-                $('#products_table tbody').append(last_td);
-            }
-            last_product_page = data.last;
-            listen_product_add_buttons();
+            showProductsTable(data);
         }
     });
 }
 
-let products_to_order = [];
+function showProductsTable(data) {
+    for (let i = 0; i < data.content.length; i++) {
+        const product_id = data.content[i].product_id;
+        const description = data.content[i].description;
+        const brand = data.content[i].brand;
+        const category = data.content[i].category;
+        const price = data.content[i].price;
+        const value_product_id = "value = \"" + product_id + "\"";
+        const product_row_id = "id= \"product_row_id_" + product_id + "\"";
+        const last_td = '<tr ' + product_row_id + '><td>' + description + '</td>' +
+            '<td>' + brand + '</td>' +
+            '<td>' + category + '</td>' +
+            '<td>' + price + '</td>' +
+            '<td><input type="text" class="products_amount" placeholder="0"></td>' +
+            '<td><button class="add_product" ' + value_product_id + '>add</button></td>' +
+            '</tr>';
+        $('#products_table tbody').append(last_td);
+    }
+    last_product_page = data.last;
+    listen_product_add_buttons();
+}
 
 function listen_product_add_buttons() {
     $(".add_product").click(function (e) {

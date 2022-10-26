@@ -33,11 +33,12 @@
 </div>
 
 <div>
-    <p style="display: none; color: red" id="edit_product_error"></p>
     <table id="products_table">
         <thead>
         <tr>
             <th th:text="#{products.table.label.description}"></th>
+            <th th:text="#{table.label.brand}"></th>
+            <th th:text="#{table.label.category}"></th>
             <th th:text="#{table.label.price}"></th>
             <th th:text="#{button.label.edit}"></th>
             <th th:text="#{button.label.delete}"></th>
@@ -53,11 +54,85 @@
     <input type="submit" id="next_product_page" th:value="#{label.next}">
     <br>
     <p th:text="#{message.add_new_product}"></p>
-    <input type="text" id="next_description" th:placeholder="#{products.table.label.description}">
-    <input type="text" id="next_price" th:placeholder="#{placeholder.price}">
-    <br>
-    <input type="submit" id="add_product" th:value="#{button.label.add}">
+    <table>
+        <tr>
+            <td><a th:text="#{products.table.label.description}"/></td>
+            <td><input type="text" id="next_description" th:placeholder="#{products.table.label.description}"></td>
+        </tr>
+        <tr>
+            <td><a th:text="#{table.label.brand}"/></td>
+            <td>
+                <select id="next_brand" size="1">
+                    <option value="AMERICAN_GIANT"> American Giant</option>
+                    <option value="MATE_THE_LABEL"> MATE The Label</option>
+                    <option value="HACKWITH_DESIGN_HOUSE"> Hackwith Desighn House</option>
+                    <option value="TODD_SHELTON"> Todd Shelton</option>
+                    <option value="LACAUSA"> LACAUSA</option>
+                    <option value="GAMINE_WORKWEAR"> Gamine Workwear</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><a th:text="#{table.label.category}"/></td>
+            <td>
+                <select id="next_category" size="1">
+                    <option value="SWEATER"> Sweater</option>
+                    <option value="DRESS"> Dress</option>
+                    <option value="HAT"> Hat</option>
+                    <option value="COAT"> Coat</option>
+                    <option value="SHIRT"> Shirt</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><a th:text="#{placeholder.price}"/></td>
+            <td><input type="text" id="next_price" th:placeholder="#{placeholder.price_template}"></td>
+        </tr>
+    </table>
     <p id="add_product_error" style="color: red"></p>
+    <input type="submit" id="add_product" th:value="#{button.label.add}">
+</div>
+<br>
+<div id="edit_product_table" style="display: none">
+    <p style="display: none; color: red" id="edit_product_error"></p>
+    <a style="display: none" id="edit_product_id"></a>
+    <table>
+        <tr>
+            <td><a th:text="#{products.table.label.description}"/></td>
+            <td><input type="text" id="update_description" th:placeholder="#{products.table.label.description}"></td>
+        </tr>
+        <tr>
+            <td><a th:text="#{table.label.brand}"/></td>
+            <td>
+                <select id="update_brand" size="1">
+                    <option value="AMERICAN_GIANT"> American Giant</option>
+                    <option value="MATE_THE_LABEL"> MATE The Label</option>
+                    <option value="HACKWITH_DESIGN_HOUSE"> Hackwith Desighn House</option>
+                    <option value="TODD_SHELTON"> Todd Shelton</option>
+                    <option value="LACAUSA"> LACAUSA</option>
+                    <option value="GAMINE_WORKWEAR"> Gamine Workwear</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><a th:text="#{table.label.category}"/></td>
+            <td>
+                <select id="update_category" size="1">
+                    <option value="SWEATER"> Sweater</option>
+                    <option value="DRESS"> Dress</option>
+                    <option value="HAT"> Hat</option>
+                    <option value="COAT"> Coat</option>
+                    <option value="SHIRT"> Shirt</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><a th:text="#{placeholder.price}"/></td>
+            <td><input type="text" id="update_price" th:placeholder="#{placeholder.price_template}"></td>
+        </tr>
+    </table>
+    <p id="update_product_error" style="color: red"></p>
+    <input type="submit" id="update_product_button" th:value="#{button.label.edit}">
 </div>
 <br>
 <p id="products_downloaded_successfully" th:text="#{message.products_added}" style="display: none"></p>
@@ -75,6 +150,7 @@
 
 <p style="display: none" id="edit_message_multilingual_description" th:text="#{message.enter_description}"></p>
 <p style="display: none" id="edit_message_multilingual_price" th:text="#{message.enter_price}"></p>
+<script type="text/javascript" src="/src/js/admin/get_product_info.js"></script>
 <script type="text/javascript" src="/src/js/admin/users_table.js"></script>
 <script type="text/javascript" src="/src/js/admin/download_default_products.js"></script>
 <script type="text/javascript" src="/src/js/admin/delete_all_products.js"></script>

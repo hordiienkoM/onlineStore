@@ -42,9 +42,13 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#add_product").click(function () {
-        let description = $("#next_description").val();
-        let price = $("#next_price").val();
-        add_new_product(description, price);
+        let new_product_info = {
+            description: $("#next_description").val(),
+            brand: $("#next_brand").val(),
+            category: $("#next_category").val(),
+            price: $("#next_price").val()
+        };
+        add_new_product(new_product_info);
     })
 })
 
@@ -71,9 +75,13 @@ function showProductPage(data) {
     for (let i = 0; i < data.content.length; i++) {
         const product_id = data.content[i].product_id;
         const description = data.content[i].description;
+        const brand = data.content[i].brand;
+        const category = data.content[i].category;
         const price = data.content[i].price;
         const value_product_id = "value = \"" + product_id + "\"";
         const last_td = '<tr><td>' + description + '</td>' +
+            '<td>' + brand + '</td>' +
+            '<td>' + category + '</td>' +
             '<td>' + price + '</td>' +
             '<td><button class="product_edit"' + value_product_id + '>edit</button></td>' +
             '<td><button class="product_delete"' + value_product_id + '>delete</button></td>' +

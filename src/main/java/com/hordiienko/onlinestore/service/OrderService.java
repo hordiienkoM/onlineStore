@@ -36,12 +36,15 @@ public class OrderService {
     @Autowired
     private EmailSenderService emailSender;
 
-    public Order saveOrder(Order order, Set<OrderProductPostDTO> products, Authentication authentication) {
+    public Order saveOrder(Order order,
+                           Set<OrderProductPostDTO> products,
+                           Authentication authentication,
+                           Locale locale) {
         Long currentUserId = SessionUtil.getCurrentUserId(authentication);
         User user = userRepository.findById(currentUserId).orElseThrow();
         order.setUser(user);
         order.setStatus(Status.NEW);
-        Set<OrderProduct> orderProducts = orderProductService.convert(products, order);
+        Set<OrderProduct> orderProducts = orderProductService.convert(products, order, locale);
         order.setOrderProduct(orderProducts);
         orderRepository.save(order);
         emailSender.sendMessageNewOrder(user, order);
@@ -79,13 +82,13 @@ public class OrderService {
         order.setStatus(Status.UPDATED);
         order.setUser(userService.getUser(userId));
         orderProductRepository.deleteAll(orderProductRepository.findAllByOrderId(orderId));
-        Set<OrderProduct> orderProducts = orderProductService.convert(orderBody.getOrderProduct(), order);
+        Set<OrderProduct> orderProducts = orderProductService.convert(orderBody.getOrderProduct(), order, locale);
         order.setOrderProduct(orderProducts);
         orderRepository.save(order);
     }
 
     public Order getOrder(Long orderId, Authentication authentication, Locale locale)
-            throws OrderNotFoundException{
+            throws OrderNotFoundException {
         Order order = orderRepository.findById(orderId).orElseThrow();
         Long currentUserId = SessionUtil.getCurrentUserId(authentication);
         if (checkUserHasOrder(order, currentUserId)) {

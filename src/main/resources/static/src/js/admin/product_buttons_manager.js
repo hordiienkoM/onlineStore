@@ -31,9 +31,24 @@ function listen_download_default_products() {
 function listen_product_edit_buttons() {
     $(".product_edit").click(function (e) {
         e.preventDefault();
-        let product_id = $(this).val();
-        let newDescription = prompt($("#edit_message_multilingual_description").text());
-        let newPrice = prompt($("#edit_message_multilingual_price").text());
-        updateProduct(product_id, newDescription, newPrice);
+        let product_id_element = $("#edit_product_id");
+        product_id_element.text($(this).val());
+        get_product_info(product_id_element.text());
+        $("#edit_product_table").show();
+        listen_update_product_button();
+    });
+}
+
+function listen_update_product_button() {
+    $("#update_product_button").click(function (e) {
+        e.preventDefault();
+        let new_product_info = {
+            id: $("#edit_product_id").text(),
+            description: $("#update_description").val(),
+            brand: $("#update_brand").val(),
+            category: $("#update_category").val(),
+            price: $("#update_price").val()
+        };
+        updateProduct(new_product_info);
     });
 }

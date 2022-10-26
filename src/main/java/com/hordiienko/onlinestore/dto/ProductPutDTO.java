@@ -1,11 +1,13 @@
 package com.hordiienko.onlinestore.dto;
 
+import com.hordiienko.onlinestore.entity.enums.Brand;
+import com.hordiienko.onlinestore.entity.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
@@ -14,6 +16,8 @@ public class ProductPutDTO {
     private Long id;
     @NotEmpty
     private String description;
-    @Pattern(regexp = "^[$]\\d+[.]\\d{2}( - [$]\\d+[.]\\d{2})?$", message = "{error.price.not_correct}")
-    private String price;
+    @DecimalMin("0.0")
+    private Double price;
+    private Brand brand;
+    private Category category;
 }

@@ -240,4 +240,17 @@
         <dropDefaultValue tableName="product" columnName="price"/>
     </changeSet>
 
+    <changeSet id="23" author="hordiienko">
+        <dropColumn tableName="product" columnName="price"/>
+    </changeSet>
+
+    <changeSet id="24" author="hordiienko">
+        <addColumn tableName="product">
+            <column name="price" type="double"/>
+            <column name="date_create" type="datetime"/>
+            <column name="brand" type="varchar(100)"/>
+            <column name="category" type="varchar(100)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

@@ -57,9 +57,10 @@ public class OrderController {
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     @ApiOperation("Create new order")
     public ResponseEntity<OrderGetDTO> createOrder(@RequestBody @Valid OrderPostDTO orderBody,
-                                                   Authentication authentication) {
+                                                   Authentication authentication,
+                                                   Locale locale) {
         Order order = orderMapper.postDtoToOrder(orderBody);
-        order = orderService.saveOrder(order, orderBody.getOrderProduct(), authentication);
+        order = orderService.saveOrder(order, orderBody.getOrderProduct(), authentication, locale);
         return ResponseEntity.ok().body(
                 orderMapper.toOrderGetDTO(order));
     }

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/src/table.css">
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <title tiles:fragment="title" th:text="#{label.online_shop}"></title>
 </head>
@@ -109,7 +108,6 @@
         <tr>
             <th th:text="#{label.product}"/>
             <th th:text="#{label.edit}"/>
-            <th th:text="#{label.delete}"/>
         </tr>
         </thead>
         <tbody>
@@ -127,6 +125,9 @@
         <thead>
         <tr>
             <th th:text="#{label.product}"/>
+            <th th:text="#{table.label.brand}"/>
+            <th th:text="#{table.label.category}"/>
+            <th th:text="#{table.label.price}"/>
             <th th:text="#{label.amount}"/>
             <th th:text="#{label.add_to_order}"/>
         </tr>

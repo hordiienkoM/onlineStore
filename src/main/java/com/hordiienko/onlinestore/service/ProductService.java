@@ -1,7 +1,6 @@
 package com.hordiienko.onlinestore.service;
 
 
-import com.hordiienko.onlinestore.dto.ProductPostDTO;
 import com.hordiienko.onlinestore.dto.ProductPutDTO;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.exception.ProductAlreadyExistException;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -34,8 +34,12 @@ public class ProductService {
         }
     }
 
-    public Product getProduct(Long productId) {
-        return productRepository.findById(productId).orElseThrow();
+    public Product getProduct(Long productId, Locale locale) {
+        try {
+            return productRepository.findById(productId).orElseThrow();
+        } catch (Exception e) {
+            throw new ProductNotFoundException(locale);
+        }
     }
 
     public Page<Product> getProducts(Pageable pageable) {
@@ -48,6 +52,7 @@ public class ProductService {
         if (productRepository.existsByDescription(product.getDescription())) {
             throw new ProductAlreadyExistException(locale);
         }
+        product.setDateCreate(LocalDateTime.now());
         return productRepository.save(product);
     }
 
@@ -59,18 +64,22 @@ public class ProductService {
             throw new ProductNotFoundException(locale);
         }
         product.setDescription(newProduct.getDescription());
+        product.setBrand(newProduct.getBrand());
+        product.setCategory(newProduct.getCategory());
         product.setPrice(newProduct.getPrice());
         return productRepository.save(product);
     }
 
     public void downloadProductsToDB(Locale locale) {
-        List<Product> products = downloadService.downloadProducts(locale);
-        try {
-            productRepository.saveAll(products);
-        } catch (ConstraintViolationException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ProductsDownloadException(locale);
+        for (int i = 0; i < 6; i++) {
+            List<Product> products = downloadService.downloadProducts(locale);
+            try {
+                productRepository.saveAll(products);
+            } catch (ConstraintViolationException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new ProductsDownloadException(locale);
+            }
         }
     }
 
