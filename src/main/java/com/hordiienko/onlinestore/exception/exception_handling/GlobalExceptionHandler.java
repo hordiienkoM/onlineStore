@@ -2,9 +2,6 @@ package com.hordiienko.onlinestore.exception.exception_handling;
 
 
 import com.hordiienko.onlinestore.exception.BackendException;
-import com.hordiienko.onlinestore.exception.locale_message.ExceptionMessages;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

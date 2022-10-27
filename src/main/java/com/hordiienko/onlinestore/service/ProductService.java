@@ -17,6 +17,8 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -197,6 +199,33 @@ public class ProductService {
                                 Product::getCategory,
                                 Collectors.groupingBy(Product::getBrand,
                                         Collectors.mapping(Product::getId, Collectors.toList()))
+                        ));
+    }
+
+    public Map<Category, Map<Brand, Double>> getCategoryBrandSum() {
+        return productRepository.streamAllBy()
+                .collect(
+                        Collectors.groupingBy(
+                                Product::getCategory,
+                                Collectors.groupingBy(Product::getBrand,
+                                        Collectors.summingDouble(Product::getPrice))
+                        ));
+    }
+
+
+    @Transactional
+    public Map<Category, Map<Brand, Double>> getCategoryBrandMaxPrice() {
+        return productRepository.streamAllBy()
+                .collect(
+                        Collectors.groupingBy(
+                                Product::getCategory,
+                                Collectors.groupingBy(
+                                        Product::getBrand,
+                                        Collectors.collectingAndThen(
+                                                Collectors.maxBy(Comparator.comparing(Product::getPrice)),
+                                                k -> k.orElseThrow().getPrice()
+                                        )
+                                )
                         ));
     }
 }

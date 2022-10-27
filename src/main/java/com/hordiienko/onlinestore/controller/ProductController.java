@@ -120,4 +120,16 @@ public class ProductController {
         return productService.getMapStructure();
     }
 
+    @GetMapping("/category_brand_sum")
+    @ApiOperation("Return structure products like Map<Category, Map<Brand, Double>>")
+    public Map<Category, Map<Brand, Double>> getCategoryBrandSum() {
+        return productService.getCategoryBrandSum();
+    }
+
+    @GetMapping("/category_brand_max-price")
+    @ApiOperation("Return structure products like Map<Category, Map<Brand, Double>>")
+    public Map<Category, Map<Brand, Double>> getCategoryBrandMaxPrice() {
+        return productService.getCategoryBrandMaxPrice();
+    }
+
 }
