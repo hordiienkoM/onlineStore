@@ -51,14 +51,14 @@ public class EmailSenderService {
             htmlContent = templateEngine.process("welcome_page.html", context);
             helper.setText(htmlContent, true);
         } catch (MessagingException e) {
-            throw new EmailMessageException();
+            throw new EmailMessageException(locale);
         }
 
         log.info("Sending email to: {}", user.getUsername());
         emailSender.send(message);
     }
 
-    public void sendMessageNewOrder(User user, Order order) {
+    public void sendMessageNewOrder(User user, Order order, Locale locale) {
         MimeMessage message = emailSender.createMimeMessage();
         String htmlContent;
         try {
@@ -75,7 +75,7 @@ public class EmailSenderService {
             htmlContent = templateEngine.process("created_order_email.html", context);
             helper.setText(htmlContent, true);
         } catch (MessagingException e) {
-            throw new EmailMessageException();
+            throw new EmailMessageException(locale);
         }
 
         log.info("Sending email to: {}", user.getUsername());
@@ -103,7 +103,7 @@ public class EmailSenderService {
             htmlContent = templateEngine.process("you_was_added_email.html", context);
             helper.setText(htmlContent, true);
         } catch (MessagingException e) {
-            throw new EmailMessageException();
+            throw new EmailMessageException(locale);
         }
         log.info("Sending email to: {}", user.getUsername());
         emailSender.send(message);

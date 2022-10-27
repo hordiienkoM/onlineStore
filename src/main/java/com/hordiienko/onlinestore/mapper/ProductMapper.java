@@ -6,6 +6,8 @@ import com.hordiienko.onlinestore.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.Set;
+
 @Mapper
 public interface ProductMapper {
     @Mapping(expression = "java(product.getCategory().getName())", target = "category")
@@ -15,4 +17,6 @@ public interface ProductMapper {
     Product toProduct(ProductInnerDTO innerProductDTO);
 
     Product toProduct(ProductPostDTO productPostDTO);
+
+    Set<ProductGetDTO> toProductGetDTOs(Set<Product> products);
 }

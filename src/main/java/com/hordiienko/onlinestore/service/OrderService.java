@@ -47,7 +47,7 @@ public class OrderService {
         Set<OrderProduct> orderProducts = orderProductService.convert(products, order, locale);
         order.setOrderProduct(orderProducts);
         orderRepository.save(order);
-        emailSender.sendMessageNewOrder(user, order);
+        emailSender.sendMessageNewOrder(user, order, locale);
         return order;
     }
 

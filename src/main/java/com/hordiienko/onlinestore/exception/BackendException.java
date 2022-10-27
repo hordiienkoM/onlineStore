@@ -18,10 +18,6 @@ public class BackendException extends RuntimeException {
         this.locale = locale;
     }
 
-    public BackendException(String messageKey, HttpStatus status) {
-        this(messageKey, status, Locale.getDefault());
-    }
-
     public String getLocalizedMessage() {
         return ExceptionMessages.getMessageForLocale(messageKey, locale);
     }

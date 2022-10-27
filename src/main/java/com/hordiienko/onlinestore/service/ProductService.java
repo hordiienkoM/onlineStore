@@ -3,22 +3,24 @@ package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.dto.ProductPutDTO;
 import com.hordiienko.onlinestore.entity.Product;
-import com.hordiienko.onlinestore.exception.ProductAlreadyExistException;
-import com.hordiienko.onlinestore.exception.ProductNotFoundException;
-import com.hordiienko.onlinestore.exception.ProductsDownloadException;
+import com.hordiienko.onlinestore.entity.enums.Brand;
+import com.hordiienko.onlinestore.entity.enums.Category;
+import com.hordiienko.onlinestore.exception.*;
 import com.hordiienko.onlinestore.repository.ProductRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ProductService {
 
     @Autowired
@@ -85,5 +87,116 @@ public class ProductService {
 
     public void deleteAllProducts() {
         productRepository.deleteAll();
+    }
+
+    @Transactional
+    public Product getHasMaxPrice() {
+        return productRepository.streamAllBy().max(
+                Comparator.comparingDouble(Product::getPrice)
+        ).orElseThrow();
+    }
+
+    @Transactional
+    public Double getAveragePrice() {
+        return Math.round(
+                productRepository.streamAllBy().collect(
+                        Collectors.averagingDouble(Product::getPrice)) * 100
+        ) / 100.0;
+    }
+
+    @Transactional
+    public Set<Product> get20HasBrand(String brandName, Locale locale) {
+        Brand brand;
+        try {
+            brand = Brand.valueOf(brandName);
+        } catch (Exception e) {
+            throw new BrandNotFoundException(locale);
+        }
+        return productRepository.streamAllBy()
+                .filter(a -> a.getBrand().equals(brand))
+                .limit(20)
+                .collect(Collectors.toSet());
+    }
+
+    @Transactional
+    public Set<Product> get20MinHasCategory(String categoryName, Locale locale) {
+        Category category;
+        try {
+            category = Category.valueOf(categoryName);
+        } catch (Exception e) {
+            throw new BrandNotFoundException(locale);
+        }
+        return productRepository.streamAllBy()
+                .filter(a -> a.getCategory().equals(category))
+                .sorted((a, b) -> (int) ((b.getPrice() - a.getPrice()) * 100))
+                .limit(20)
+                .collect(Collectors.toSet());
+    }
+
+    @Transactional
+    public Double averagePriceFromCategory(String categoryName, Locale locale) {
+        Category category;
+        try {
+            category = Category.valueOf(categoryName);
+        } catch (Exception e) {
+            throw new CategoryNotFoundException(locale);
+        }
+        return Math.round(
+                productRepository.streamAllBy()
+                        .filter(a -> a.getCategory().equals(category))
+                        .collect(Collectors.averagingDouble(Product::getPrice))
+                        * 100
+        ) / 100.0;
+    }
+
+    @Transactional
+    public Double minPriceFromCategory(String categoryName, Locale locale) {
+        Category category;
+        try {
+            category = Category.valueOf(categoryName);
+        } catch (Exception e) {
+            throw new CategoryNotFoundException(locale);
+        }
+        return Math.round(
+                productRepository.streamAllBy()
+                        .filter(a -> a.getCategory().equals(category))
+                        .min(Comparator.comparingDouble(Product::getPrice))
+                        .orElseThrow()
+                        .getPrice()
+                        * 100
+        ) / 100.0;
+    }
+
+    @Transactional
+    public Double maxPriceFromBrandInCategory(String categoryName, String brandName, Locale locale) {
+        Category category;
+        Brand brand;
+        try {
+            category = Category.valueOf(categoryName);
+            brand = Brand.valueOf(brandName);
+        } catch (Exception e) {
+            throw new CategoryOrBrandNotFoundException(locale);
+        }
+        return Math.round(
+                productRepository.streamAllBy()
+                        .filter(a -> a.getCategory().equals(category))
+                        .filter(a -> a.getBrand().equals(brand))
+                        .min(Comparator.comparingDouble(Product::getPrice))
+                        .orElseThrow()
+                        .getPrice()
+                        * 100
+        ) / 100.0;
+    }
+
+    @Transactional
+    public Map<Category, Map<Brand, List<Long>>> getMapStructure() {
+        return productRepository.streamAllBy()
+                .limit(100)
+                .collect(
+                        Collectors.groupingBy(
+                                Product::getCategory,
+                                Collectors.groupingBy(Product::getBrand,
+                                        Collectors.mapping(Product::getId, Collectors.toList()))
+                        ));
     }
 }

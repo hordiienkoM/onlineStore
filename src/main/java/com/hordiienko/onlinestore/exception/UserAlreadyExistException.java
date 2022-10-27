@@ -5,10 +5,6 @@ import org.springframework.http.HttpStatus;
 import java.util.Locale;
 
 public class UserAlreadyExistException extends BackendException {
-    public UserAlreadyExistException() {
-        super("error.user_already_exist", HttpStatus.CONFLICT);
-    }
-
     public UserAlreadyExistException(Locale locale) {
         super("error.user_already_exist", HttpStatus.CONFLICT, locale);
     }

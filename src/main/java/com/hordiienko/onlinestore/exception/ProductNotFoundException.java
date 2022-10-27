@@ -4,11 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Locale;
 
-public class ProductNotFoundException extends BackendException{
-    public ProductNotFoundException() {
-        super("error.product_not_found", HttpStatus.NOT_FOUND);
-    }
-
+public class ProductNotFoundException extends BackendException {
     public ProductNotFoundException(Locale locale) {
         super("error.product_not_found", HttpStatus.NOT_FOUND, locale);
     }
