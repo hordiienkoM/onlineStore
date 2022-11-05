@@ -1,7 +1,6 @@
 package com.hordiienko.onlinestore.mapper;
 
 import com.hordiienko.onlinestore.dto.*;
-import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

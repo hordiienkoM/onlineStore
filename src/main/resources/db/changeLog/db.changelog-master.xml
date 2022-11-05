@@ -121,16 +121,6 @@
             <column name="description" value="hat"/>
             <column name="description" value="pants"/>
         </insert>
-        <insert
-                tableName="user">
-            <column name="username" value="user-2"/>
-            <column name="password" value="$2a$12$r1vBqlT9eXM3UPvht5s9yeChgbvqHj96QRZsJVf4ns1S00aaMjpJq"/>
-        </insert>
-        <insert
-                tableName="user">
-            <column name="username" value="user-3"/>
-            <column name="password" value="$2a$12$r1vBqlT9eXM3UPvht5s9yeChgbvqHj96QRZsJVf4ns1S00aaMjpJq"/>
-        </insert>
     </changeSet>
 
     <changeSet id="9" author="hordiienko">
