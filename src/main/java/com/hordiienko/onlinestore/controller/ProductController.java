@@ -17,9 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -42,14 +39,14 @@ public class ProductController {
 
     @GetMapping("/info")
     @ApiOperation("Get product info")
-    public ResponseEntity getProductsPage(@RequestParam @Min(1) Long id, Locale locale) {
+    public ResponseEntity getProductInfo(@RequestParam String id, Locale locale) {
         Product product = productService.getProduct(id, locale);
         return ResponseEntity.ok().body(productMapper.toProductGetDTO(product));
     }
 
     @DeleteMapping
     @ApiOperation("Delete the product")
-    public String deleteById(@RequestParam Long productId, Locale locale) {
+    public String deleteById(@RequestParam String productId, Locale locale) {
         productService.deleteById(productId, locale);
         return "product was deleted";
     }
@@ -116,7 +113,7 @@ public class ProductController {
 
     @GetMapping("/products_structure")
     @ApiOperation("Return structure products like Map<Category, Map<Brand, List<Long>>>")
-    public Map<Category, Map<Brand, List<Long>>> getProductsStructure() {
+    public Map<Category, Map<Brand, List<String>>> getProductsStructure() {
         return productService.getMapStructure();
     }
 

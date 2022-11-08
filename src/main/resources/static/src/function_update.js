@@ -32,7 +32,8 @@ function update_products_list() {
         let name_product_index = "#update_product_id_" + i;
         let name_amount_index = "#new_amount_" + i;
         let product_order = {
-            amount: $(name_amount_index).val(), product: {"id": $(name_product_index).text()}
+            amount: $(name_amount_index).val(),
+            productId: $(name_product_index).text()
         };
         products_list.push(product_order);
     }

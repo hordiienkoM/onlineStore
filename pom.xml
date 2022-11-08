@@ -187,6 +187,12 @@
             <artifactId>json</artifactId>
             <version>20220924</version>
         </dependency>
+
+<!--        mongodb-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

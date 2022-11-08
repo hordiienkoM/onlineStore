@@ -13,8 +13,6 @@ public interface ProductMapper {
     @Mapping(expression = "java(product.getBrand().getName())", target = "brand")
     ProductGetDTO toProductGetDTO(Product product);
 
-    Product toProduct(ProductInnerDTO innerProductDTO);
-
     Product toProduct(ProductPostDTO productPostDTO);
 
     Set<ProductGetDTO> toProductGetDTOs(Set<Product> products);

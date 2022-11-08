@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderProductPostDTO {
     private Integer amount;
-    private ProductInnerDTO product;
+    private String productId;
 }

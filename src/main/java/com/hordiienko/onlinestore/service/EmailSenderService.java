@@ -1,11 +1,11 @@
 package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.entity.Order;
-import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.EmailMessageException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,7 +19,6 @@ import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +29,8 @@ public class EmailSenderService {
     private final SpringTemplateEngine templateEngine;
     @Resource
     private Environment environment;
+    @Autowired
+    private OrderProductService orderProductService;
 
     public void sendMessageRegistered(User user, Locale locale) {
         MimeMessage message = emailSender.createMimeMessage();
@@ -66,7 +67,10 @@ public class EmailSenderService {
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
             Context context = new Context();
             context.setVariable("name", user.getUsername());
-            context.setVariable("productsList", getProductList(order));
+            context.setVariable(
+                    "productsList",
+                    orderProductService.getOrderProductInfo(order, locale)
+            );
             helper.setFrom(
                     Objects.requireNonNull(environment.getProperty("spring.mail.username"))
             );
@@ -107,18 +111,5 @@ public class EmailSenderService {
         }
         log.info("Sending email to: {}", user.getUsername());
         emailSender.send(message);
-    }
-
-    protected String getProductList(Order order) {
-        Set<OrderProduct> orderProduct = order.getOrderProduct();
-        StringBuilder productList = new StringBuilder();
-        orderProduct
-                .forEach(el -> productList.append(
-                                el.getProduct()
-                                        .getDescription())
-                        .append(": ")
-                        .append(el.getAmount()).append("\n")
-                );
-        return productList.toString();
     }
 }

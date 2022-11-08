@@ -2,6 +2,8 @@ package com.hordiienko.onlinestore.service;
 
 
 import com.hordiienko.onlinestore.dto.ProductPutDTO;
+import com.hordiienko.onlinestore.entity.Order;
+import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.entity.enums.Brand;
 import com.hordiienko.onlinestore.entity.enums.Category;
@@ -17,8 +19,6 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +30,7 @@ public class ProductService {
     @Autowired
     private DownloadService downloadService;
 
-    public void deleteById(Long productId, Locale locale) {
+    public void deleteById(String productId, Locale locale) {
         try {
             productRepository.deleteById(productId);
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class ProductService {
         }
     }
 
-    public Product getProduct(Long productId, Locale locale) {
+    public Product getProduct(String productId, Locale locale) {
         try {
             return productRepository.findById(productId).orElseThrow();
         } catch (Exception e) {
@@ -61,12 +61,10 @@ public class ProductService {
     }
 
     public Product update(ProductPutDTO newProduct, Locale locale) {
-        Product product;
-        try {
-            product = productRepository.findById(newProduct.getId()).orElseThrow();
-        } catch (Exception e) {
-            throw new ProductNotFoundException(locale);
-        }
+        Product product = productRepository.findById(newProduct.getId())
+                .orElseThrow(
+                        () -> new ProductNotFoundException(locale)
+                );
         product.setDescription(newProduct.getDescription());
         product.setBrand(newProduct.getBrand());
         product.setCategory(newProduct.getCategory());
@@ -191,7 +189,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Map<Category, Map<Brand, List<Long>>> getMapStructure() {
+    public Map<Category, Map<Brand, List<String>>> getMapStructure() {
         return productRepository.streamAllBy()
                 .limit(100)
                 .collect(
@@ -227,5 +225,27 @@ public class ProductService {
                                         )
                                 )
                         ));
+    }
+
+    public Product findById(String id, Locale locale) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(locale));
+    }
+
+    public Map<String, Product> getProductMap(Order order, Locale locale) {
+        Set<String> productIds = order.getOrderProduct().stream()
+                .map(OrderProduct::getProductId)
+                .collect(Collectors.toSet());
+        Set<Product> products;
+        try {
+            products = productRepository.findByIdIn(productIds);
+        } catch (Exception e) {
+            throw new ProductNotFoundException(locale);
+        }
+        return products.stream()
+                .collect(Collectors.toMap(
+                        Product::getId,
+                        product -> product
+                ));
     }
 }

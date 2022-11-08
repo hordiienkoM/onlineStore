@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductPutDTO {
-    private Long id;
+    private String id;
     @NotEmpty
     private String description;
     @DecimalMin("0.0")

@@ -70,7 +70,7 @@ function listen_product_add_buttons() {
         let product_amount = $(element_amount).val();
         let orderProduct = {
             amount: product_amount,
-            product: {id: product_id}
+            productId: product_id
         };
         products_to_order.push(orderProduct)
     });
