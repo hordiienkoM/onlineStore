@@ -24,7 +24,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/products")
-    @ApiOperation("Download set of products to database")
+    @ApiOperation("Delete all products from database")
     public String deleteAllProducts() {
         productService.deleteAllProducts();
         return "Products have been deleted";
