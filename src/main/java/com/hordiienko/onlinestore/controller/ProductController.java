@@ -68,8 +68,8 @@ public class ProductController {
 
     @GetMapping("/has_max_price")
     @ApiOperation("Return the product has max price")
-    public ProductGetDTO getHasMaxPrice() {
-        Product product = productService.getHasMaxPrice();
+    public ProductGetDTO getHasMaxPrice(Locale locale) {
+        Product product = productService.getHasMaxPrice(locale);
         return productMapper.toProductGetDTO(product);
     }
 

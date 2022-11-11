@@ -95,7 +95,8 @@ public class WebSecurityConfig {
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
-                        "/swagger-ui/",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
                         "/webjars/**");
     }
 }

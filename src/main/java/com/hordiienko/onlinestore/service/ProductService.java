@@ -89,10 +89,10 @@ public class ProductService {
     }
 
     @Transactional
-    public Product getHasMaxPrice() {
+    public Product getHasMaxPrice(Locale locale) {
         return productRepository.streamAllBy().max(
                 Comparator.comparingDouble(Product::getPrice)
-        ).orElseThrow();
+        ).orElseThrow(() -> new ProductNotFoundException(locale));
     }
 
     @Transactional
@@ -161,7 +161,7 @@ public class ProductService {
                 productRepository.streamAllBy()
                         .filter(a -> a.getCategory().equals(category))
                         .min(Comparator.comparingDouble(Product::getPrice))
-                        .orElseThrow()
+                        .orElseThrow(() -> new ProductNotFoundException(locale))
                         .getPrice()
                         * 100
         ) / 100.0;

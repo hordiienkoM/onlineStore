@@ -7,7 +7,6 @@ import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.entity.enums.Status;
 import com.hordiienko.onlinestore.exception.OrderNotFoundException;
-import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.OrderProductRepository;
 import com.hordiienko.onlinestore.repository.OrderRepository;
 import com.hordiienko.onlinestore.repository.UserRepository;
@@ -52,15 +51,13 @@ public class OrderService {
     }
 
     public void deleteOrder(Long orderId, Authentication authentication, Locale locale) throws OrderNotFoundException {
-        try {
-            Long currentUserId = SessionUtil.getCurrentUserId(authentication);
-            Order order = orderRepository.findById(orderId).orElseThrow();
-            if (checkUserHasOrder(order, currentUserId)) {
-                orderRepository.deleteById(orderId);
-            } else {
-                throw new Exception();
-            }
-        } catch (Exception e) {
+        Long currentUserId = SessionUtil.getCurrentUserId(authentication);
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new OrderNotFoundException(locale)
+        );
+        if (checkUserHasOrder(order, currentUserId)) {
+            orderRepository.deleteById(orderId);
+        } else {
             throw new OrderNotFoundException(locale);
         }
     }
@@ -68,16 +65,15 @@ public class OrderService {
     public void updateOrder(Order order, OrderPostDTO orderBody, Long orderId,
                             Authentication authentication,
                             Locale locale)
-            throws UserNotFoundException, OrderNotFoundException {
+            throws  OrderNotFoundException {
         Long userId = SessionUtil.getCurrentUserId(authentication);
-        try {
-            Order oldOrder = orderRepository.findById(orderId).orElseThrow();
-            if (!checkUserHasOrder(oldOrder, userId)) {
-                throw new OrderNotFoundException(locale);
-            }
-        } catch (Exception e) {
+        Order oldOrder = orderRepository.findById(orderId).orElseThrow(
+                () -> new OrderNotFoundException(locale)
+        );
+        if (!checkUserHasOrder(oldOrder, userId)) {
             throw new OrderNotFoundException(locale);
         }
+
         order.setId(orderId);
         order.setStatus(Status.UPDATED);
         order.setUser(userService.getUser(userId));
@@ -89,13 +85,14 @@ public class OrderService {
 
     public Order getOrder(Long orderId, Authentication authentication, Locale locale)
             throws OrderNotFoundException {
-        Order order = orderRepository.findById(orderId).orElseThrow();
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new OrderNotFoundException(locale)
+        );
         Long currentUserId = SessionUtil.getCurrentUserId(authentication);
         if (checkUserHasOrder(order, currentUserId)) {
             return order;
-        } else {
-            throw new OrderNotFoundException(locale);
         }
+        throw new OrderNotFoundException(locale);
     }
 
     public boolean checkUserHasOrder(Order order, Long currentUserId) {

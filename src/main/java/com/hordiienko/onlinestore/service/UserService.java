@@ -32,8 +32,10 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow();
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username, Locale locale) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new UserNotFoundException(locale)
+        );
     }
 
     public synchronized void registrationUser(User user, Locale locale) {
@@ -50,12 +52,7 @@ public class UserService {
     }
 
     public void confirmRegistration(UserConfirmDTO confirm, Locale locale) {
-        User user;
-        try {
-            user = findByUsername(confirm.getUsername());
-        } catch (Exception e) {
-            throw new UserNotFoundException(locale);
-        }
+        User user = findByUsername(confirm.getUsername(), locale);
         if (!user.getToken().equals(confirm.getToken())) {
             throw new CodeNotMatchException(locale);
         }
@@ -64,12 +61,8 @@ public class UserService {
     }
 
     public boolean checkUserEnabled(String username, Locale locale) {
-        try {
-            User user = userRepository.findByUsername(username);
-            return user.isEnabled();
-        } catch (Exception e) {
-            throw new UserNotFoundException(locale);
-        }
+        User user = findByUsername(username, locale);
+        return user.isEnabled();
     }
 
     public void deleteById(Long id, Locale locale) {
