@@ -10,7 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,5 +74,12 @@ public class UserController {
     public ResponseEntity getUsersPage(Pageable pageable) {
         Page<User> pageUsers = userService.getUsers(pageable);
         return ResponseEntity.ok().body(pageUsers.map(userMapper::toUserInfoGetDTO));
+    }
+
+    @PostMapping("/locale")
+    @ApiOperation("Change user locale if it's not match")
+    public HttpStatus changeLocale(Authentication authentication, Locale locale) {
+        userService.checkLocale(authentication, locale);
+        return HttpStatus.OK;
     }
 }

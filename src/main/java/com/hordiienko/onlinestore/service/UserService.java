@@ -1,6 +1,7 @@
 package com.hordiienko.onlinestore.service;
 
 import com.hordiienko.onlinestore.dto.UserConfirmDTO;
+import com.hordiienko.onlinestore.dto.authorization.UserDetailsImpl;
 import com.hordiienko.onlinestore.entity.Role;
 import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.exception.CodeNotMatchException;
@@ -9,9 +10,11 @@ import com.hordiienko.onlinestore.exception.UserNotFoundException;
 import com.hordiienko.onlinestore.repository.UserRepository;
 import com.hordiienko.onlinestore.service.util.PasswordGenerator;
 import com.hordiienko.onlinestore.service.util.TokenUtil;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -95,5 +98,15 @@ public class UserService {
 
     public Set<User> findUsersHasOrders() {
         return userRepository.findByOrdersIsNotNull();
+    }
+
+    public void checkLocale(Authentication authentication, Locale locale) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userDetails.getUser();
+        if(user.getLocale().equals(locale)) {
+            return;
+        }
+        user.setLocale(locale);
+        userRepository.save(user);
     }
 }

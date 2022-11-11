@@ -245,10 +245,10 @@ public class ProductService {
     }
 
     @Transactional
-    public Map<User, String> findProductRecommendations(Set<User> users, Locale locale) {
+    public Map<User, String> findProductRecommendations(Set<User> users) {
         Map<User, String> productRecommendations = new HashMap<>();
         for (User user : users) {
-            Product purchasedProduct = randomProductFromLastOrder(user, locale);
+            Product purchasedProduct = randomProductFromLastOrder(user, user.getLocale());
             Set<Product> similarProducts = findThreeSimilarProducts(purchasedProduct);
             String htmlProductsInfo = getProductsInfo(similarProducts);
             productRecommendations.put(user, htmlProductsInfo);

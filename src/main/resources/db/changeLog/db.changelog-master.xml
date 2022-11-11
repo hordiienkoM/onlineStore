@@ -272,4 +272,10 @@
         </update>
     </changeSet>
 
+    <changeSet id="30" author="hordiienko">
+        <addColumn tableName="user">
+            <column name="locale" type="varchar(20)" defaultValue="en"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -26,6 +27,8 @@ public class User {
     private String password;
     @JsonIgnore
     private String token;
+    @ToString.Exclude
+    private Locale locale;
     private boolean enabled;
     @OneToMany(
             cascade = CascadeType.ALL,

@@ -25,10 +25,9 @@ public class Advertising {
     @Scheduled(cron = "0 0 16 * * THU")
     @Transactional
     public void reportCurrentTime() {
-        Locale locale = Locale.getDefault();
         Set<User> usersHasOrders = userService.findUsersHasOrders();
         Map<User, String> recommendations = productService
-                .findProductRecommendations(usersHasOrders, locale);
+                .findProductRecommendations(usersHasOrders);
         recommendations.forEach((user, recommendation) -> {
             emailSenderService.sendMessageAdvertising(user, recommendation);
         });

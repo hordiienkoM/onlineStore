@@ -120,7 +120,7 @@ public class EmailSenderService {
     }
 
     public void sendMessageAdvertising(User user, String recommendedProducts) {
-        Context context = new Context();
+        Context context = new Context(user.getLocale());
         context.setVariable("recommendation", recommendedProducts);
         context.setVariable("name", user.getUsername());
 
@@ -129,7 +129,7 @@ public class EmailSenderService {
         MessageInfo messageInfo = MessageInfo.builder()
                 .htmlContent(htmlContent)
                 .subject("New offer!")
-                .locale(Locale.getDefault())
+                .locale(user.getLocale())
                 .username(user.getUsername())
                 .build();
 

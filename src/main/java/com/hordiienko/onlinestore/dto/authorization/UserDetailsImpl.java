@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Locale;
 import java.util.Set;
 
 @Data
@@ -41,6 +42,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public boolean getEnabledValue() {
         return user.isEnabled();
+    }
+
+    public Locale getLocale() {
+        return user.getLocale();
     }
 
     @Override
