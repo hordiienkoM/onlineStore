@@ -23,6 +23,7 @@ import java.util.Set;
 @ToString
 public class Product {
     @Id
+    @ToString.Exclude
     private String id;
     private String description;
     @DecimalMin("0.0")
@@ -32,5 +33,6 @@ public class Product {
     private Brand brand;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @ToString.Exclude
     private Set<Long> orderProducts = new HashSet<>();
 }

@@ -5,6 +5,7 @@ import com.hordiienko.onlinestore.dto.ProductPutDTO;
 import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.Product;
+import com.hordiienko.onlinestore.entity.User;
 import com.hordiienko.onlinestore.entity.enums.Brand;
 import com.hordiienko.onlinestore.entity.enums.Category;
 import com.hordiienko.onlinestore.exception.*;
@@ -20,6 +21,7 @@ import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -39,11 +41,8 @@ public class ProductService {
     }
 
     public Product getProduct(String productId, Locale locale) {
-        try {
-            return productRepository.findById(productId).orElseThrow();
-        } catch (Exception e) {
-            throw new ProductNotFoundException(locale);
-        }
+        return productRepository.findById(productId).orElseThrow(
+                () -> new ProductNotFoundException(locale));
     }
 
     public Page<Product> getProducts(Pageable pageable) {
@@ -103,6 +102,7 @@ public class ProductService {
                         Collectors.averagingDouble(Product::getPrice)) * 100
         ) / 100.0;
     }
+
 
     @Transactional
     public Set<Product> get20HasBrand(String brandName, Locale locale) {
@@ -227,11 +227,6 @@ public class ProductService {
                         ));
     }
 
-    public Product findById(String id, Locale locale) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(locale));
-    }
-
     public Map<String, Product> getProductMap(Order order, Locale locale) {
         Set<String> productIds = order.getOrderProduct().stream()
                 .map(OrderProduct::getProductId)
@@ -247,5 +242,45 @@ public class ProductService {
                         Product::getId,
                         product -> product
                 ));
+    }
+
+    @Transactional
+    public Map<User, String> findProductRecommendations(Set<User> users, Locale locale) {
+        Map<User, String> productRecommendations = new HashMap<>();
+        for (User user : users) {
+            Product purchasedProduct = randomProductFromLastOrder(user, locale);
+            Set<Product> similarProducts = findThreeSimilarProducts(purchasedProduct);
+            String htmlProductsInfo = getProductsInfo(similarProducts);
+            productRecommendations.put(user, htmlProductsInfo);
+        }
+        return productRecommendations;
+    }
+
+    Product randomProductFromLastOrder(User user, Locale locale) {
+        Set<Order> orders = user.getOrders();
+        String randomProductId = orders.stream()
+                .max((o1, o2) -> o1.getCreateDate().compareTo(o2.getCreateDate()))
+                .map(Order::getOrderProduct)
+                .map(Set::stream)
+                .flatMap(Stream::findFirst)
+                .map(OrderProduct::getProductId)
+                .orElseThrow();
+        return productRepository.findById(randomProductId)
+                .orElseThrow(() -> new ProductNotFoundException(locale));
+    }
+
+    private Set<Product> findThreeSimilarProducts(Product product) {
+        return productRepository.streamAllByBrand(product.getBrand())
+                .limit(3)
+                .collect(Collectors.toSet());
+    }
+
+    private String getProductsInfo(Set<Product> products) {
+        StringBuilder productsInfo = new StringBuilder();
+        products.forEach(e -> {
+            productsInfo.append(e.toString())
+                    .append("; \n");
+        });
+        return productsInfo.toString();
     }
 }

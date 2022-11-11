@@ -245,13 +245,13 @@
 
     <changeSet id="25" author="hordiienko">
         <rollback>
-            <dropTable tableName="product" />
+            <dropTable tableName="product"/>
         </rollback>
     </changeSet>
 
     <changeSet id="26" author="hordiienko">
-        <dropForeignKeyConstraint baseTableName="order_product" constraintName="product_id" />
-        <dropTable tableName="product" />
+        <dropForeignKeyConstraint baseTableName="order_product" constraintName="product_id"/>
+        <dropTable tableName="product"/>
     </changeSet>
 
     <changeSet id="27" author="hordiienko">
@@ -260,15 +260,15 @@
 
     <changeSet id="28" author="hordiienko">
         <update tableName="user">
-            <column name="username" value="user1@user.us" />
-            <where> id = '1'</where>
+            <column name="username" value="user1@user.us"/>
+            <where>id = '1'</where>
         </update>
     </changeSet>
 
     <changeSet id="29" author="hordiienko">
         <update tableName="user">
-            <column name="enabled" valueBoolean="true" />
-            <where> id = '1'</where>
+            <column name="enabled" valueBoolean="true"/>
+            <where>id = '1'</where>
         </update>
     </changeSet>
 
