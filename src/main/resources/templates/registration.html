@@ -2,27 +2,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:tiles="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <title tiles:fragment="title" th:text="#{registration.head}"></title>
 </head>
 <body>
 
-<div id="registration_form">
-    <input id="new_user_email" th:placeholder="#{input.email}"><br>
-    <input type="password" id="new_user_password" th:placeholder="#{registration.input.password}"><br>
-    <input type="password" id="new_user_validation_password" th:placeholder="#{registration.input.repeat_password}">
+<div id="registration_form" class="container" style="width: 30%">
+    <br>
+    <br>
+    <input id="new_user_email" th:placeholder="#{input.email}" class="form-control"><br>
+    <input type="password" id="new_user_password" th:placeholder="#{registration.input.password}"
+           class="form-control"><br>
+    <input type="password" id="new_user_validation_password" th:placeholder="#{registration.input.repeat_password}"
+           class="form-control">
     <br>
 
-    <a id="message_uncorrected_email" style="display: none; color: red;"
-       th:text="#{registration.uncorrected.email}"></a>
-    <a id="message_uncorrected_password" style="display: none; color: red;"
-       th:text="#{registration.uncorrected.password}"></a>
-    <a id="message_passwords_not_match" style="display: none; color: red;"
-       th:text="#{registration.password.not_match}"></a>
-    <a id="message_registration_error" style="display: none; color: red;"></a><br>
-    <button id="registration_button" th:text="#{registration.registration_button}">register</button>
+    <p id="message_uncorrected_email" style="display: none; color: red;"
+       th:text="#{registration.uncorrected.email}"></p>
+    <p id="message_uncorrected_password" style="display: none; color: red;"
+       th:text="#{registration.uncorrected.password}"></p>
+    <p id="message_passwords_not_match" style="display: none; color: red;"
+       th:text="#{registration.password.not_match}"></p>
+    <p id="message_registration_error" style="display: none; color: red;"></p>
+    <button id="registration_button" style="float: right" th:text="#{registration.registration_button}">
+    </button>
 </div>
-<div id="confirm_form" style="display: none;">
+<div id="confirm_form" style="display: none;" class="container">
     <h3 th:text="#{message.sent_email}"></h3>
     <h4 th:text="#{message.go_to_email}"></h4>
 

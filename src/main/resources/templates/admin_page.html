@@ -2,13 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="/src/table.css">
     <title tiles:fragment="title" th:text="#{label.admin_page}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div id="user_interface">
-    <table id="users_table">
+<div id="user_interface" class="container">
+    <h2 th:text="#{label.user_table}"/>
+    <br>
+    <table id="users_table" class="table table-striped">
         <thead>
         <tr>
             <th th:text="#{users.table.label.username}"></th>
@@ -22,18 +26,25 @@
         </tbody>
     </table>
 
-    <a id="current_users_page"></a>
-    <input type="submit" id="previous_users_page" th:value="#{label.previous}">
-    <input type="submit" id="next_users_page" th:value="#{label.next}">
+
+    <div style="float: right">
+        <a id="current_users_page" style="float: right"></a>
+        <input type="submit" id="previous_users_page" th:value="#{label.previous}">
+        <input type="submit" id="next_users_page" th:value="#{label.next}">
+        <br>
+    </div>
     <br>
-    <p th:text="#{message.add_new_user}"></p>
+    <h2 th:text="#{message.add_new_user}"></h2>
+    <br>
     <input type="text" id="next_user_username" th:placeholder="#{input.email}">
     <input type="submit" id="button_add_user" th:value="#{button.label.add}">
     <p id="add_user_error" style="color: red"></p>
 </div>
 
-<div>
-    <table id="products_table">
+<div class="container">
+    <h2 th:text="#{label.products_table}"/>
+    <br>
+    <table id="products_table" class="table table-striped">
         <thead>
         <tr>
             <th th:text="#{products.table.label.description}"></th>
@@ -49,54 +60,20 @@
         </tbody>
     </table>
 
-    <a id="current_products_page"></a>
-    <input type="submit" id="previous_product_page" th:value="#{label.previous}">
-    <input type="submit" id="next_product_page" th:value="#{label.next}">
-    <br>
-    <p th:text="#{message.add_new_product}"></p>
-    <table>
-        <tr>
-            <td><a th:text="#{products.table.label.description}"/></td>
-            <td><input type="text" id="next_description" th:placeholder="#{products.table.label.description}"></td>
-        </tr>
-        <tr>
-            <td><a th:text="#{table.label.brand}"/></td>
-            <td>
-                <select id="next_brand" size="1">
-                    <option value="AMERICAN_GIANT"> American Giant</option>
-                    <option value="MATE_THE_LABEL"> MATE The Label</option>
-                    <option value="HACKWITH_DESIGN_HOUSE"> Hackwith Desighn House</option>
-                    <option value="TODD_SHELTON"> Todd Shelton</option>
-                    <option value="LACAUSA"> LACAUSA</option>
-                    <option value="GAMINE_WORKWEAR"> Gamine Workwear</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><a th:text="#{table.label.category}"/></td>
-            <td>
-                <select id="next_category" size="1">
-                    <option value="SWEATER"> Sweater</option>
-                    <option value="DRESS"> Dress</option>
-                    <option value="HAT"> Hat</option>
-                    <option value="COAT"> Coat</option>
-                    <option value="SHIRT"> Shirt</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><a th:text="#{placeholder.price}"/></td>
-            <td><input type="text" id="next_price" th:placeholder="#{placeholder.price_template}"></td>
-        </tr>
-    </table>
-    <p id="add_product_error" style="color: red"></p>
-    <input type="submit" id="add_product" th:value="#{button.label.add}">
+    <div style="float: right">
+        <a id="current_products_page"></a>
+        <input type="submit" id="previous_product_page" th:value="#{label.previous}">
+        <input type="submit" id="next_product_page" th:value="#{label.next}">
+        <br>
+    </div>
 </div>
-<br>
-<div id="edit_product_table" style="display: none">
+
+<div id="edit_product_table" style="display: none" class="container">
+    <h2 th:text="#{label.edit_product}"/>
+    <br>
     <p style="display: none; color: red" id="edit_product_error"></p>
     <a style="display: none" id="edit_product_id"></a>
-    <table>
+    <table class="table table-striped">
         <tr>
             <td><a th:text="#{products.table.label.description}"/></td>
             <td><input type="text" id="update_description" th:placeholder="#{products.table.label.description}"></td>
@@ -132,21 +109,72 @@
         </tr>
     </table>
     <p id="update_product_error" style="color: red"></p>
-    <input type="submit" id="update_product_button" th:value="#{button.label.edit}">
+    <input type="submit" id="update_product_button" th:value="#{button.label.edit}" style="float: right">
+    <br>
+</div>
+
+<div class="container">
+    <br>
+    <h2 th:text="#{message.add_new_product}"></h2>
+    <br>
+    <table class="table table-striped">
+        <tr>
+            <td><a th:text="#{products.table.label.description}"/></td>
+            <td><input type="text" id="next_description" th:placeholder="#{products.table.label.description}"></td>
+        </tr>
+        <tr>
+            <td><a th:text="#{table.label.brand}"/></td>
+            <td>
+                <select id="next_brand" size="1">
+                    <option value="AMERICAN_GIANT"> American Giant</option>
+                    <option value="MATE_THE_LABEL"> MATE The Label</option>
+                    <option value="HACKWITH_DESIGN_HOUSE"> Hackwith Desighn House</option>
+                    <option value="TODD_SHELTON"> Todd Shelton</option>
+                    <option value="LACAUSA"> LACAUSA</option>
+                    <option value="GAMINE_WORKWEAR"> Gamine Workwear</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><a th:text="#{table.label.category}"/></td>
+            <td>
+                <select id="next_category" size="1">
+                    <option value="SWEATER"> Sweater</option>
+                    <option value="DRESS"> Dress</option>
+                    <option value="HAT"> Hat</option>
+                    <option value="COAT"> Coat</option>
+                    <option value="SHIRT"> Shirt</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><a th:text="#{placeholder.price}"/></td>
+            <td><input type="text" id="next_price" th:placeholder="#{placeholder.price_template}"></td>
+        </tr>
+    </table>
+    <p id="add_product_error" style="color: red"></p>
+    <input type="submit" id="add_product" th:value="#{button.label.add}" style="float: right">
 </div>
 <br>
-<p id="products_downloaded_successfully" th:text="#{message.products_added}" style="display: none"></p>
-<p id="products_downloaded_fail" style="display: none"></p>
-<input type="submit" id="download_default_products" th:value="#{button.label.download_default_products}">
-<p id="products_deleted_successfully" th:text="#{message.products_deleted}" style="display: none"></p>
-<p id="products_deleted_fail" style="display: none"></p>
-<input type="submit" id="delete_all_products" th:value="#{button.label.delete_all_products}">
 <br>
-<br>
-
-<form th:action="@{/logout}" method="post">
-    <input type="submit" th:value="#{label.log_out}"/>
-</form>
+<div class="container">
+    <br>
+    <div style="float: right">
+        <p id="products_downloaded_successfully" th:text="#{message.products_added}" style="display: none"></p>
+        <p id="products_downloaded_fail" style="display: none"></p>
+        <input type="submit" id="download_default_products" th:value="#{button.label.download_default_products}">
+        <br>
+        <p id="products_deleted_successfully" th:text="#{message.products_deleted}" style="display: none"></p>
+        <p id="products_deleted_fail" style="display: none"></p>
+        <input type="submit" id="delete_all_products" th:value="#{button.label.delete_all_products}">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" th:value="#{label.log_out}"/>
+        </form>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>
 
 <p style="display: none" id="edit_message_multilingual_description" th:text="#{message.enter_description}"></p>
 <p style="display: none" id="edit_message_multilingual_price" th:text="#{message.enter_price}"></p>

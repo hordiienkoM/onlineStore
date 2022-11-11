@@ -3,15 +3,18 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/src/table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <title tiles:fragment="title" th:text="#{label.online_shop}"></title>
 </head>
 <body>
-<h5 th:text="#{message.user_id} "><a id="current_user_id"></a></h5>
+<h5 th:text="#{message.user_id} " style="display: none"><a id="current_user_id"></a></h5>
 
-<div>
-    <table id="orders_table">
+<div class="container">
+    <h2 th:text="#{label.order_table}"/>
+    <br>
+    <table id="orders_table" class="table table-striped">
         <thead>
         <tr>
             <th th:text="#{label.order_num}"></th>
@@ -28,18 +31,23 @@
         </tbody>
     </table>
 
-    <a id="current_orders_page"></a>
-    <input type="submit" id="previous_orders_page" th:value="#{label.previous}">
-    <input type="submit" id="next_orders_page" th:value="#{label.next}">
+    <div style="float: right">
+        <a id="current_orders_page"></a>
+        <input type="submit" id="previous_orders_page" th:value="#{label.previous}">
+        <input type="submit" id="next_orders_page" th:value="#{label.next}">
+    </div>
+    <br>
 </div>
 
 <br>
 
-<h5 id="current_order_id" style="display: none;">
-    <a th:text="#{message.order_id} "/>
-    <a id="current_edit_order_id">1</a></h5>
-<div id="order_view" style="display: none;">
-    <table id="order_info">
+<div id="order_view" style="display: none;" class="container">
+    <h2 th:text="#{label.order_info}"/>
+    <br>
+    <h5 id="current_order_id" style="display: none;">
+        <a th:text="#{message.order_id} "/>
+        <a id="current_edit_order_id">1</a></h5>
+    <table id="order_info" class="table table-striped">
         <thead>
         <tr>
             <th colspan="3" th:text="#{label.order_info}"></th>
@@ -59,7 +67,7 @@
         </tbody>
     </table>
     <br>
-    <table id="order_products">
+    <table id="order_products" class="table table-striped">
         <thead>
         <tr>
             <th colspan="3" th:text="#{label.products}"/>
@@ -73,14 +81,18 @@
 
         </tbody>
     </table>
-    <button class="order_edit" th:text="#{label.edit}"/>
-    <button class="order_delete" th:text="#{label.edit}"/>
+    <div style="float: right">
+        <button class="order_edit" th:text="#{label.edit}"/>
+        <button class="order_delete" th:text="#{label.delete}"/>
+    </div>
 </div>
 
 <br>
 
-<div id="order_edit_view" style="display: none;">
-    <table id="edit_order_info">
+<div id="order_edit_view" style="display: none;" class="container">
+    <h2 th:text="#{label.edit_order}"/>
+    <br>
+    <table id="edit_order_info" class="table table-striped">
         <thead>
         <tr>
             <th colspan="3" th:text="#{label.order_info}"/>
@@ -100,7 +112,7 @@
         </tbody>
     </table>
     <br>
-    <table id="edit_order_products">
+    <table id="edit_order_products" class="table table-striped">
         <thead>
         <tr>
             <th colspan="2" th:text="#{label.products}"/>
@@ -113,15 +125,18 @@
         <tbody>
         </tbody>
     </table>
-    <button id="update_current_order" th:text="#{label.update}"/>
-    <button class="order_delete" value="" th:text="#{label.delete}"/>
+    <div style="float: right">
+        <button id="update_current_order" th:text="#{label.edit}"/>
+        <button class="order_delete" value="" th:text="#{label.delete}"/>
+        <br>
+        <br>
+    </div>
 </div>
 
-<br>
-
-<div>
-    <h3 th:text="#{message.create_order}"/>
-    <table id="products_table">
+<div class="container">
+    <h2 th:text="#{message.create_order}"/>
+    <br>
+    <table id="products_table" class="table table-striped">
         <thead>
         <tr>
             <th th:text="#{label.product}"/>
@@ -136,25 +151,30 @@
         </tbody>
     </table>
 
-
-    <a id="current_products_page"></a>
-    <input type="submit" id="previous_product_page" th:value="#{label.previous}">
-    <input type="submit" id="next_product_page" th:value="#{label.next}">
-    <br>
-    <br>
+    <div style="float: right">
+        <a id="current_products_page"></a>
+        <input type="submit" id="previous_product_page" th:value="#{label.previous}">
+        <input type="submit" id="next_product_page" th:value="#{label.next}">
+        <br>
+        <br>
+    </div>
 
     <input type="text" id="user_address" th:placeholder="#{placeholder.enter_address}">
     <br>
     <button id="create_button" th:text="#{label.create_order}"/>
 </div>
+<div class="container">
+    <br>
+    <br>
+    <div style="float: right">
+        <a href="/admin_page" th:text="#{label.admin_page}"/>
 
-<p></p>
-<p></p>
-<a href="/admin_page" th:text="#{label.admin_page}"/>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" th:value="#{label.log_out}">
+        </form>
+    </div>
+</div>
 
-<form th:action="@{/logout}" method="post">
-    <input type="submit" th:value="#{label.log_out}">
-</form>
 <script type="text/javascript" src="/src/function_update.js"></script>
 <script type="text/javascript" src="/src/function_create.js"></script>
 <script type="text/javascript" src="/src/info_about_edit_order.js"></script>

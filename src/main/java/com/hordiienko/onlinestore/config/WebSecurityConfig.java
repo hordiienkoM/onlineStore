@@ -53,7 +53,6 @@ public class WebSecurityConfig {
                     auth.antMatchers(HttpMethod.POST, "/v1/users/confirm").not().authenticated();
                     auth.antMatchers(HttpMethod.GET, "/v1/users/enable").permitAll();
                     auth.antMatchers("/login*").permitAll();
-                    auth.antMatchers("/international").permitAll();
                     auth.antMatchers("/v2/api-docs").permitAll();
                     auth.antMatchers("/swagger-ui/").permitAll();
                     auth.antMatchers("/online_shop", "/home").hasAnyRole("ADMIN", "USER");
@@ -96,7 +95,7 @@ public class WebSecurityConfig {
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
-                        "/swagger-ui.html",
+                        "/swagger-ui/",
                         "/webjars/**");
     }
 }

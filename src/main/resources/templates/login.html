@@ -1,32 +1,39 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <title tiles:fragment="title" th:text="#{login.head}"></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container" style="justify-content: center; width: 30%">
+    <br>
+    <br>
     <form class="form-signin" method="post" action="/login">
         <h2 class="form-signin-heading" th:text="#{login.message}"></h2>
         <p>
             <label for="username" class="sr-only" th:text="#{login.username}"></label>
-            <input type="text" id="username" name="username" class="form-control" th:placeholder="#{login.username}">
+            <input type="text" id="username" name="username"
+
+                   class="form-control" th:placeholder="#{login.username}">
         </p>
         <p>
             <label for="password" class="sr-only" th:text="#{login.password}"></label>
             <input type="password" id="password" name="password"
                    class="form-control" th:placeholder="#{login.password}">
         </p>
-        <button id="login_button" type="submit" th:text="#{login.sign_in}">Sign in</button>
+        <button id="login_button" style="float: right" type="submit" th:text="#{login.sign_in}"></button>
     </form>
 </div>
-<div th:if="${param.error}">
+<div th:if="${param.error}" class="container">
     <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
 </div>
 
-<div id="error_message" style="display: none;">
+<div id="error_message" style="display: none;" class="container">
     <p style="color: red" class="text-danger">Incorrect email</p>
+    <br>
+    <a id="confirm_link" th:href="@{/confirm_registration}"></a>
 </div>
-<a id="confirm_link" th:href="@{/confirm_registration}"></a>
 
 <script src="/src/js/login/check_enabled.js"></script>
 </body>

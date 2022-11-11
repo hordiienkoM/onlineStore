@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello user</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<p><a th:text="#{message.created_order.hello}"></a>, <a th:text="${name}"></a>!
-</p>
-<p th:text="#{message.to_confirm}"></p>
-<br>
-<a th:href="${continue_registration}" th:text="#{confirm.registration}"></a>
-<br>
-<p th:text="#{message.if_not_registered}"></p>
+<div class="container">
+    <p><a th:text="#{message.created_order.hello}"></a>, <a th:text="${name}"></a>!
+    </p>
+    <p th:text="#{message.to_confirm}"></p>
+    <br>
+    <a th:href="${continue_registration}" th:text="#{confirm.registration}"></a>
+    <br>
+    <p th:text="#{message.if_not_registered}"></p>
+</div>
+
 
 </body>
 </html>

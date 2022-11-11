@@ -19,7 +19,7 @@ function listen_update_current_order() {
             },
             success: function () {
                 alert("Order was updated");
-                $("#order_edit_view").hide();
+                order_info_hide();
                 turn_current_orders();
             }
         });
