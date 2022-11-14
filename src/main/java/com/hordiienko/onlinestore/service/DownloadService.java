@@ -19,7 +19,7 @@ public class DownloadService {
     private final Random generator = new Random();
     private final LocalDateTime currentTime = LocalDateTime.now();
 
-    synchronized public List<Product> downloadProducts(Locale locale) {
+    public synchronized List<Product> downloadProducts(Locale locale) {
         try {
             Document doc = Jsoup.connect("https://www.talbots.com/clothing?start=0&sz=500")
                     .timeout(30 * 1000).get();
