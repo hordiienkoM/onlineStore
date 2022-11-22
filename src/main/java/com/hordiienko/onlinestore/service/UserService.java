@@ -50,6 +50,7 @@ public class UserService {
         user.setPassword(hashPassword);
         user.setRoles(Collections.singleton(new Role(1L, "USER_ROLE")));
         user.setToken(TokenUtil.getToken());
+        user.setLocale(locale);
         userRepository.save(user);
         emailSenderService.sendMessageRegistered(user, locale);
     }
@@ -103,7 +104,7 @@ public class UserService {
     public void checkLocale(Authentication authentication, Locale locale) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
-        if(user.getLocale().equals(locale)) {
+        if (user.getLocale().equals(locale)) {
             return;
         }
         user.setLocale(locale);

@@ -6,6 +6,7 @@ import com.hordiienko.onlinestore.entity.Order;
 import com.hordiienko.onlinestore.entity.OrderProduct;
 import com.hordiienko.onlinestore.entity.Product;
 import com.hordiienko.onlinestore.entity.User;
+import com.hordiienko.onlinestore.entity.document.ProductDoc;
 import com.hordiienko.onlinestore.entity.enums.Brand;
 import com.hordiienko.onlinestore.entity.enums.Category;
 import com.hordiienko.onlinestore.exception.*;
@@ -31,10 +32,14 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private DownloadService downloadService;
+    @Autowired
+    private ProductSearchService productSearchService;
 
+    @Transactional
     public void deleteById(String productId, Locale locale) {
         try {
             productRepository.deleteById(productId);
+            productSearchService.deleteById(productId);
         } catch (Exception e) {
             throw new ProductNotFoundException(locale);
         }
@@ -51,12 +56,15 @@ public class ProductService {
         );
     }
 
-    public Product createNew(Product product, Locale locale) {
-        if (productRepository.existsByDescription(product.getDescription())) {
+    @Transactional
+    public Product createNew(Product newProduct, Locale locale) {
+        if (productSearchService.existsByDescription(newProduct.getDescription(), locale)) {
             throw new ProductAlreadyExistException(locale);
         }
-        product.setDateCreate(LocalDateTime.now());
-        return productRepository.save(product);
+        newProduct.setDateCreate(LocalDateTime.now());
+        Product product = productRepository.save(newProduct);
+        productSearchService.saveProductIndex(product);
+        return product;
     }
 
     public Product update(ProductPutDTO newProduct, Locale locale) {
@@ -68,14 +76,18 @@ public class ProductService {
         product.setBrand(newProduct.getBrand());
         product.setCategory(newProduct.getCategory());
         product.setPrice(newProduct.getPrice());
-        return productRepository.save(product);
+        productRepository.save(product);
+        productSearchService.saveProductIndex(product);
+        return product;
     }
 
+    @Transactional
     public void downloadProductsToDB(Locale locale) {
         for (int i = 0; i < 6; i++) {
             List<Product> products = downloadService.downloadProducts(locale);
             try {
                 productRepository.saveAll(products);
+                productSearchService.saveProductIndexBulk(products);
             } catch (ConstraintViolationException e) {
                 throw e;
             } catch (Exception e) {
@@ -86,13 +98,14 @@ public class ProductService {
 
     public void deleteAllProducts() {
         productRepository.deleteAll();
+        productSearchService.deleteAll();
     }
 
     @Transactional
     public Product getHasMaxPrice(Locale locale) {
-        return productRepository.streamAllBy().max(
-                Comparator.comparingDouble(Product::getPrice)
-        ).orElseThrow(() -> new ProductNotFoundException(locale));
+        ProductDoc hasMaxPrice = productSearchService.getHasMaxPrice();
+        return productRepository.findById(hasMaxPrice.getId())
+                .orElseThrow(() -> new ProductNotFoundException(locale));
     }
 
     @Transactional
@@ -101,21 +114,6 @@ public class ProductService {
                 productRepository.streamAllBy().collect(
                         Collectors.averagingDouble(Product::getPrice)) * 100
         ) / 100.0;
-    }
-
-
-    @Transactional
-    public Set<Product> get20HasBrand(String brandName, Locale locale) {
-        Brand brand;
-        try {
-            brand = Brand.valueOf(brandName);
-        } catch (Exception e) {
-            throw new BrandNotFoundException(locale);
-        }
-        return productRepository.streamAllBy()
-                .filter(a -> a.getBrand().equals(brand))
-                .limit(20)
-                .collect(Collectors.toSet());
     }
 
     @Transactional
@@ -181,7 +179,7 @@ public class ProductService {
                 productRepository.streamAllBy()
                         .filter(a -> a.getCategory().equals(category))
                         .filter(a -> a.getBrand().equals(brand))
-                        .min(Comparator.comparingDouble(Product::getPrice))
+                        .max(Comparator.comparingDouble(Product::getPrice))
                         .orElseThrow()
                         .getPrice()
                         * 100
@@ -191,7 +189,6 @@ public class ProductService {
     @Transactional
     public Map<Category, Map<Brand, List<String>>> getMapStructure() {
         return productRepository.streamAllBy()
-                .limit(100)
                 .collect(
                         Collectors.groupingBy(
                                 Product::getCategory,

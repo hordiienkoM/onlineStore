@@ -2,6 +2,7 @@ package com.hordiienko.onlinestore.mapper;
 
 import com.hordiienko.onlinestore.dto.*;
 import com.hordiienko.onlinestore.entity.Product;
+import com.hordiienko.onlinestore.entity.document.ProductDoc;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,4 +17,6 @@ public interface ProductMapper {
     Product toProduct(ProductPostDTO productPostDTO);
 
     Set<ProductGetDTO> toProductGetDTOs(Set<Product> products);
+
+    ProductGetDTO toProductGetDto(ProductDoc productDoc);
 }

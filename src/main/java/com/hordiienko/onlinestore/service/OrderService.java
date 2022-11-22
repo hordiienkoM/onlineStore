@@ -65,7 +65,7 @@ public class OrderService {
     public void updateOrder(Order order, OrderPostDTO orderBody, Long orderId,
                             Authentication authentication,
                             Locale locale)
-            throws  OrderNotFoundException {
+            throws OrderNotFoundException {
         Long userId = SessionUtil.getCurrentUserId(authentication);
         Order oldOrder = orderRepository.findById(orderId).orElseThrow(
                 () -> new OrderNotFoundException(locale)

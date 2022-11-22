@@ -5,9 +5,11 @@ import com.hordiienko.onlinestore.dto.ProductGetDTO;
 import com.hordiienko.onlinestore.dto.ProductPostDTO;
 import com.hordiienko.onlinestore.dto.ProductPutDTO;
 import com.hordiienko.onlinestore.entity.Product;
+import com.hordiienko.onlinestore.entity.document.ProductDoc;
 import com.hordiienko.onlinestore.entity.enums.Brand;
 import com.hordiienko.onlinestore.entity.enums.Category;
 import com.hordiienko.onlinestore.mapper.ProductMapper;
+import com.hordiienko.onlinestore.service.ProductSearchService;
 import com.hordiienko.onlinestore.service.ProductService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/products")
@@ -29,6 +32,9 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private ProductSearchService productSearchService;
 
     @GetMapping
     @ApiOperation("Get products page")
@@ -68,65 +74,69 @@ public class ProductController {
 
     @GetMapping("/has_max_price")
     @ApiOperation("Return the product has max price")
-    public ProductGetDTO getHasMaxPrice(Locale locale) {
-        Product product = productService.getHasMaxPrice(locale);
-        return productMapper.toProductGetDTO(product);
+    public ProductGetDTO getHasMaxPrice() {
+        ProductDoc product = productSearchService.getHasMaxPrice();
+        return productMapper.toProductGetDto(product);
     }
 
     @GetMapping("/average_price")
     @ApiOperation("Return average price from all products")
-    public Double getAveragePrice() {
-        return productService.getAveragePrice();
+    public Double getAveragePrice(Locale locale) {
+        return productSearchService.getAveragePrice(locale);
     }
 
     @GetMapping("/has_brands")
     @ApiOperation("Return 20 first products, that have the brand from all products")
     public Set<ProductGetDTO> get20HasBrand(@RequestParam String brandName, Locale locale) {
-        Set<Product> products = productService.get20HasBrand(brandName, locale);
-        return productMapper.toProductGetDTOs(products);
+        Set<ProductDoc> products = productSearchService.getIds20HasBrand(brandName, locale);
+        return products.stream()
+                .map(productMapper::toProductGetDto)
+                .collect(Collectors.toSet());
     }
 
     @GetMapping("/has_category")
     @ApiOperation("Return 20 first products, that have the category and with the lowest cost from all products")
     public Set<ProductGetDTO> get20MinHasCategory(@RequestParam String categoryName, Locale locale) {
-        Set<Product> products = productService.get20MinHasCategory(categoryName, locale);
-        return productMapper.toProductGetDTOs(products);
+        Set<ProductDoc> products = productSearchService.get20MinHasCategory(categoryName, locale);
+        return products.stream()
+                .map(productMapper::toProductGetDto)
+                .collect(Collectors.toSet());
     }
 
     @GetMapping("/average_price_from_category")
     @ApiOperation("Return average price from a category")
     public Double getAveragePriceFromCategory(@RequestParam String categoryName, Locale locale) {
-        return productService.averagePriceFromCategory(categoryName, locale);
+        return productSearchService.averagePriceFromCategory(categoryName, locale);
     }
 
     @GetMapping("/min_price_from_category")
     @ApiOperation("Return min price from a category")
     public Double minPriceFromCategory(@RequestParam String categoryName, Locale locale) {
-        return productService.minPriceFromCategory(categoryName, locale);
+        return productSearchService.minPriceFromCategory(categoryName, locale);
     }
 
     @GetMapping("/max_price_from_brand_in_category")
     @ApiOperation("Return max price from brand in specific category")
-    public Double maxPriceFromBrandInCategory(@RequestParam String categoryName, String brand, Locale locale) {
-        return productService.maxPriceFromBrandInCategory(categoryName, brand, locale);
+    public Double maxPriceFromBrandInCategory(@RequestParam String categoryName, String brandName, Locale locale) {
+        return productSearchService.maxPriceFromBrandInCategory(categoryName, brandName, locale);
     }
 
     @GetMapping("/products_structure")
     @ApiOperation("Return structure products like Map<Category, Map<Brand, List<Long>>>")
-    public Map<Category, Map<Brand, List<String>>> getProductsStructure() {
-        return productService.getMapStructure();
+    public Map<Category, Map<Brand, List<String>>> getProductsStructure(Locale locale) {
+        return productSearchService.getMapStructure(locale);
     }
 
     @GetMapping("/category_brand_sum")
     @ApiOperation("Return structure products like Map<Category, Map<Brand, Double>>")
-    public Map<Category, Map<Brand, Double>> getCategoryBrandSum() {
-        return productService.getCategoryBrandSum();
+    public Map<Category, Map<Brand, Double>> getCategoryBrandSum(Locale locale) {
+        return productSearchService.getCategoryBrandSum(locale);
     }
 
     @GetMapping("/category_brand_max-price")
     @ApiOperation("Return structure products like Map<Category, Map<Brand, Double>>")
-    public Map<Category, Map<Brand, Double>> getCategoryBrandMaxPrice() {
-        return productService.getCategoryBrandMaxPrice();
+    public Map<Category, Map<Brand, Double>> getCategoryBrandMaxPrice(Locale locale) {
+        return productSearchService.getCategoryBrandMaxPrice(locale);
     }
 
 }

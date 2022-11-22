@@ -59,7 +59,7 @@ public class WebSecurityConfig {
                     auth.antMatchers("/admin_page").hasRole("ADMIN");
                     auth.antMatchers(HttpMethod.GET, "/v1/users").hasRole("ADMIN");
                     auth.antMatchers(HttpMethod.DELETE, "/v1/users").hasRole("ADMIN");
-                    auth.antMatchers(HttpMethod.POST, "/v1/admin/products").hasRole("ADMIN");
+                    auth.antMatchers("/v1/admin/**").hasRole("ADMIN");
                     auth.antMatchers("/v1/**").hasAnyRole("USER", "ADMIN");
                     auth.anyRequest().hasAnyRole("USER", "ADMIN");
                 })
