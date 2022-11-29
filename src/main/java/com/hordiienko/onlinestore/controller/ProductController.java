@@ -11,6 +11,8 @@ import com.hordiienko.onlinestore.mapper.ProductMapper;
 import com.hordiienko.onlinestore.service.ProductService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,7 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @GetMapping
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Get products page")
     public ResponseEntity getProductsPage(Pageable pageable) {
         Page<Product> pageProducts = productService.getProducts(pageable);
@@ -38,6 +41,7 @@ public class ProductController {
     }
 
     @GetMapping("/info")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Get product info")
     public ResponseEntity getProductInfo(@RequestParam String id, Locale locale) {
         Product product = productService.getProduct(id, locale);
@@ -67,6 +71,7 @@ public class ProductController {
     }
 
     @GetMapping("/has_max_price")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return the product has max price")
     public ProductGetDTO getHasMaxPrice(Locale locale) {
         Product product = productService.getHasMaxPrice(locale);
@@ -74,12 +79,14 @@ public class ProductController {
     }
 
     @GetMapping("/average_price")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return average price from all products")
     public Double getAveragePrice() {
         return productService.getAveragePrice();
     }
 
     @GetMapping("/has_brands")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return 20 first products, that have the brand from all products")
     public Set<ProductGetDTO> get20HasBrand(@RequestParam String brandName, Locale locale) {
         Set<Product> products = productService.get20HasBrand(brandName, locale);
@@ -87,6 +94,7 @@ public class ProductController {
     }
 
     @GetMapping("/has_category")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return 20 first products, that have the category and with the lowest cost from all products")
     public Set<ProductGetDTO> get20MinHasCategory(@RequestParam String categoryName, Locale locale) {
         Set<Product> products = productService.get20MinHasCategory(categoryName, locale);
@@ -94,36 +102,42 @@ public class ProductController {
     }
 
     @GetMapping("/average_price_from_category")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return average price from a category")
     public Double getAveragePriceFromCategory(@RequestParam String categoryName, Locale locale) {
         return productService.averagePriceFromCategory(categoryName, locale);
     }
 
     @GetMapping("/min_price_from_category")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return min price from a category")
     public Double minPriceFromCategory(@RequestParam String categoryName, Locale locale) {
         return productService.minPriceFromCategory(categoryName, locale);
     }
 
     @GetMapping("/max_price_from_brand_in_category")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return max price from brand in specific category")
-    public Double maxPriceFromBrandInCategory(@RequestParam String categoryName, String brand, Locale locale) {
-        return productService.maxPriceFromBrandInCategory(categoryName, brand, locale);
+    public Double maxPriceFromBrandInCategory(@RequestParam String categoryName, String brandName, Locale locale) {
+        return productService.maxPriceFromBrandInCategory(categoryName, brandName, locale);
     }
 
     @GetMapping("/products_structure")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return structure products like Map<Category, Map<Brand, List<Long>>>")
     public Map<Category, Map<Brand, List<String>>> getProductsStructure() {
         return productService.getMapStructure();
     }
 
     @GetMapping("/category_brand_sum")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return structure products like Map<Category, Map<Brand, Double>>")
     public Map<Category, Map<Brand, Double>> getCategoryBrandSum() {
         return productService.getCategoryBrandSum();
     }
 
     @GetMapping("/category_brand_max-price")
+    @Cacheable(cacheNames = "testCache")
     @ApiOperation("Return structure products like Map<Category, Map<Brand, Double>>")
     public Map<Category, Map<Brand, Double>> getCategoryBrandMaxPrice() {
         return productService.getCategoryBrandMaxPrice();
